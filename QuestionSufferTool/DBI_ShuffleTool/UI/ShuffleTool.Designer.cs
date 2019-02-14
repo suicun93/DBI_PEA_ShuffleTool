@@ -1,4 +1,4 @@
-﻿namespace QuestionSuffleTool.UI
+﻿namespace DBI_ShuffleTool.UI
 {
     partial class ShuffleTool
     {
@@ -34,14 +34,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
-            this.lblFileName = new System.Windows.Forms.Label();
+            this.lblLocation = new System.Windows.Forms.Label();
             this.txtLocationFolderInput = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btnCreateTests = new System.Windows.Forms.Button();
             this.txtNumberOfTest = new System.Windows.Forms.NumericUpDown();
-            this.btnSaveTestsAs = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.btnOpenFolder = new System.Windows.Forms.Button();
+            this.btnSaveTestsAs = new System.Windows.Forms.Button();
+            this.btnCreateTests = new System.Windows.Forms.Button();
             this.panelChoose.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtNumberOfTest)).BeginInit();
@@ -55,7 +55,7 @@
             this.panelChoose.Controls.Add(this.label2);
             this.panelChoose.Controls.Add(this.label1);
             this.panelChoose.Controls.Add(this.txtPassword);
-            this.panelChoose.Controls.Add(this.lblFileName);
+            this.panelChoose.Controls.Add(this.lblLocation);
             this.panelChoose.Controls.Add(this.txtLocationFolderInput);
             this.panelChoose.Location = new System.Drawing.Point(12, 12);
             this.panelChoose.Name = "panelChoose";
@@ -80,12 +80,13 @@
             this.btnBrowse.TabIndex = 2;
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // label2
             // 
             this.label2.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 79);
+            this.label2.Location = new System.Drawing.Point(16, 79);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 13);
             this.label2.TabIndex = 1;
@@ -95,7 +96,7 @@
             // 
             this.label1.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 48);
+            this.label1.Location = new System.Drawing.Point(16, 51);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 13);
             this.label1.TabIndex = 1;
@@ -109,14 +110,14 @@
             this.txtPassword.Size = new System.Drawing.Size(201, 20);
             this.txtPassword.TabIndex = 0;
             // 
-            // lblFileName
+            // lblLocation
             // 
-            this.lblFileName.AutoSize = true;
-            this.lblFileName.Location = new System.Drawing.Point(16, 18);
-            this.lblFileName.Name = "lblFileName";
-            this.lblFileName.Size = new System.Drawing.Size(54, 13);
-            this.lblFileName.TabIndex = 1;
-            this.lblFileName.Text = "File Name";
+            this.lblLocation.AutoSize = true;
+            this.lblLocation.Location = new System.Drawing.Point(16, 18);
+            this.lblLocation.Name = "lblLocation";
+            this.lblLocation.Size = new System.Drawing.Size(48, 13);
+            this.lblLocation.TabIndex = 1;
+            this.lblLocation.Text = "Location";
             // 
             // txtLocationFolderInput
             // 
@@ -138,6 +139,13 @@
             this.panel1.Size = new System.Drawing.Size(417, 110);
             this.panel1.TabIndex = 1;
             // 
+            // txtNumberOfTest
+            // 
+            this.txtNumberOfTest.Location = new System.Drawing.Point(87, 18);
+            this.txtNumberOfTest.Name = "txtNumberOfTest";
+            this.txtNumberOfTest.Size = new System.Drawing.Size(120, 20);
+            this.txtNumberOfTest.TabIndex = 3;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -148,21 +156,14 @@
             this.label3.Text = "Test";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
-            // btnCreateTests
+            // btnOpenFolder
             // 
-            this.btnCreateTests.Location = new System.Drawing.Point(87, 60);
-            this.btnCreateTests.Name = "btnCreateTests";
-            this.btnCreateTests.Size = new System.Drawing.Size(75, 23);
-            this.btnCreateTests.TabIndex = 2;
-            this.btnCreateTests.Text = "Create Tests";
-            this.btnCreateTests.UseVisualStyleBackColor = true;
-            // 
-            // txtNumberOfTest
-            // 
-            this.txtNumberOfTest.Location = new System.Drawing.Point(87, 18);
-            this.txtNumberOfTest.Name = "txtNumberOfTest";
-            this.txtNumberOfTest.Size = new System.Drawing.Size(120, 20);
-            this.txtNumberOfTest.TabIndex = 3;
+            this.btnOpenFolder.Location = new System.Drawing.Point(249, 60);
+            this.btnOpenFolder.Name = "btnOpenFolder";
+            this.btnOpenFolder.Size = new System.Drawing.Size(75, 23);
+            this.btnOpenFolder.TabIndex = 2;
+            this.btnOpenFolder.Text = "Open Folder";
+            this.btnOpenFolder.UseVisualStyleBackColor = true;
             // 
             // btnSaveTestsAs
             // 
@@ -173,14 +174,15 @@
             this.btnSaveTestsAs.Text = "Save as";
             this.btnSaveTestsAs.UseVisualStyleBackColor = true;
             // 
-            // btnOpenFolder
+            // btnCreateTests
             // 
-            this.btnOpenFolder.Location = new System.Drawing.Point(249, 60);
-            this.btnOpenFolder.Name = "btnOpenFolder";
-            this.btnOpenFolder.Size = new System.Drawing.Size(75, 23);
-            this.btnOpenFolder.TabIndex = 2;
-            this.btnOpenFolder.Text = "Open Folder";
-            this.btnOpenFolder.UseVisualStyleBackColor = true;
+            this.btnCreateTests.Location = new System.Drawing.Point(87, 60);
+            this.btnCreateTests.Name = "btnCreateTests";
+            this.btnCreateTests.Size = new System.Drawing.Size(75, 23);
+            this.btnCreateTests.TabIndex = 2;
+            this.btnCreateTests.Text = "Create Tests";
+            this.btnCreateTests.UseVisualStyleBackColor = true;
+            this.btnCreateTests.Click += new System.EventHandler(this.btnCreateTests_Click);
             // 
             // ShuffleTool
             // 
@@ -208,7 +210,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtPassword;
-        private System.Windows.Forms.Label lblFileName;
+        private System.Windows.Forms.Label lblLocation;
         private System.Windows.Forms.TextBox txtLocationFolderInput;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label3;

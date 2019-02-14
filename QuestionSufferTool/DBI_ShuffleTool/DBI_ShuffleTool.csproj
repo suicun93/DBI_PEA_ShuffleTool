@@ -56,9 +56,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Doc.cs" />
-    <Compile Include="Common\File.cs" />
-    <Compile Include="Common\Zip.cs" />
+    <Compile Include="Model\ImportModel.cs" />
+    <Compile Include="Utils\ConstantUtils.cs" />
+    <Compile Include="Utils\DocUtils.cs" />
+    <Compile Include="Utils\FileUtils.cs" />
+    <Compile Include="Utils\ZipUtils.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\ShuffleTool.cs">
@@ -92,7 +94,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entity\" />
-    <Folder Include="Model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

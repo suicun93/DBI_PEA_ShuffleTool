@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("QuestionSufferTool")]
+[assembly: AssemblyTitle("DBI_ShuffleTool")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("QuestionSufferTool")]
+[assembly: AssemblyProduct("DBI_ShuffleTool")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a7678fe6-a664-4112-9571-3d74f7af4f10")]
+[assembly: Guid("f8f8619c-be6b-4cf1-8a32-71141b158604")]
 
 // Version information for an assembly consists of the following four values:
 //

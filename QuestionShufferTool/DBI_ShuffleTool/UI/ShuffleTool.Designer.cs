@@ -42,6 +42,7 @@
             this.btnOpenFolder = new System.Windows.Forms.Button();
             this.btnSaveTestsAs = new System.Windows.Forms.Button();
             this.btnCreateTests = new System.Windows.Forms.Button();
+            this.btnPreview = new System.Windows.Forms.Button();
             this.panelChoose.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtNumberOfTest)).BeginInit();
@@ -51,6 +52,7 @@
             // 
             this.panelChoose.AccessibleDescription = "";
             this.panelChoose.Controls.Add(this.txtLoadFileResult);
+            this.panelChoose.Controls.Add(this.btnPreview);
             this.panelChoose.Controls.Add(this.btnBrowse);
             this.panelChoose.Controls.Add(this.label2);
             this.panelChoose.Controls.Add(this.label1);
@@ -68,7 +70,7 @@
             this.txtLoadFileResult.Name = "txtLoadFileResult";
             this.txtLoadFileResult.ReadOnly = true;
             this.txtLoadFileResult.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
-            this.txtLoadFileResult.Size = new System.Drawing.Size(296, 96);
+            this.txtLoadFileResult.Size = new System.Drawing.Size(201, 96);
             this.txtLoadFileResult.TabIndex = 3;
             this.txtLoadFileResult.Text = "";
             // 
@@ -184,6 +186,17 @@
             this.btnCreateTests.UseVisualStyleBackColor = true;
             this.btnCreateTests.Click += new System.EventHandler(this.btnCreateTests_Click);
             // 
+            // btnPreview
+            // 
+            this.btnPreview.Enabled = false;
+            this.btnPreview.Location = new System.Drawing.Point(309, 149);
+            this.btnPreview.Name = "btnPreview";
+            this.btnPreview.Size = new System.Drawing.Size(75, 23);
+            this.btnPreview.TabIndex = 2;
+            this.btnPreview.Text = "Preview";
+            this.btnPreview.UseVisualStyleBackColor = true;
+            this.btnPreview.Click += new System.EventHandler(this.btnBrowse_Click);
+            // 
             // ShuffleTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -218,5 +231,6 @@
         private System.Windows.Forms.NumericUpDown txtNumberOfTest;
         private System.Windows.Forms.Button btnOpenFolder;
         private System.Windows.Forms.Button btnSaveTestsAs;
+        private System.Windows.Forms.Button btnPreview;
     }
 }

@@ -19,7 +19,6 @@ namespace DBI_ShuffleTool.Model
 
         private List<ExamItem> eiList;//Include Exam after create
 
-
         public ShuffleExamModel(QuestionsBank qbQuestionsBank, int numOfPage)
         {
             this.qbQuestionsBank = qbQuestionsBank;
@@ -29,8 +28,16 @@ namespace DBI_ShuffleTool.Model
             {
                 eiItemCodeList.Add(getRdCodeForExam());
             }
+            Dictionary<int, List<QuestionCandidate>> dicQuestion = new Dictionary<int, List<QuestionCandidate>>();
+            dicQuestion = createDicQuestions(numOfPage, dicQuestion);
+            createExamItemList(numOfPage, qbQuestionsBank.QBank.Count, dicQuestion);
+        }
+
+        //Create Dictionary Questions for a Test
+        private Dictionary<int, List<QuestionCandidate>> createDicQuestions(int numOfPage, 
+            Dictionary<int, List<QuestionCandidate>> dicQuestion)
+        {
             //Dictionary<CodeExam, Questions>
-            var dicQuestion = new Dictionary<int, List<QuestionCandidate>>();
             for (int i = 0; i < qbQuestionsBank.QBank.Count; i++)//i: Question number i
             {
                 //qcList: Candidates of that Question i
@@ -57,13 +64,17 @@ namespace DBI_ShuffleTool.Model
                         }
                     }
                 }
-                dicQuestion.Add(i, qcForExamItems);
+                if(isDuplicated(qcForExamItems, dicQuestion)){
+                    Dictionary<int, List<QuestionCandidate>> newDic = createDicQuestions(1, dicQuestion);
+                    KeyValuePair<int, List<QuestionCandidate>> kvp = newDic.ElementAt(0);
+                    dicQuestion.Add(kvp.Key, kvp.Value);
+                }
+                else
+                {
+                    dicQuestion.Add(i, qcForExamItems);
+                }
             }
-
-            createExamItemList(numOfPage, qbQuestionsBank.QBank.Count, dicQuestion);
-            
-
-            
+            return dicQuestion;
         }
 
         //Create ExamItem
@@ -120,18 +131,18 @@ namespace DBI_ShuffleTool.Model
             return qcList.ElementAt(getRandomNumber(0, qcList.Count));
         }
 
-        private bool isDuplicatedQCandidateList(ExamItem newExamItem)
+
+        //check is a QuestionsList duplicated
+        private bool isDuplicated(List<QuestionCandidate> newListQC, Dictionary<int, List<QuestionCandidate>> dic)
         {
-            foreach (ExamItem examItem in eiList)
+            Dictionary<int, List<QuestionCandidate>>.ValueCollection values = dic.Values;
+            foreach (List<QuestionCandidate> oldQCList in values)
             {
-               
-                    var firstNotSecond = newExamItem.ExamQuestionsList.Except(examItem.ExamQuestionsList).ToList();
-                    var secondNotFirst = examItem.ExamQuestionsList.Except(newExamItem.ExamQuestionsList).ToList();
+                    var firstNotSecond = newListQC.Except(oldQCList).ToList();
+                    var secondNotFirst = oldQCList.Except(newListQC).ToList();
                     return !firstNotSecond.Any() && !secondNotFirst.Any();
             }
             return false;
         }
-
-        
     }
 }

@@ -27,12 +27,6 @@ E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\obj\Debug\DBI_Sh
 E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\bin\Debug\DBI_ShuffleTool.exe
 E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\bin\Debug\DBI_ShuffleTool.pdb
 E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\bin\Debug\Newtonsoft.Json.dll
-E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\bin\Debug\Spire.Doc.dll
-E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\bin\Debug\Spire.License.dll
-E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\bin\Debug\Spire.Pdf.dll
 E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\bin\Debug\Newtonsoft.Json.pdb
 E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\bin\Debug\Newtonsoft.Json.xml
-E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\bin\Debug\Spire.Doc.xml
-E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\bin\Debug\Spire.License.xml
-E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\bin\Debug\Spire.Pdf.xml
 E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\obj\Debug\DBI_ShuffleTool.csproj.CopyComplete

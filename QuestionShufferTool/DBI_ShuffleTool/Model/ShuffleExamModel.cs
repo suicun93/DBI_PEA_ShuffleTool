@@ -19,17 +19,21 @@ namespace DBI_ShuffleTool.Model
 
         private List<ExamItem> eiList;//Include Exam after create
 
+        private List<String> eiQuestionsCodeList;//
+
         public ShuffleExamModel(QuestionsBank qbQuestionsBank, int numOfPage)
         {
             this.qbQuestionsBank = qbQuestionsBank;
             eiItemCodeList = new List<string>();
             eiList = new List<ExamItem>();
+            eiQuestionsCodeList = new List<string>();
             for (int i = 0; i < numOfPage; i++)//Create Code of the ExamItem
             {
                 eiItemCodeList.Add(getRdCodeForExam());
             }
             Dictionary<int, List<QuestionCandidate>> dicQuestion = new Dictionary<int, List<QuestionCandidate>>();
             dicQuestion = createDicQuestions(numOfPage, dicQuestion);
+
             createExamItemList(numOfPage, qbQuestionsBank.QBank.Count, dicQuestion);
         }
 
@@ -53,7 +57,7 @@ namespace DBI_ShuffleTool.Model
                 //Insert candidate into Question i
                 for (int j = 0; j < numOfPage; j++)
                 {
-                    QuestionCandidate qc = getRdQCandidateFromQuestion(qcList);
+                    QuestionCandidate qc = getRdQCandidateFromQuestion(ref qcList);
                     qcForExamItems.Add(qc);
                     qcList.Remove(qc);
                     if (qcList.Count == 0)
@@ -64,7 +68,9 @@ namespace DBI_ShuffleTool.Model
                         }
                     }
                 }
-                if(isDuplicated(qcForExamItems, dicQuestion)){
+
+                if (isDuplicated(qcForExamItems))
+                {
                     Dictionary<int, List<QuestionCandidate>> newDic = createDicQuestions(1, dicQuestion);
                     KeyValuePair<int, List<QuestionCandidate>> kvp = newDic.ElementAt(0);
                     dicQuestion.Add(kvp.Key, kvp.Value);
@@ -126,22 +132,46 @@ namespace DBI_ShuffleTool.Model
 
 
         //Get a random QuestionCandidate From a Question
-        public QuestionCandidate getRdQCandidateFromQuestion(List<QuestionCandidate> qcList)
+        public QuestionCandidate getRdQCandidateFromQuestion(ref List<QuestionCandidate> qcList)
         {
-            return qcList.ElementAt(getRandomNumber(0, qcList.Count));
+            if (qcList.Count == 1)
+            {
+                return qcList.ElementAt(0);
+            }
+            shuffleList(qcList);
+            return qcList.ElementAt(0);
+        }
+
+        //Shuffle a List
+        public void shuffleList(List<QuestionCandidate> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = getRandomNumber(0, n + 1);
+                QuestionCandidate value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
         }
 
 
+
         //check is a QuestionsList duplicated
-        private bool isDuplicated(List<QuestionCandidate> newListQC, Dictionary<int, List<QuestionCandidate>> dic)
+        private bool isDuplicated(List<QuestionCandidate> newListQC)
         {
-            Dictionary<int, List<QuestionCandidate>>.ValueCollection values = dic.Values;
-            foreach (List<QuestionCandidate> oldQCList in values)
+            String qCodeList = "";
+            foreach (QuestionCandidate candidate in newListQC)
             {
-                    var firstNotSecond = newListQC.Except(oldQCList).ToList();
-                    var secondNotFirst = oldQCList.Except(newListQC).ToList();
-                    return !firstNotSecond.Any() && !secondNotFirst.Any();
+                qCodeList = qCodeList + candidate.QCandidateName;
             }
+            if (eiQuestionsCodeList.Contains(qCodeList))
+            {
+                return true;
+            }
+            eiQuestionsCodeList.Add(qCodeList);
+            Console.WriteLine(qCodeList);
             return false;
         }
     }

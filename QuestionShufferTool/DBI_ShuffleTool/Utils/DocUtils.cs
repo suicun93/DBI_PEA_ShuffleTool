@@ -7,6 +7,7 @@ namespace DBI_ShuffleTool.Utils
 {
     class DocUtils
     {
+        //Input: List<ExamItem>
         //Export Pages
         //
 

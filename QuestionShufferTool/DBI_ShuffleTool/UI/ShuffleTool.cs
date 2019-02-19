@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
+using System.Windows;
 using System.Windows.Forms;
 using DBI_ShuffleTool.Entity;
 using DBI_ShuffleTool.Model;
 using DBI_ShuffleTool.Utils;
+using Newtonsoft.Json;
 
 namespace DBI_ShuffleTool.UI
 {
@@ -18,20 +19,20 @@ namespace DBI_ShuffleTool.UI
         {
             InitializeComponent();
             List<QuestionCandidate> lqc = new List<QuestionCandidate>();
-            lqc.Add(new QuestionCandidate("123456", "content", new Bitmap("E:\\Pic\\Mail\\main.jpg")));
-            lqc.Add(new QuestionCandidate("654321", "content", new Bitmap("E:\\Pic\\Mail\\main.jpg")));
+            lqc.Add(new QuestionCandidate("11", "content"));
+            lqc.Add(new QuestionCandidate("12", "content"));
             List<QuestionCandidate> lqc2 = new List<QuestionCandidate>();
-            lqc2.Add(new QuestionCandidate("1234562", "2content", new Bitmap("E:\\Pic\\Mail\\main.jpg")));
-            lqc2.Add(new QuestionCandidate("6543212", "2content", new Bitmap("E:\\Pic\\Mail\\main.jpg")));
+            lqc2.Add(new QuestionCandidate("21", "2content"));
+            lqc2.Add(new QuestionCandidate("22", "2content"));
             List<QuestionCandidate> lqc3 = new List<QuestionCandidate>();
-            lqc3.Add(new QuestionCandidate("1234562", "2content", new Bitmap("E:\\Pic\\Mail\\main.jpg")));
-            lqc3.Add(new QuestionCandidate("6543212", "2content", new Bitmap("E:\\Pic\\Mail\\main.jpg")));
+            lqc3.Add(new QuestionCandidate("31", "3content"));
+            lqc3.Add(new QuestionCandidate("32", "3content"));
             List<QuestionCandidate> lqc4 = new List<QuestionCandidate>();
-            lqc4.Add(new QuestionCandidate("1234562", "2content", new Bitmap("E:\\Pic\\Mail\\main.jpg")));
-            lqc4.Add(new QuestionCandidate("6543212", "2content", new Bitmap("E:\\Pic\\Mail\\main.jpg")));
+            lqc4.Add(new QuestionCandidate("41", "4content"));
+            lqc4.Add(new QuestionCandidate("42", "4content"));
             List<QuestionCandidate> lqc5 = new List<QuestionCandidate>();
-            lqc5.Add(new QuestionCandidate("1234562", "2content", new Bitmap("E:\\Pic\\Mail\\main.jpg")));
-            lqc5.Add(new QuestionCandidate("6543212", "2content", new Bitmap("E:\\Pic\\Mail\\main.jpg")));
+            lqc5.Add(new QuestionCandidate("51", "5content"));
+            lqc5.Add(new QuestionCandidate("52", "5content"));
             List<Question> lq = new List<Question>();
             lq.Add(new Question("1", lqc));
             lq.Add(new Question("2", lqc2));
@@ -41,8 +42,8 @@ namespace DBI_ShuffleTool.UI
 
             QuestionsBank qb = new QuestionsBank(lq);
             ShuffleExamModel sem = new ShuffleExamModel(qb, 10);
-            Console.WriteLine(sem.getJsonExamItemsList());
-
+            List<ExamItem> eiList = sem.getExamItemsList();
+            Console.WriteLine(JsonConvert.SerializeObject(eiList));
 
         }
 

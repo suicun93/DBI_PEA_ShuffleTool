@@ -10,16 +10,14 @@ namespace DBI_ShuffleTool.Entity
         {
         }
 
-        public QuestionCandidate(string qCandidateName, string qContent, Bitmap image)
+        public QuestionCandidate(string qCandidateName, string qContent)
         {
             QCandidateName = qCandidateName;
             QContent = qContent;
-            Image = image;
         }
 
-        private string QCandidateName { get; set; }
-        private string QContent { get; set; }
-        private Bitmap Image { get; set; }
+        public string QCandidateName { get; set; }
+        public string QContent { get; set; }
 
 
 

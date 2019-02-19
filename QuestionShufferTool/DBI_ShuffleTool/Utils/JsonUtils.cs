@@ -9,7 +9,7 @@ namespace DBI_ShuffleTool.Utils
     class JsonUtils
     {
         //Object to JsonString
-        public String SerializeJson(Object obj)
+        public String serializeJson(Object obj)
         {
             String jsonString = JsonConvert.SerializeObject(obj);
             return jsonString;

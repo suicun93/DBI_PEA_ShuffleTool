@@ -9,7 +9,7 @@ namespace DBI_ShuffleTool.Entity
     [Serializable]
     class ExamItem
     {
-        public ExamItem(string examItemCode, List<QuestionCandidate> examQuestionsList)
+        public ExamItem(string examItemCode, List<Candidate> examQuestionsList)
         {
             ExamItemCode = examItemCode;
             ExamQuestionsList = examQuestionsList;
@@ -18,6 +18,6 @@ namespace DBI_ShuffleTool.Entity
         {
         }
         public String ExamItemCode { get; set; }
-        public List<QuestionCandidate> ExamQuestionsList { get; set; }
+        public List<Candidate> ExamQuestionsList { get; set; }
     }
 }

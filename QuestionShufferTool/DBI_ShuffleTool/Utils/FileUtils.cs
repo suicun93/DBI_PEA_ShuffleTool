@@ -9,24 +9,17 @@ namespace DBI_ShuffleTool.Utils
 {
     class FileUtils
     {
-        public static void SaveFileToLocation()
+        public static String SaveFileToLocation()
         {
-            // Displays a SaveFileDialog so the user can save the File
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Data File|*.dat";
-            sfd.Title = "Save a File";
-            sfd.ShowDialog();
+            var fbd = new FolderBrowserDialog();
 
-            // If the file name is not an empty string open it for saving.  
-            if (sfd.FileName != "")
+            // Show the FolderBrowserDialog.
+            DialogResult result = fbd.ShowDialog();
+            if (result == DialogResult.OK)
             {
-                
-                // Saves the Image via a FileStream created by the OpenFile method.  
-                FileStream fs = (System.IO.FileStream)sfd.OpenFile();
-                // Saves the File
-                
-                
+                return fbd.SelectedPath;
             }
+            return "";
         }
 
         public static String GetFileLocation()
@@ -43,7 +36,11 @@ namespace DBI_ShuffleTool.Utils
             {
                 return ofd.FileName;
             }
-            return null;
+            else
+            {
+                MessageBox.Show("Please try again! Something wrong", "Error");
+                return null;
+            }
         }
 
         //Get Folder location by browsing directory
@@ -66,11 +63,10 @@ namespace DBI_ShuffleTool.Utils
                 }
                 else
                 {
-                    System.Windows.Forms.MessageBox.Show("Please try again! Something wrong", "Error");
+                    MessageBox.Show("Please try again! Something wrong", "Error");
                     return null;
                 }
             }
-            return null;
         }
     }
 }

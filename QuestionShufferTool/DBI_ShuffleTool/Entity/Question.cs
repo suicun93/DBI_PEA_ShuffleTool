@@ -6,13 +6,14 @@ namespace DBI_ShuffleTool.Entity
     [Serializable]
     class Question
     {
-        public Question(string questionNumber, List<QuestionCandidate> listQCandidate)
+        public Question(int questionNumber, List<Candidate> candidates)
         {
-            QuestionNumber = questionNumber;
-            ListQCandidate = listQCandidate;
+            QuestionId = questionNumber;
+            Candidates = candidates;
         }
 
-        public String QuestionNumber { get; set; }
-        public List<QuestionCandidate> ListQCandidate { get; set; }
+        public int QuestionId { get; set; }
+        public double Point { get; set; }
+        public List<Candidate> Candidates { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using DBI_ShuffleTool.Entity;
 using DBI_ShuffleTool.UI;
 using DBI_ShuffleTool.Model;
+using DBI_ShuffleTool.Utils;
 
 
 namespace QuestionSufferTool

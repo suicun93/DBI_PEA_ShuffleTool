@@ -18,26 +18,24 @@ namespace DBI_ShuffleTool.Utils
         /// <returns></returns>
         static public bool ExportDoc(String path, List<ExamItem> examItems)
         {
-            foreach(ExamItem ei in examItems)
+            foreach (ExamItem ei in examItems)
             {
-            Document doc = new Document();
-            //Add Section
-            Section section = doc.AddSection();
-            //Settings Page
-            SettingPage(doc);
+                Document doc = new Document();
+                //Add Section
+                Section section = doc.AddSection();
+                //Settings Page
+                SettingPage(doc);
 
-            //Insert Header and Footer of the page
-            InsertHeaderAndFooter(ei, section);
-            
-            //Insert Content of the Exam
+                //Insert Header and Footer of the page
+                InsertHeaderAndFooter(ei, section);
+
+                //Insert Content of the Exam
                 for (int i = 0; i < ei.ExamQuestionsList.Count; i++)
                 {
-                    Candidate c = ei.ExamQuestionsList.ElementAt(i);
-                    c.QuestionId = (i + 1).ToString();
                     AppendQuestion(ei.ExamQuestionsList.ElementAt(i), section);
                 }
 
-            doc.SaveToFile(path + @"\" + ei.ExamItemCode +".doc", FileFormat.Doc);
+                doc.SaveToFile(path + @"\" + ei.ExamItemCode + ".doc", FileFormat.Doc);
             }
             return true;
         }
@@ -69,10 +67,10 @@ namespace DBI_ShuffleTool.Utils
         {
             Paragraph paraContent = section.AddParagraph();
             paraContent.AppendText("Question " + q.QuestionId + ": ");
-            if(!q.Content.EndsWith(".")) q.Content = String.Concat(q.Content, ".");
+            if (!q.Content.EndsWith(".")) q.Content = String.Concat(q.Content, ".");
             String pointContent = "";
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            pointContent = q.Point == 1 ? string.Concat(pointContent, " (1 point)"): 
+            pointContent = q.Point == 1 ? string.Concat(pointContent, " (1 point)") :
                 String.Concat(pointContent, " (" + q.Point + " points)");
 
             paraContent.AppendText(String.Concat(q.Content, pointContent));
@@ -83,7 +81,7 @@ namespace DBI_ShuffleTool.Utils
             paraImage.Format.HorizontalAlignment = HorizontalAlignment.Center;
 
 
-           // Image img = Image.FromFile(@"E:\Pic\Mail\test.jpg");
+            // Image img = Image.FromFile(@"E:\Pic\Mail\test.jpg");
 
 
             paraImage.AppendPicture(tempImg);

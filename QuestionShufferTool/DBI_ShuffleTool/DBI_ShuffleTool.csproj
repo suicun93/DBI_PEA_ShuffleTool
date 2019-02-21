@@ -71,7 +71,6 @@
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\JsonUtils.cs" />
-    <Compile Include="Utils\ZipUtils.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\ShuffleTool.cs">

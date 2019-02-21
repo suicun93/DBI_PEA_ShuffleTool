@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using DBI_ShuffleTool.Entity;
 using Spire.Doc;
 using Spire.Doc.Documents;
@@ -11,16 +9,19 @@ namespace DBI_ShuffleTool.Utils
 {
     class DocUtils
     {
-        //Export Test
-        static public bool exportDoc(String path, List<ExamItem> examItems)
+        /// <summary>
+        /// Export Doc in path
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="examItems"></param>
+        /// <returns></returns>
+        static public bool ExportDoc(String path, List<ExamItem> examItems)
         {
             foreach(ExamItem ei in examItems)
             {
-
             Document doc = new Document();
             //Add Section
             Section section = doc.AddSection();
-            //Paragraph para = section.AddParagraph();
             //Settings Page
             settingPage(doc);
 
@@ -40,7 +41,10 @@ namespace DBI_ShuffleTool.Utils
         }
 
 
-        //Format Document
+        /// <summary>
+        /// Setting for doc file
+        /// </summary>
+        /// <param name="document"></param>
         static private void settingPage(Document document)
         {
             //Set Margins
@@ -52,24 +56,38 @@ namespace DBI_ShuffleTool.Utils
             //Set Page Orientation
             document.Sections[0].PageSetup.Orientation = PageOrientation.Portrait;
             //Save and Launch
-
-
         }
 
+        /// <summary>
+        /// Append Content of Question
+        /// </summary>
+        /// <param name="q"></param>
+        /// <param name="section"></param>
         static private void appendQuestion(Candidate q, Section section)
         {
             Paragraph paraContent = section.AddParagraph();
             paraContent.AppendText("Question " + q.QuestionId + ": ");
             paraContent.AppendText(q.Content);
             paraContent.AppendText("\n");
-           // Image img = ImageUtils.Base64ToImage(q.ImageData);
+            Image img = ImageUtils.Base64ToImage(q.ImageData);
+            Image tempImg = new Bitmap(img);
             Paragraph paraImage = section.AddParagraph();
             paraImage.Format.HorizontalAlignment = HorizontalAlignment.Center;
-            Image img = Image.FromFile(@"E:\Pic\Mail\test.jpg");
-            paraImage.AppendPicture(img);
+
+
+           // Image img = Image.FromFile(@"E:\Pic\Mail\test.jpg");
+
+
+            paraImage.AppendPicture(tempImg);
+
             paraImage.AppendText("\n");
         }
 
+        /// <summary>
+        /// Setting header and footer 
+        /// </summary>
+        /// <param name="examItem"></param>
+        /// <param name="section"></param>
         static private void insertHeaderAndFooter(ExamItem examItem, Section section)
         {
             //Adjust the height of headers in the section
@@ -88,7 +106,5 @@ namespace DBI_ShuffleTool.Utils
             headerParagraph.AppendText("ExamCode: " + examItem.ExamItemCode + "\n");
             headerParagraph.Format.HorizontalAlignment = HorizontalAlignment.Right;
         }
-
-
     }
 }

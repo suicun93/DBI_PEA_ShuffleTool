@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 using System.IO;
 using DBI_ShuffleTool.Entity;
@@ -10,13 +8,23 @@ namespace DBI_ShuffleTool.Utils
 {
     class JsonUtils
     {
-        //Object to JsonString
+        /// <summary>
+        /// Serialize
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static String SerializeJson(Object obj)
         {
             String jsonString = JsonConvert.SerializeObject(obj);
             return jsonString;
         }
 
+        /// <summary>
+        /// Write to File
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public static bool WriteJson(Object obj, String path)
         {
             try
@@ -30,17 +38,15 @@ namespace DBI_ShuffleTool.Utils
             }
         }
 
+        /// <summary>
+        /// Deserialize
+        /// </summary>
+        /// <param name="localPath"></param>
+        /// <returns></returns>
         public static List<Question> DeserializeJson(String localPath)
         {
             // read file into a string and deserialize JSON to a type
             return JsonConvert.DeserializeObject<List<Question>>(File.ReadAllText(localPath));
-
-            //// deserialize JSON directly from a file
-            //using (StreamReader file = File.OpenText(@"c:\movie.json"))
-            //{
-            //    JsonSerializer serializer = new JsonSerializer();
-            //    Movie movie2 = (Movie)serializer.Deserialize(file, typeof(Movie));
-            //}
         }
     }
 }

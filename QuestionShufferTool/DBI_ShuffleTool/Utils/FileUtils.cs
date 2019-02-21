@@ -1,18 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 
 namespace DBI_ShuffleTool.Utils
 {
     class FileUtils
     {
+        public static String CreateNewDirectory(String path, String nameOfFolder)
+        {
+            path = path + @"\" + nameOfFolder;
+            try
+            {
+                // Determine whether the directory exists.
+                if (Directory.Exists(path))
+                {
+                    return path;
+                }
+
+                // Try to create the directory.
+                DirectoryInfo di = Directory.CreateDirectory(path);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The process failed: {0}", e.ToString());
+            }
+            return path;
+        }
+
+        /// <summary>
+        /// Choosing a location to save file
+        /// </summary>
+        /// <returns></returns>
         public static String SaveFileToLocation()
         {
             var fbd = new FolderBrowserDialog();
-
             // Show the FolderBrowserDialog.
             DialogResult result = fbd.ShowDialog();
             if (result == DialogResult.OK)

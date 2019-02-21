@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Windows.Documents;
 using DBI_ShuffleTool.Entity;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace DBI_ShuffleTool.Model
 {
@@ -21,8 +15,12 @@ namespace DBI_ShuffleTool.Model
 
         public List<ExamItem> eiList;//Include Exam after create
 
-        public List<String> eiListForDuplicate;
-
+        public List<String> eiListForDuplicate;//Include ExamCode for checking Duplicated
+        /// <summary>
+        /// Create List of ExamItem
+        /// </summary>
+        /// <param name="qbQuestionsBank"></param>
+        /// <param name="numOfPage"></param>
         public ShuffleExamModel(QuestionsBank qbQuestionsBank, int numOfPage)
         {
             this.qbQuestionsBank = qbQuestionsBank;
@@ -35,27 +33,32 @@ namespace DBI_ShuffleTool.Model
             }
 
             List<Question> listQForShuffle = new List<Question>();
-
+            //Create new ListQuestions from Questions Bank
             for (int i = 0; i < qbQuestionsBank.QBank.Count; i++)
             {
                 listQForShuffle.Add(new Question(qbQuestionsBank.QBank.ElementAt(i).QuestionId, 
                     CopyList<Candidate>(qbQuestionsBank.QBank.ElementAt(i).Candidates)));
             }
-            
+            //Adding List of Questions into each ExamItem
             for (int i = 0; i < numOfPage; i++)
             {
-                eiList.Add(CreateAExamItem(listQForShuffle, eiItemCodeList.ElementAt(i)));
+                eiList.Add(CreateExamItem(listQForShuffle, eiItemCodeList.ElementAt(i)));
             }
         }
 
-        private ExamItem CreateAExamItem(List<Question> listQForShuffle, String codeExam)
-        {
-            
-            List<Candidate> listCandidate = new List<Candidate>();
+        
 
+        /// <summary>
+        /// Create an ExamItem from: list questions and code exam
+        /// </summary>
+        /// <param name="listQForShuffle"></param>
+        /// <param name="codeExam"></param>
+        /// <returns></returns>
+        private ExamItem CreateExamItem(List<Question> listQForShuffle, String codeExam)
+        {
+            List<Candidate> listCandidate = new List<Candidate>();
             for (int i = 0; i < qbQuestionsBank.QBank.Count; i++)
             {
-                
                 Candidate candi = GetRdQCandidateFromQuestion(listQForShuffle.ElementAt(i).Candidates);
                 listCandidate.Add(candi);
                 listQForShuffle.ElementAt(i).Candidates.Remove(candi);
@@ -67,12 +70,16 @@ namespace DBI_ShuffleTool.Model
             ExamItem ei = new ExamItem(codeExam, listCandidate);
             if (IsDuplicated(ei))
             {
-                ei = CreateAExamItem(listQForShuffle, codeExam);
+                ei = CreateExamItem(listQForShuffle, codeExam);
             }
             return new ExamItem(codeExam, listCandidate);
         }
 
-        //ResetQuestions number i
+        /// <summary>
+        /// Reset after removing all elements in List of Candidates
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
         private List<Candidate> ResetQuestion(int i)
         {
             List<Candidate> listQC = new List<Candidate>();
@@ -83,7 +90,12 @@ namespace DBI_ShuffleTool.Model
             return listQC;
         }
 
-        //Copy List
+        /// <summary>
+        /// Copy a List
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="lst"></param>
+        /// <returns>NewList</returns>
         public List<T> CopyList<T>(List<T> lst)
         {
             List<T> lstCopy = new List<T>();
@@ -100,13 +112,19 @@ namespace DBI_ShuffleTool.Model
             return lstCopy;
         }
 
-        //Return examItemList
+        /// <summary>
+        /// Return ExamItemsList after creating
+        /// </summary>
+        /// <returns>List<ExamItem> eiList</ExamItem></returns>
         public List<ExamItem> GetExamItemsList()
         {
             return eiList;
         }
         
-        //Create CodeExamItem
+        /// <summary>
+        /// Create a code exam
+        /// </summary>
+        /// <returns>a code of Exam</returns>
         public String GetRdCodeForExam()
         {
             String res;
@@ -118,21 +136,34 @@ namespace DBI_ShuffleTool.Model
             return res;
         }
 
-        //Get a random number from min to max
+        /// <summary>
+        /// Random a number from min to max
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
         private int GetRandomNumber(int min, int max)
         {
             return new Random().Next(min, max);
         }
 
 
-        //Get a random Candidate From a Question
+        /// <summary>
+        /// Get random an element in List
+        /// </summary>
+        /// <param name="qcList"></param>
+        /// <returns></returns>
         public Candidate GetRdQCandidateFromQuestion(List<Candidate> qcList)
         {
             return qcList.ElementAt(GetRandomNumber(0, qcList.Count));
         }
 
 
-        //check is a QuestionsList duplicated
+        /// <summary>
+        /// checking duplicated
+        /// </summary>
+        /// <param name="ei"></param>
+        /// <returns></returns>
         private bool IsDuplicated(ExamItem ei)
         {
             String res = "";

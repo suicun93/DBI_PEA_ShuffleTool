@@ -156,6 +156,7 @@
             // 
             // btnOpenFolder
             // 
+            this.btnOpenFolder.Enabled = false;
             this.btnOpenFolder.Location = new System.Drawing.Point(248, 60);
             this.btnOpenFolder.Name = "btnOpenFolder";
             this.btnOpenFolder.Size = new System.Drawing.Size(75, 23);
@@ -166,6 +167,7 @@
             // 
             // btnSaveTestsAs
             // 
+            this.btnSaveTestsAs.Enabled = false;
             this.btnSaveTestsAs.Location = new System.Drawing.Point(168, 60);
             this.btnSaveTestsAs.Name = "btnSaveTestsAs";
             this.btnSaveTestsAs.Size = new System.Drawing.Size(75, 23);
@@ -176,6 +178,7 @@
             // 
             // btnCreateTests
             // 
+            this.btnCreateTests.Enabled = false;
             this.btnCreateTests.Location = new System.Drawing.Point(88, 60);
             this.btnCreateTests.Name = "btnCreateTests";
             this.btnCreateTests.Size = new System.Drawing.Size(75, 23);
@@ -188,8 +191,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(442, 316);
-            this.ControlBox = false;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelChoose);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;

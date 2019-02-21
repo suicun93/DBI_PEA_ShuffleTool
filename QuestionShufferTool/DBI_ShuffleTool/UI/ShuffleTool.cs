@@ -43,6 +43,8 @@ namespace DBI_ShuffleTool.UI
             txtLoadFileResult.Text = resImported;
             txtNumberOfTest.Value = MaxNumberOfTests();
             txtNumberOfTest.Maximum = MaxNumberOfTests();
+            btnCreateTests.Enabled = true;
+            btnSaveTestsAs.Enabled = true;
         }
 
         public int MaxNumberOfTests()
@@ -67,6 +69,7 @@ namespace DBI_ShuffleTool.UI
             {
                 progress.ShowDialog(this);
             }
+            btnOpenFolder.Enabled = true;
         }
 
         void CreateTests()

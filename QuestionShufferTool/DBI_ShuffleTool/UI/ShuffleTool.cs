@@ -9,9 +9,9 @@ namespace DBI_ShuffleTool.UI
 {
     public partial class ShuffleTool : Form
     {
-        ShuffleExamModel sem;
-        QuestionsBank qb;
-        String outputPath;
+        ShuffleExamModel _sem;
+        QuestionsBank _qb;
+        String _outputPath;
 
         public ShuffleTool()
         {
@@ -28,13 +28,17 @@ namespace DBI_ShuffleTool.UI
             String inputPath = FileUtils.GetFileLocation();
             txtLocationFolderInput.Text = inputPath;
             //Reading data
-            qb = new QuestionsBank(JsonUtils.DeserializeJson(inputPath));
+            _qb = new QuestionsBank(JsonUtils.DeserializeJson(inputPath));
             //Print result on txtLoadFileResult
-            String resImported = "Questions imported: " + qb.QBank.Count;
+            String resImported = "Questions imported: " + _qb.QBank.Count;
             int i = 0;
-            foreach (Question question in qb.QBank)
+            foreach (Question question in _qb.QBank)
             {
                 resImported = resImported + "\nQ" + (++i) + ": " + question.Candidates.Count + " candidates";
+                foreach (Candidate candidate in question.Candidates)
+                {
+                    candidate.Point = question.Point;
+                }
             }
             txtLoadFileResult.Text = resImported;
             txtNumberOfTest.Value = MaxNumberOfTests();
@@ -44,10 +48,12 @@ namespace DBI_ShuffleTool.UI
         public int MaxNumberOfTests()
         {
             int count = 1;
-            foreach (Question question in qb.QBank)
+            foreach (Question question in _qb.QBank)
             {
                 count *= question.Candidates.Count;
             }
+            count /= 2;
+            if ((count) < 1) count = 1;
             return count;
         }
 
@@ -55,39 +61,35 @@ namespace DBI_ShuffleTool.UI
         {
             //Create Test
             int numOfPage = Convert.ToInt32(txtNumberOfTest.Value);
-            sem = new ShuffleExamModel(qb, numOfPage);
-            CreateTests(btnCreateTests);
+            _sem = new ShuffleExamModel(_qb, numOfPage);
+            _outputPath = FileUtils.SaveFileToLocation();
+            using (AlertForm progress = new AlertForm(CreateTests))
+            {
+                progress.ShowDialog(this);
+            }
         }
 
-        private void CreateTests(Button btn)
+        void CreateTests()
         {
-            String old = btn.Text;
-            btn.Text = "Creating...";
-
-            outputPath = FileUtils.SaveFileToLocation();
-            String path = FileUtils.CreateNewDirectory(outputPath, "DBI_Exam");
-            DocUtils.ExportDoc(path, sem.GetExamItemsList());
-            btn.Text = old;
-            if (JsonUtils.WriteJson(sem.GetExamItemsList(), path))
-            {
-                MessageBox.Show(ConstantUtils.MESSAGE_CREATED_FOLDER_OK);
-            }
-            else
-            {
-                MessageBox.Show(ConstantUtils.ERROR_COMMON);
-            }
+            
+            String path = FileUtils.CreateNewDirectory(_outputPath, "DBI_Exam");
+            DocUtils.ExportDoc(path, _sem.GetExamItemsList());
+            JsonUtils.WriteJson(_sem.GetExamItemsList(), path);
         }
 
         private void btnOpenFolder_Click(object sender, EventArgs e)
         {
-            Process.Start(outputPath);
+            Process.Start(_outputPath);
         }
 
         private void btnSaveTestsAs_Click(object sender, EventArgs e)
         {
-            outputPath = FileUtils.SaveFileToLocation();
-            DocUtils.ExportDoc(outputPath, sem.GetExamItemsList());
-            CreateTests(btnSaveTestsAs);
+            _outputPath = FileUtils.SaveFileToLocation();
+            DocUtils.ExportDoc(_outputPath, _sem.GetExamItemsList());
+            using (AlertForm progress = new AlertForm(CreateTests))
+            {
+                progress.ShowDialog(this);
+            }
         }
 
 

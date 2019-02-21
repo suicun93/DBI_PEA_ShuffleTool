@@ -2,8 +2,7 @@
 using System.Windows.Forms;
 using DBI_ShuffleTool.UI;
 
-
-namespace QuestionSufferTool
+namespace DBI_ShuffleTool
 {
     static class Program
     {

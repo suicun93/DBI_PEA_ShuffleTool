@@ -15,5 +15,7 @@ namespace DBI_ShuffleTool.Entity
         public int QuestionId { get; set; }
         public double Point { get; set; }
         public List<Candidate> Candidates { get; set; }
+
+
     }
 }

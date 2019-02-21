@@ -114,4 +114,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FileUtils_CreateNewDirectory_The_process_failed___0_" xml:space="preserve">
+    <value>The process failed: {0}</value>
+  </data>
+  <data name="FileUtils_GetFileLocation_Please_try_again__Something_wrong" xml:space="preserve">
+    <value>Please try again! Something wrong</value>
+  </data>
+  <data name="FileUtils_GetFileLocation_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
 </root>

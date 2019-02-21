@@ -9,13 +9,13 @@ namespace DBI_ShuffleTool.Model
 {
     class ShuffleExamModel
     {
-        public QuestionsBank qbQuestionsBank;//QBank from Creator
+        public QuestionsBank QbQuestionsBank;//QBank from Creator
 
-        public List<String> eiItemCodeList;//Include Code ExamItem
+        public List<String> EiItemCodeList;//Include Code ExamItem
 
-        public List<ExamItem> eiList;//Include Exam after create
+        public List<ExamItem> EiList;//Include Exam after create
 
-        public List<String> eiListForDuplicate;//Include ExamCode for checking Duplicated
+        public List<String> EiListForDuplicate;//Include ExamCode for checking Duplicated
         /// <summary>
         /// Create List of ExamItem
         /// </summary>
@@ -23,13 +23,13 @@ namespace DBI_ShuffleTool.Model
         /// <param name="numOfPage"></param>
         public ShuffleExamModel(QuestionsBank qbQuestionsBank, int numOfPage)
         {
-            this.qbQuestionsBank = qbQuestionsBank;
-            eiItemCodeList = new List<string>();
-            eiList = new List<ExamItem>();
-            eiListForDuplicate = new List<String>();
+            QbQuestionsBank = qbQuestionsBank;
+            EiItemCodeList = new List<string>();
+            EiList = new List<ExamItem>();
+            EiListForDuplicate = new List<String>();
             for (int i = 0; i < numOfPage; i++)//Create Code of the ExamItem
             {
-                eiItemCodeList.Add(GetRdCodeForExam());
+                EiItemCodeList.Add(GetRdCodeForExam());
             }
 
             List<Question> listQForShuffle = new List<Question>();
@@ -37,12 +37,12 @@ namespace DBI_ShuffleTool.Model
             for (int i = 0; i < qbQuestionsBank.QBank.Count; i++)
             {
                 listQForShuffle.Add(new Question(qbQuestionsBank.QBank.ElementAt(i).QuestionId, 
-                    CopyList<Candidate>(qbQuestionsBank.QBank.ElementAt(i).Candidates)));
+                    CopyList(qbQuestionsBank.QBank.ElementAt(i).Candidates)));
             }
             //Adding List of Questions into each ExamItem
             for (int i = 0; i < numOfPage; i++)
             {
-                eiList.Add(CreateExamItem(listQForShuffle, eiItemCodeList.ElementAt(i)));
+                EiList.Add(CreateExamItem(listQForShuffle, EiItemCodeList.ElementAt(i)));
             }
         }
 
@@ -57,7 +57,7 @@ namespace DBI_ShuffleTool.Model
         private ExamItem CreateExamItem(List<Question> listQForShuffle, String codeExam)
         {
             List<Candidate> listCandidate = new List<Candidate>();
-            for (int i = 0; i < qbQuestionsBank.QBank.Count; i++)
+            for (int i = 0; i < QbQuestionsBank.QBank.Count; i++)
             {
                 Candidate candi = GetRdQCandidateFromQuestion(listQForShuffle.ElementAt(i).Candidates);
                 listCandidate.Add(candi);
@@ -70,7 +70,7 @@ namespace DBI_ShuffleTool.Model
             ExamItem ei = new ExamItem(codeExam, listCandidate);
             if (IsDuplicated(ei))
             {
-                ei = CreateExamItem(listQForShuffle, codeExam);
+                CreateExamItem(listQForShuffle, codeExam);
             }
             return new ExamItem(codeExam, listCandidate);
         }
@@ -82,12 +82,12 @@ namespace DBI_ShuffleTool.Model
         /// <returns></returns>
         private List<Candidate> ResetQuestion(int i)
         {
-            List<Candidate> listQC = new List<Candidate>();
-            foreach(Candidate candi in qbQuestionsBank.QBank.ElementAt(i).Candidates)
+            List<Candidate> listQc = new List<Candidate>();
+            foreach(Candidate candi in QbQuestionsBank.QBank.ElementAt(i).Candidates)
             {
-                listQC.Add(candi);
+                listQc.Add(candi);
             }
-            return listQC;
+            return listQc;
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace DBI_ShuffleTool.Model
         /// <returns>List<ExamItem> eiList</ExamItem></returns>
         public List<ExamItem> GetExamItemsList()
         {
-            return eiList;
+            return EiList;
         }
         
         /// <summary>
@@ -132,7 +132,7 @@ namespace DBI_ShuffleTool.Model
             do
             {
                 res = GetRandomNumber(100000, 999999).ToString();
-            } while (eiItemCodeList.Contains(res));
+            } while (EiItemCodeList.Contains(res));
             return res;
         }
 
@@ -171,13 +171,13 @@ namespace DBI_ShuffleTool.Model
             {
                 res = res + q.QuestionId + q.CandidateId;
             }
-            if (eiListForDuplicate.Contains(res))
+            if (EiListForDuplicate.Contains(res))
             {
                 return true;
             }
             else
             {
-                eiListForDuplicate.Add(res);
+                EiListForDuplicate.Add(res);
                 return false;
             }
         }

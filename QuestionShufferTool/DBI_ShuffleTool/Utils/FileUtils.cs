@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using DBI_ShuffleTool.Properties;
 
 namespace DBI_ShuffleTool.Utils
 {
@@ -18,11 +19,11 @@ namespace DBI_ShuffleTool.Utils
                 }
 
                 // Try to create the directory.
-                DirectoryInfo di = Directory.CreateDirectory(path);
+                Directory.CreateDirectory(path);
             }
             catch (Exception e)
             {
-                Console.WriteLine("The process failed: {0}", e.ToString());
+                Console.WriteLine(Resources.FileUtils_CreateNewDirectory_The_process_failed___0_, e);
             }
             return path;
         }
@@ -47,19 +48,19 @@ namespace DBI_ShuffleTool.Utils
         {
             // Displays an OpenFileDialog so the user can select a File.  
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Data File|*.dat";
-            ofd.Title = "Select a Data File";
+            ofd.Filter = @"Data File|*.dat";
+            ofd.Title = @"Select a Data File";
             ofd.Multiselect = false;
             // Show the Dialog.  
             // If the user clicked OK in the dialog and  
             // a .DAT file was selected, take the local path of it.  
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (ofd.ShowDialog() == DialogResult.OK)
             {
                 return ofd.FileName;
             }
             else
             {
-                MessageBox.Show("Please try again! Something wrong", "Error");
+                MessageBox.Show(Resources.FileUtils_GetFileLocation_Please_try_again__Something_wrong, Resources.FileUtils_GetFileLocation_Error);
                 return null;
             }
         }
@@ -84,7 +85,7 @@ namespace DBI_ShuffleTool.Utils
                 }
                 else
                 {
-                    MessageBox.Show("Please try again! Something wrong", "Error");
+                    MessageBox.Show(Resources.FileUtils_GetFileLocation_Please_try_again__Something_wrong, Resources.FileUtils_GetFileLocation_Error);
                     return null;
                 }
             }

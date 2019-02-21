@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using DBI_ShuffleTool.Entity;
 using Spire.Doc;
 using Spire.Doc.Documents;
@@ -23,20 +24,21 @@ namespace DBI_ShuffleTool.Utils
             //Add Section
             Section section = doc.AddSection();
             //Settings Page
-            settingPage(doc);
+            SettingPage(doc);
 
             //Insert Header and Footer of the page
-            insertHeaderAndFooter(ei, section);
+            InsertHeaderAndFooter(ei, section);
             
             //Insert Content of the Exam
-            foreach(Candidate qc in ei.ExamQuestionsList)
+                for (int i = 0; i < ei.ExamQuestionsList.Count; i++)
                 {
-                    appendQuestion(qc, section);
+                    Candidate c = ei.ExamQuestionsList.ElementAt(i);
+                    c.QuestionId = (i + 1).ToString();
+                    AppendQuestion(ei.ExamQuestionsList.ElementAt(i), section);
                 }
 
             doc.SaveToFile(path + @"\" + ei.ExamItemCode +".doc", FileFormat.Doc);
             }
-
             return true;
         }
 
@@ -45,7 +47,7 @@ namespace DBI_ShuffleTool.Utils
         /// Setting for doc file
         /// </summary>
         /// <param name="document"></param>
-        static private void settingPage(Document document)
+        static private void SettingPage(Document document)
         {
             //Set Margins
             document.Sections[0].PageSetup.Margins.Top = 30f;
@@ -63,11 +65,17 @@ namespace DBI_ShuffleTool.Utils
         /// </summary>
         /// <param name="q"></param>
         /// <param name="section"></param>
-        static private void appendQuestion(Candidate q, Section section)
+        static private void AppendQuestion(Candidate q, Section section)
         {
             Paragraph paraContent = section.AddParagraph();
             paraContent.AppendText("Question " + q.QuestionId + ": ");
-            paraContent.AppendText(q.Content);
+            if(!q.Content.EndsWith(".")) q.Content = String.Concat(q.Content, ".");
+            String pointContent = "";
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            pointContent = q.Point == 1 ? string.Concat(pointContent, " (1 point)"): 
+                String.Concat(pointContent, " (" + q.Point + " points)");
+
+            paraContent.AppendText(String.Concat(q.Content, pointContent));
             paraContent.AppendText("\n");
             Image img = ImageUtils.Base64ToImage(q.ImageData);
             Image tempImg = new Bitmap(img);
@@ -88,7 +96,7 @@ namespace DBI_ShuffleTool.Utils
         /// </summary>
         /// <param name="examItem"></param>
         /// <param name="section"></param>
-        static private void insertHeaderAndFooter(ExamItem examItem, Section section)
+        static private void InsertHeaderAndFooter(ExamItem examItem, Section section)
         {
             //Adjust the height of headers in the section
 

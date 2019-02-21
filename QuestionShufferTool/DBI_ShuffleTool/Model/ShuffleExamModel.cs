@@ -29,7 +29,7 @@ namespace DBI_ShuffleTool.Model
             EiListForDuplicate = new List<String>();
             for (int i = 0; i < numOfPage; i++)//Create Code of the ExamItem
             {
-                EiItemCodeList.Add(GetRdCodeForExam());
+                EiItemCodeList.Add((i+1).ToString());
             }
 
             List<Question> listQForShuffle = new List<Question>();
@@ -125,7 +125,7 @@ namespace DBI_ShuffleTool.Model
         /// Create a code exam
         /// </summary>
         /// <returns>a code of Exam</returns>
-        public String GetRdCodeForExam()
+    /*    public String GetRdCodeForExam()
         {
             String res;
             //Random a code which is not duplicated in examItemCodeList
@@ -134,7 +134,7 @@ namespace DBI_ShuffleTool.Model
                 res = GetRandomNumber(100000, 999999).ToString();
             } while (EiItemCodeList.Contains(res));
             return res;
-        }
+        }*/
 
         /// <summary>
         /// Random a number from min to max

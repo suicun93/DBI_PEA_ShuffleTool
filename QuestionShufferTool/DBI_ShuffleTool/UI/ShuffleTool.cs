@@ -44,7 +44,6 @@ namespace DBI_ShuffleTool.UI
             txtNumberOfTest.Value = MaxNumberOfTests();
             txtNumberOfTest.Maximum = MaxNumberOfTests();
             btnCreateTests.Enabled = true;
-            btnSaveTestsAs.Enabled = true;
         }
 
         public int MaxNumberOfTests()
@@ -70,11 +69,11 @@ namespace DBI_ShuffleTool.UI
                 progress.ShowDialog(this);
             }
             btnOpenFolder.Enabled = true;
+            btnSaveTestsAs.Enabled = true;
         }
 
         void CreateTests()
         {
-            
             String path = FileUtils.CreateNewDirectory(_outputPath, "DBI_Exam");
             DocUtils.ExportDoc(path, _sem.GetExamItemsList());
             JsonUtils.WriteJson(_sem.GetExamItemsList(), path);

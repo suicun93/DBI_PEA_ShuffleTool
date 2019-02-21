@@ -32,10 +32,11 @@ namespace DBI_ShuffleTool.Utils
                 //Insert Content of the Exam
                 for (int i = 0; i < ei.ExamQuestionsList.Count; i++)
                 {
+                    ei.ExamQuestionsList.ElementAt(i).QuestionId = (i + 1);
                     AppendQuestion(ei.ExamQuestionsList.ElementAt(i), section);
                 }
 
-                doc.SaveToFile(path + @"\" + ei.ExamItemCode + ".doc", FileFormat.Doc);
+                doc.SaveToFile(path + @"\" + ei.PaperNo + ".doc", FileFormat.Doc);
             }
             return true;
         }
@@ -109,7 +110,7 @@ namespace DBI_ShuffleTool.Utils
             footerParagraph.Format.HorizontalAlignment = HorizontalAlignment.Right;
 
             //Append Exam Code
-            headerParagraph.AppendText("ExamCode: " + examItem.ExamItemCode + "\n");
+            headerParagraph.AppendText("ExamCode: " + examItem.PaperNo + "\n");
             headerParagraph.Format.HorizontalAlignment = HorizontalAlignment.Right;
         }
     }

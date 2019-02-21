@@ -8,13 +8,13 @@ namespace DBI_ShuffleTool.Entity
     {
         public ExamItem(string examItemCode, List<Candidate> examQuestionsList)
         {
-            ExamItemCode = examItemCode;
+            PaperNo = examItemCode;
             ExamQuestionsList = examQuestionsList;
         }
         public ExamItem()
         {
         }
-        public String ExamItemCode { get; set; }
+        public String PaperNo { get; set; }
         public List<Candidate> ExamQuestionsList { get; set; }
     }
 }

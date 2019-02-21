@@ -5,9 +5,15 @@ namespace DBI_ShuffleTool.Entity
     [Serializable]
     public class Requirement
     {
+        public enum RequirementTypes
+        {
+            ResultSet = 1,
+            Effect = 2
+        }
+
         public int RequirementId { get; set; }
         public int CandidateId { get; set; }
-        public string Type { get; set; }
+        public RequirementTypes Type { get; set; }
 
         public string ResultQuery { get; set; }
         public bool RequireSort { get; set; }

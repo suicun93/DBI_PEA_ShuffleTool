@@ -76,18 +76,15 @@ namespace DBI_ShuffleTool.Utils
 
             paraContent.AppendText(String.Concat(q.Content, pointContent));
             paraContent.AppendText("\n");
-            Image img = ImageUtils.Base64ToImage(q.ImageData);
-            Image tempImg = new Bitmap(img);
-            Paragraph paraImage = section.AddParagraph();
-            paraImage.Format.HorizontalAlignment = HorizontalAlignment.Center;
-
-
-            // Image img = Image.FromFile(@"E:\Pic\Mail\test.jpg");
-
-
-            paraImage.AppendPicture(tempImg);
-
-            paraImage.AppendText("\n");
+            if (ImageUtils.Base64ToImage(q.ImageData) != null)
+            {
+                Image img = ImageUtils.Base64ToImage(q.ImageData);
+                Image tempImg = new Bitmap(img);
+                Paragraph paraImage = section.AddParagraph();
+                paraImage.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                paraImage.AppendPicture(tempImg);
+            }
+            paraContent.AppendText("\n");
         }
 
         /// <summary>

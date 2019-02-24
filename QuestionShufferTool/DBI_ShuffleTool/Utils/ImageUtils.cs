@@ -24,6 +24,10 @@ namespace DBI_ShuffleTool.Utils
 
         public static Image Base64ToImage(string base64String)
         {
+            if (String.IsNullOrEmpty(base64String))
+            {
+                return null;
+            }
             // Convert base 64 string to byte[]
             byte[] imageBytes = Convert.FromBase64String(base64String);
             // Convert byte[] to Image

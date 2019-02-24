@@ -10,7 +10,8 @@ namespace DBI_ShuffleTool.Entity
         {
             Query = 1,
             Procedure = 2,
-            Trigger = 3
+            Trigger = 3,
+            Schema = 4
         }
 
         public int CandidateId { get; set; }

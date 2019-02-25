@@ -14,7 +14,7 @@ namespace DBI_ShuffleTool.Utils
 
 
         //Error
-        public static readonly String ErrorLoadFolderFailed = "Loading failed\nPlease try again!";
+        public static readonly String ErrorLoadFolderFailed = "Loading location failed\nPlease try again!";
         public static readonly String ErrorCommon = "Something wrong\nPlease try again!";
 
 

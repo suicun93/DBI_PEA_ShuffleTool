@@ -41,7 +41,7 @@ namespace DBI_ShuffleTool.Utils
             {
                 return fbd.SelectedPath;
             }
-            return "";
+            return null;
         }
 
         public static String GetFileLocation()
@@ -58,11 +58,7 @@ namespace DBI_ShuffleTool.Utils
             {
                 return ofd.FileName;
             }
-            else
-            {
-                MessageBox.Show(Resources.FileUtils_GetFileLocation_Please_try_again__Something_wrong, Resources.FileUtils_GetFileLocation_Error);
                 return null;
-            }
         }
 
         //Get Folder location by browsing directory

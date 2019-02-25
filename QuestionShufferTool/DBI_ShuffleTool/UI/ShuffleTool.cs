@@ -25,25 +25,34 @@ namespace DBI_ShuffleTool.UI
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            String inputPath = FileUtils.GetFileLocation();
-            txtLocationFolderInput.Text = inputPath;
-            //Reading data
-            _qb = new QuestionsBank(JsonUtils.DeserializeJson(inputPath));
-            //Print result on txtLoadFileResult
-            String resImported = "Questions imported: " + _qb.QBank.Count;
-            int i = 0;
-            foreach (Question question in _qb.QBank)
+            try
             {
-                resImported = resImported + "\nQ" + (++i) + ": " + question.Candidates.Count + " candidates";
-                foreach (Candidate candidate in question.Candidates)
+                string inputPath = FileUtils.GetFileLocation();
+                txtLocationFolderInput.Text = inputPath;
+                //Reading data
+                _qb = new QuestionsBank(JsonUtils.DeserializeJson(inputPath));
+                //Print result on txtLoadFileResult
+                String resImported = "Questions imported: " + _qb.QBank.Count;
+                int i = 0;
+                foreach (Question question in _qb.QBank)
                 {
-                    candidate.Point = question.Point;
+                    resImported = resImported + "\nQ" + (++i) + ": " + question.Candidates.Count + " candidates";
+                    foreach (Candidate candidate in question.Candidates)
+                    {
+                        candidate.Point = question.Point;
+                    }
                 }
+                txtLoadFileResult.Text = resImported;
+                txtNumberOfTest.Value = MaxNumberOfTests();
+                txtNumberOfTest.Maximum = MaxNumberOfTests();
+                btnCreateTests.Enabled = true;
             }
-            txtLoadFileResult.Text = resImported;
-            txtNumberOfTest.Value = MaxNumberOfTests();
-            txtNumberOfTest.Maximum = MaxNumberOfTests();
-            btnCreateTests.Enabled = true;
+            catch (Exception)
+            {
+                MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
         }
 
         public int MaxNumberOfTests()
@@ -60,16 +69,30 @@ namespace DBI_ShuffleTool.UI
 
         private void btnCreateTests_Click(object sender, EventArgs e)
         {
-            //Create Test
-            int numOfPage = Convert.ToInt32(txtNumberOfTest.Value);
-            _sem = new ShuffleExamModel(_qb, numOfPage);
-            _outputPath = FileUtils.SaveFileToLocation();
-            using (AlertForm progress = new AlertForm(CreateTests))
+            try
             {
-                progress.ShowDialog(this);
+                string location = FileUtils.SaveFileToLocation();
+                if (string.IsNullOrEmpty(location))
+                {
+                    MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                _outputPath = location;
+                //Create Test
+                int numOfPage = Convert.ToInt32(txtNumberOfTest.Value);
+                _sem = new ShuffleExamModel(_qb, numOfPage);
+                using (AlertForm progress = new AlertForm(CreateTests))
+                {
+                    progress.ShowDialog(this);
+                }
+                btnOpenFolder.Enabled = true;
+                btnSaveTestsAs.Enabled = true;
             }
-            btnOpenFolder.Enabled = true;
-            btnSaveTestsAs.Enabled = true;
+            catch (Exception)
+            {
+                MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
         }
 
         void CreateTests()
@@ -81,16 +104,31 @@ namespace DBI_ShuffleTool.UI
 
         private void btnOpenFolder_Click(object sender, EventArgs e)
         {
-            Process.Start(_outputPath);
+
+            Process.Start(_outputPath + @"/DBI_Exam/");
         }
 
         private void btnSaveTestsAs_Click(object sender, EventArgs e)
         {
-            _outputPath = FileUtils.SaveFileToLocation();
-            DocUtils.ExportDoc(_outputPath, _sem.GetExamItemsList());
-            using (AlertForm progress = new AlertForm(CreateTests))
+            try
             {
-                progress.ShowDialog(this);
+                string location = FileUtils.SaveFileToLocation();
+                if (string.IsNullOrEmpty(location))
+                {
+                    MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                _outputPath = location;
+                DocUtils.ExportDoc(_outputPath, _sem.GetExamItemsList());
+                using (AlertForm progress = new AlertForm(CreateTests))
+                {
+                    progress.ShowDialog(this);
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
             }
         }
 

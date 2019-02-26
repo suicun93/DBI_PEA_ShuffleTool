@@ -13,7 +13,7 @@ namespace DBI_ShuffleTool.Entity
         }
 
         public int RequirementId { get; set; }
-        public int CandidateId { get; set; }
+        public string CandidateId { get; set; }
         public RequirementTypes Type { get; set; }
 
         public string ResultQuery { get; set; }
@@ -24,5 +24,10 @@ namespace DBI_ShuffleTool.Entity
         public string ActivateTriggerQuery { get; set; }
 
         public string OutputParameter { get; set; }
+
+        public Requirement()
+        {
+            Type = RequirementTypes.ResultSet;
+        }
     }
 }

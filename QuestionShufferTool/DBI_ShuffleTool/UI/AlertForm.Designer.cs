@@ -35,9 +35,10 @@
             // labelMessage
             // 
             this.labelMessage.AutoSize = true;
-            this.labelMessage.Location = new System.Drawing.Point(17, 20);
+            this.labelMessage.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMessage.Location = new System.Drawing.Point(12, 16);
             this.labelMessage.Name = "labelMessage";
-            this.labelMessage.Size = new System.Drawing.Size(68, 13);
+            this.labelMessage.Size = new System.Drawing.Size(72, 22);
             this.labelMessage.TabIndex = 0;
             this.labelMessage.Text = "Processing...";
             // 

@@ -8,7 +8,7 @@ namespace DBI_ShuffleTool.Utils
         public static readonly String MessageLoadFolderOk = "Your questions bank location is accepted\nPlease check results!";
         public static readonly String MessageCreatedFolderOk = "Exams are created";
 
-
+        
         //Alert
         public static readonly String AleartLoadFolderEmpty = "Empty folder\nPlease try again!";
 

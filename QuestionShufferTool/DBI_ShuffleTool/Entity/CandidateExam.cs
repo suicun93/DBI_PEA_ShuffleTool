@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using DBI_ShuffleTool.Entity;
 
 namespace DBI_ShuffleTool.Entity
 {
-    [Serializable]
-    class Candidate
+    class CandidateExam
     {
         public enum QuestionTypes
         {
@@ -17,9 +16,7 @@ namespace DBI_ShuffleTool.Entity
 
         public string CandidateId { get; set; }
         public string QuestionId { get; set; }
-        public string Content { get; set; }
-        public QuestionTypes QuestionType { get; set; }
-        public string ImageData { get; set; }
+        public Candidate.QuestionTypes QuestionType { get; set; }
 
         public string Solution { get; set; }
         public string ActivateQuery { get; set; }

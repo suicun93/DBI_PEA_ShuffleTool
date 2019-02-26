@@ -4,23 +4,23 @@ using DBI_ShuffleTool.Utils;
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Drawing;
+using System.Collections.Generic;
 
 namespace DBI_ShuffleTool.UI
 {
     public partial class ShuffleTool : Form
     {
         ShuffleExamModel _sem;
-        QuestionsBank _qb;
-        String _outputPath;
+        List<Question> _qb;
+        string _outputPath;
+        bool BeingDragged = false;
+        int MouseDownX;
+        int MouseDownY;
 
         public ShuffleTool()
         {
             InitializeComponent();
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -30,13 +30,14 @@ namespace DBI_ShuffleTool.UI
                 string inputPath = FileUtils.GetFileLocation();
                 txtLocationFolderInput.Text = inputPath;
                 //Reading data
-                _qb = new QuestionsBank(JsonUtils.DeserializeJson(inputPath));
+                _qb = new List<Question>();
+                _qb = JsonUtils.DeserializeJson(inputPath);
                 //Print result on txtLoadFileResult
-                String resImported = "Questions imported: " + _qb.QBank.Count;
+                String resImported = "Questions imported: " + _qb.Count;
                 int i = 0;
-                foreach (Question question in _qb.QBank)
+                foreach (Question question in _qb)
                 {
-                    resImported = resImported + "\nQ" + (++i) + ": " + question.Candidates.Count + " candidates";
+                    resImported = resImported + "\nQ" + (++i) + ": " + question.Candidates.Count + " candidate(s)";
                     foreach (Candidate candidate in question.Candidates)
                     {
                         candidate.Point = question.Point;
@@ -45,20 +46,20 @@ namespace DBI_ShuffleTool.UI
                 txtLoadFileResult.Text = resImported;
                 txtNumberOfTest.Value = MaxNumberOfTests();
                 txtNumberOfTest.Maximum = MaxNumberOfTests();
-                btnCreateTests.Enabled = true;
+                btnCreateTests.Visible = true;
             }
             catch (Exception)
             {
                 MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            
+
         }
 
         public int MaxNumberOfTests()
         {
             int count = 1;
-            foreach (Question question in _qb.QBank)
+            foreach (Question question in _qb)
             {
                 count *= question.Candidates.Count;
             }
@@ -85,8 +86,8 @@ namespace DBI_ShuffleTool.UI
                 {
                     progress.ShowDialog(this);
                 }
-                btnOpenFolder.Enabled = true;
-                btnSaveTestsAs.Enabled = true;
+                btnOpenFolder.Visible = true;
+                btnSaveTestsAs.Visible = true;
             }
             catch (Exception)
             {
@@ -97,9 +98,9 @@ namespace DBI_ShuffleTool.UI
 
         void CreateTests()
         {
-            String path = FileUtils.CreateNewDirectory(_outputPath, "DBI_Exam");
-            DocUtils.ExportDoc(path, _sem.GetExamItemsList());
-            JsonUtils.WriteJson(_sem.GetExamItemsList(), path);
+            string path = FileUtils.CreateNewDirectory(_outputPath, "DBI_Exam");
+            DocUtils.ExportDoc(path, _sem.EiListDoc);
+            JsonUtils.WriteJson(_sem.EiListMarking, path);
         }
 
         private void btnOpenFolder_Click(object sender, EventArgs e)
@@ -119,7 +120,7 @@ namespace DBI_ShuffleTool.UI
                     return;
                 }
                 _outputPath = location;
-                DocUtils.ExportDoc(_outputPath, _sem.GetExamItemsList());
+                DocUtils.ExportDoc(_outputPath, _sem.EiListDoc);
                 using (AlertForm progress = new AlertForm(CreateTests))
                 {
                     progress.ShowDialog(this);
@@ -132,16 +133,68 @@ namespace DBI_ShuffleTool.UI
             }
         }
 
-
-
-        private void txtNumberOfTest_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void ShuffleTool_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void btnMinimize_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
+
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnMinimize_Hover(object sender, EventArgs e)
+        {
+            btnMinimize.Image = Properties.Resources.minimize_hover_red;
+        }
+
+        private void btnClose_Hover(object sender, EventArgs e)
+        {
+            btnClose.Image = Properties.Resources.close_hover_red;
+        }
+
+        private void btnClose_Leave(object sender, EventArgs e)
+        {
+            btnClose.Image = Properties.Resources.close;
+        }
+
+        private void btnMinimize_Leave(object sender, EventArgs e)
+        {
+            btnMinimize.Image = Properties.Resources.minimize;
+        }
+
+        private void controlBar_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                BeingDragged = true;
+                MouseDownX = e.X;
+                MouseDownY = e.Y;
+            }
+        }
+
+        private void controlBar_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (BeingDragged)
+            {
+                Point tmpPoint = new Point(Location.X + (e.X - MouseDownX),
+                    Location.Y + (e.Y - MouseDownY));
+                Location = tmpPoint;
+            }
+        }
+
+        private void controlBar_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                BeingDragged = false;
+            }
         }
     }
 }

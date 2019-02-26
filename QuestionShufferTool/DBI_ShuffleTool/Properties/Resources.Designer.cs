@@ -61,6 +61,26 @@ namespace DBI_ShuffleTool.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap close {
+            get {
+                object obj = ResourceManager.GetObject("close", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap close_hover_red {
+            get {
+                object obj = ResourceManager.GetObject("close_hover_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The process failed: {0}.
         /// </summary>
         internal static string FileUtils_CreateNewDirectory_The_process_failed___0_ {
@@ -84,6 +104,26 @@ namespace DBI_ShuffleTool.Properties {
         internal static string FileUtils_GetFileLocation_Please_try_again__Something_wrong {
             get {
                 return ResourceManager.GetString("FileUtils_GetFileLocation_Please_try_again__Something_wrong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap minimize {
+            get {
+                object obj = ResourceManager.GetObject("minimize", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap minimize_hover_red {
+            get {
+                object obj = ResourceManager.GetObject("minimize_hover_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

@@ -16,9 +16,9 @@ namespace DBI_ShuffleTool.Utils
         /// <param name="path"></param>
         /// <param name="examItems"></param>
         /// <returns></returns>
-        static public bool ExportDoc(String path, List<ExamItem> examItems)
+        static public bool ExportDoc(string path, List<ExamForDoc> examItems)
         {
-            foreach (ExamItem ei in examItems)
+            foreach (ExamForDoc ei in examItems)
             {
                 Document doc = new Document();
                 //Add Section
@@ -32,8 +32,7 @@ namespace DBI_ShuffleTool.Utils
                 //Insert Content of the Exam
                 for (int i = 0; i < ei.ExamQuestionsList.Count; i++)
                 {
-                    ei.ExamQuestionsList.ElementAt(i).QuestionId = (i + 1);
-                    AppendQuestion(ei.ExamQuestionsList.ElementAt(i), section);
+                    AppendQuestion(ei.ExamQuestionsList.ElementAt(i), section, (i+1));
                 }
 
                 doc.SaveToFile(path + @"\" + ei.PaperNo + ".doc", FileFormat.Doc);
@@ -64,17 +63,17 @@ namespace DBI_ShuffleTool.Utils
         /// </summary>
         /// <param name="q"></param>
         /// <param name="section"></param>
-        static private void AppendQuestion(Candidate q, Section section)
+        static private void AppendQuestion(Candidate q, Section section, int questionNumber)
         {
             Paragraph paraContent = section.AddParagraph();
-            paraContent.AppendText("Question " + q.QuestionId + ": ");
+            paraContent.AppendText("Question " + questionNumber + ": ");
             if (!q.Content.EndsWith(".")) q.Content = String.Concat(q.Content, ".");
-            String pointContent = "";
+            string pointContent = "";
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             pointContent = q.Point == 1 ? string.Concat(pointContent, " (1 point)") :
-                String.Concat(pointContent, " (" + q.Point + " points)");
+                string.Concat(pointContent, " (" + q.Point + " points)");
 
-            paraContent.AppendText(String.Concat(q.Content, pointContent));
+            paraContent.AppendText(string.Concat(q.Content, pointContent));
             paraContent.AppendText("\n");
             if (ImageUtils.Base64ToImage(q.ImageData) != null)
             {
@@ -85,6 +84,7 @@ namespace DBI_ShuffleTool.Utils
                 paraImage.AppendPicture(tempImg);
             }
             paraContent.AppendText("\n");
+
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace DBI_ShuffleTool.Utils
         /// </summary>
         /// <param name="examItem"></param>
         /// <param name="section"></param>
-        static private void InsertHeaderAndFooter(ExamItem examItem, Section section)
+        static private void InsertHeaderAndFooter(ExamForDoc examItem, Section section)
         {
             //Adjust the height of headers in the section
 

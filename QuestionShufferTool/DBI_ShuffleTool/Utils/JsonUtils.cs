@@ -25,7 +25,7 @@ namespace DBI_ShuffleTool.Utils
         /// <param name="obj"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static bool WriteJson(Object obj, String path)
+        public static bool WriteJson(Object obj, string path)
         {
             try
             {

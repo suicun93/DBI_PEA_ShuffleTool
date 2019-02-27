@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using DBI_ShuffleTool.Entity;
-using Spire.Doc;
-using Spire.Doc.Documents;
+using Microsoft.Office.Interop.Word;
+using System.Reflection;
+using System.Linq;
+using System.Windows.Forms;
+using Application = Microsoft.Office.Interop.Word.Application;
+//using Spire.Doc;
+//using Spire.Doc.Documents;
 
 namespace DBI_ShuffleTool.Utils
 {
@@ -20,22 +24,37 @@ namespace DBI_ShuffleTool.Utils
         {
             foreach (ExamForDoc ei in examItems)
             {
-                Document doc = new Document();
-                //Add Section
-                Section section = doc.AddSection();
-                //Settings Page
-                SettingPage(doc);
-
-                //Insert Header and Footer of the page
-                InsertHeaderAndFooter(ei, section);
-
-                //Insert Content of the Exam
-                for (int i = 0; i < ei.ExamQuestionsList.Count; i++)
+                Application wordApp = new Application();
+                try
                 {
-                    AppendQuestion(ei.ExamQuestionsList.ElementAt(i), section, (i+1));
-                }
+                    //Create word file
+                    wordApp.Visible = false;
+                    wordApp.ShowAnimation = false;
+                    object missing = Missing.Value;
+                    Document doc = new Document();
 
-                doc.SaveToFile(path + @"\" + ei.PaperNo + ".doc", FileFormat.Doc);
+                    //Insert Content of the Exam
+                    for (int i = 0; i < ei.ExamQuestionsList.Count; i++)
+                    {
+                        AppendQuestion(ei.ExamQuestionsList.ElementAt(i), doc, (i + 1), ref missing);
+                    }
+
+                    //Settings Page
+                    SettingPage(doc);
+
+                    //Insert Header and Footer of the page
+                    InsertHeaderAndFooter(ei, doc);
+
+                    //Saving file
+                    doc.SaveAs(path + @"\" + ei.PaperNo, WdSaveFormat.wdFormatDocument97);
+                    doc.Close();
+                }
+                catch (Exception e)
+                {
+
+                    wordApp = null;
+                    MessageBox.Show(e.ToString());
+                }
             }
             return true;
         }
@@ -47,15 +66,23 @@ namespace DBI_ShuffleTool.Utils
         /// <param name="document"></param>
         static private void SettingPage(Document document)
         {
-            //Set Margins
-            document.Sections[0].PageSetup.Margins.Top = 30f;
-            document.Sections[0].PageSetup.Margins.Bottom = 30f;
-            document.Sections[0].PageSetup.Margins.Left = 50f;
-            document.Sections[0].PageSetup.Margins.Right = 30f;
+            foreach (Section section in document.Sections)
+            {
+                section.PageSetup.PaperSize = WdPaperSize.wdPaperA4;
+            }
 
-            //Set Page Orientation
-            document.Sections[0].PageSetup.Orientation = PageOrientation.Portrait;
-            //Save and Launch
+            //1 inch = 72 points
+
+            document.PageSetup.BottomMargin = 72;
+            document.PageSetup.TopMargin = 72;
+            document.PageSetup.LeftMargin = 72;
+            document.PageSetup.RightMargin = 72;
+
+            document.PageSetup.FooterDistance = 36;
+            document.PageSetup.HeaderDistance = 36;
+
+            document.PageSetup.Orientation = WdOrientation.wdOrientPortrait;
+
         }
 
         /// <summary>
@@ -63,28 +90,48 @@ namespace DBI_ShuffleTool.Utils
         /// </summary>
         /// <param name="q"></param>
         /// <param name="section"></param>
-        static private void AppendQuestion(Candidate q, Section section, int questionNumber)
+        static private void AppendQuestion(Candidate q, Document doc, int questionNumber, ref object missing)
         {
-            Paragraph paraContent = section.AddParagraph();
-            paraContent.AppendText("Question " + questionNumber + ": ");
-            if (!q.Content.EndsWith(".")) q.Content = String.Concat(q.Content, ".");
-            string pointContent = "";
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            pointContent = q.Point == 1 ? string.Concat(pointContent, " (1 point)") :
-                string.Concat(pointContent, " (" + q.Point + " points)");
+            //pointContent = q.Point == 1 ? string.Concat(pointContent, " (1 point)") :
+            //    string.Concat(pointContent, " (" + q.Point + " points)");
+            Paragraph paraQuestionNumber = doc.Content.Paragraphs.Add(ref missing);
+            string question = "Question " + questionNumber + ":";
+            string questionId = " [" + q.QuestionId + "]";
+            paraQuestionNumber.Range.Text = string.Concat(question, questionId);
+            Range questionNumberRange = doc.Range(paraQuestionNumber.Range.Start, paraQuestionNumber.Range.Start + question.Length);
+            questionNumberRange.Font.Bold = 1;
+            questionNumberRange.Font.Underline = WdUnderline.wdUnderlineSingle;
+            paraQuestionNumber.Format.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+            paraQuestionNumber.Range.InsertParagraphAfter();
 
-            paraContent.AppendText(string.Concat(q.Content, pointContent));
-            paraContent.AppendText("\n");
-            if (ImageUtils.Base64ToImage(q.ImageData) != null)
+            Paragraph paraContent = doc.Content.Paragraphs.Add(ref missing);
+            paraContent.Range.Font.Bold = 0;
+            paraContent.Range.Font.Underline = WdUnderline.wdUnderlineNone;
+            if (!q.Content.EndsWith(".")) q.Content = string.Concat(q.Content, ".");
+            paraContent.Range.Text = q.Content;
+            paraContent.Format.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+            paraContent.Range.InsertParagraphAfter();
+
+            List<string> images = q.Images;
+            int i = 0;
+            foreach (var image in images)
             {
-                Image img = ImageUtils.Base64ToImage(q.ImageData);
-                Image tempImg = new Bitmap(img);
-                Paragraph paraImage = section.AddParagraph();
-                paraImage.Format.HorizontalAlignment = HorizontalAlignment.Center;
-                paraImage.AppendPicture(tempImg);
-            }
-            paraContent.AppendText("\n");
+                if (ImageUtils.Base64ToImage(image) != null)
+                {
+                    Image img = ImageUtils.Base64ToImage(image);
+                    Image tempImg = new Bitmap(img);
+                    string imageName = AppDomain.CurrentDomain.BaseDirectory + @"/tmpImg.bmp";
+                    tempImg.Save(imageName);
+                    Paragraph paraImage = doc.Content.Paragraphs.Add(ref missing);
+                    InlineShape pictureShape = paraImage.Range.InlineShapes.AddPicture(imageName);
+                    paraImage.Format.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
 
+                    Paragraph paraImageDescription = doc.Content.Paragraphs.Add(ref missing);
+                    paraImageDescription.Range.Text = "Picture " + questionNumber + "." + (++i) + "";
+                    paraImageDescription.Format.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+                    paraImageDescription.Range.InsertParagraphAfter();
+                }
+            }
         }
 
         /// <summary>
@@ -92,23 +139,23 @@ namespace DBI_ShuffleTool.Utils
         /// </summary>
         /// <param name="examItem"></param>
         /// <param name="section"></param>
-        static private void InsertHeaderAndFooter(ExamForDoc examItem, Section section)
+        static private void InsertHeaderAndFooter(ExamForDoc examItem, Document doc)
         {
-            //Adjust the height of headers in the section
+            foreach (Section wordSection in doc.Sections)
+            {
+                Range headerRange = wordSection.Headers[WdHeaderFooterIndex.wdHeaderFooterPrimary].Range;
+                headerRange.Collapse(WdCollapseDirection.wdCollapseEnd);
 
-            HeaderFooter footer = section.HeadersFooters.Footer;
-            HeaderFooter header = section.HeadersFooters.Header;
-            Paragraph footerParagraph = footer.AddParagraph();
-            Paragraph headerParagraph = header.AddParagraph();
-            //Append page number
-            footerParagraph.AppendField("page number", FieldType.FieldPage);
-            footerParagraph.AppendText(" of ");
-            footerParagraph.AppendField("number of pages", FieldType.FieldNumPages);
-            footerParagraph.Format.HorizontalAlignment = HorizontalAlignment.Right;
+                Paragraph p1 = headerRange.Paragraphs.Add();
+                p1.Range.Text = "             Paper No: " + examItem.PaperNo;
+                headerRange.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+                headerRange.Fields.Add(headerRange, WdFieldType.wdFieldNumPages);
 
-            //Append Exam Code
-            headerParagraph.AppendText("ExamCode: " + examItem.PaperNo + "\n");
-            headerParagraph.Format.HorizontalAlignment = HorizontalAlignment.Right;
+                Paragraph p4 = headerRange.Paragraphs.Add();
+                p4.Range.Text = " of ";
+                headerRange.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+                headerRange.Fields.Add(headerRange, WdFieldType.wdFieldPage);
+            }
         }
     }
 }

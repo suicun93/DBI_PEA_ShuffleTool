@@ -19,11 +19,19 @@ namespace DBI_ShuffleTool.Entity
         public string QuestionId { get; set; }
         public string Content { get; set; }
         public QuestionTypes QuestionType { get; set; }
-        public string ImageData { get; set; }
+        public List<string> Images { get; set; }
 
         public string Solution { get; set; }
         public string ActivateQuery { get; set; }
         public List<Requirement> Requirements { get; set; }
         public double Point { get; set; }
+
+        public Candidate()
+        {
+            QuestionType = QuestionTypes.Select;
+            Requirements = new List<Requirement>();
+            Images = new List<string>();
+        }
+
     }
 }

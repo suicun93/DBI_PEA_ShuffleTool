@@ -55,3 +55,4 @@ E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\bin\Debug\Spire.
 E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\obj\Debug\DBI_ShuffleTool.UI.AlertForm.resources
 E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\bin\Debug\DBI_ShuffleTool.exe.config
 E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\bin\Debug\Microsoft.mshtml.dll
+E:\Capstone\DBI_ShuffleTool\QuestionShufferTool\DBI_ShuffleTool\obj\Debug\DBI_ShuffleTool.csproj.ResolveComReference.cache

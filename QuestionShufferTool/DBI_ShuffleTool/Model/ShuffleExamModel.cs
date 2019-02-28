@@ -32,7 +32,7 @@ namespace DBI_ShuffleTool.Model
             EiListMarking = new List<ExamForMarking>();
             for (int i = 0; i < numOfPage; i++)//Create Code of the ExamItem
             {
-                EiItemCodeList.Add((i+1).ToString());
+                EiItemCodeList.Add((i + 1).ToString());
             }
 
             List<Question> listQForShuffle = new List<Question>();
@@ -73,7 +73,7 @@ namespace DBI_ShuffleTool.Model
             }
         }
 
-        
+
 
         /// <summary>
         /// Create an ExamItem from: list questions and code exam
@@ -113,7 +113,7 @@ namespace DBI_ShuffleTool.Model
         private List<Candidate> ResetQuestion(int i)
         {
             List<Candidate> listQc = new List<Candidate>();
-            foreach(Candidate candi in QbQuestionsBank.ElementAt(i).Candidates)
+            foreach (Candidate candi in QbQuestionsBank.ElementAt(i).Candidates)
             {
                 listQc.Add(candi);
             }
@@ -173,19 +173,16 @@ namespace DBI_ShuffleTool.Model
         private bool IsDuplicated(ExamForDoc ei)
         {
             string res = "";
-            foreach(Candidate q in ei.ExamQuestionsList)
+            foreach (Candidate q in ei.ExamQuestionsList)
             {
                 res = res + q.CandidateId;
             }
-            if (EiListForDuplicate.Contains(res))
-            {
-                return true;
-            }
-            else
-            {
-                EiListForDuplicate.Add(res);
-                return false;
-            }
+            //if (EiListForDuplicate.Contains(res))
+            //{
+            //    return true;
+            //}
+            EiListForDuplicate.Add(res);
+            return false;
         }
     }
 }

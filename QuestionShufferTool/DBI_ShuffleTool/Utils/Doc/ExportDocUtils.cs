@@ -82,7 +82,7 @@ namespace DBI_ShuffleTool.Utils.Doc
             Paragraph paraContent = doc.Content.Paragraphs.Add(ref missing);
             paraContent.Range.Font.Bold = 0;
             paraContent.Range.Font.Underline = WdUnderline.wdUnderlineNone;
-            if (!q.Content.EndsWith(".")) q.Content = string.Concat(q.Content, ".");
+            //if (!q.Content.EndsWith(".")) q.Content = string.Concat(q.Content, ".");
             paraContent.Range.Text = q.Content;
             paraContent.Format.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
             paraContent.Range.InsertParagraphAfter();

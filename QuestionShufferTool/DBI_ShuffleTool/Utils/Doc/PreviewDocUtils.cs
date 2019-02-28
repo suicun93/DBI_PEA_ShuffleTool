@@ -71,7 +71,7 @@ namespace DBI_ShuffleTool.Utils.Doc
             {
                 Paragraph paraRequirement = section.Range.Paragraphs.Add(ref missing);
                 q.Content = q.Content.Trim();
-                if (!q.Content.EndsWith(".")) q.Content = string.Concat(q.Content, ".");
+                //if (!q.Content.EndsWith(".")) q.Content = string.Concat(q.Content, ".");
                 paraRequirement.Range.Text = q.Content;
                 paraRequirement.Range.Font.Name = "Arial";
                 paraRequirement.Range.Font.Bold = 0;

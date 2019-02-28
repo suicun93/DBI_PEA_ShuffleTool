@@ -46,8 +46,8 @@ namespace DBI_ShuffleTool.UI
                     }
                 }
                 txtLoadFileResult.Text = resImported;
-                txtNumberOfTest.Value = MaxNumberOfTests();
                 txtNumberOfTest.Maximum = MaxNumberOfTests();
+                txtNumberOfTest.Value = MaxNumberOfTests();
                 btnCreateTests.Visible = true;
                 btnPreview.Visible = true;
             }
@@ -64,9 +64,12 @@ namespace DBI_ShuffleTool.UI
             int count = 1;
             foreach (Question question in _qb)
             {
+                if(question == null || question.Candidates.Count == 0)
+                {
+                    continue;
+                }
                 count *= question.Candidates.Count;
             }
-            count /= 2;
             if ((count) < 1) count = 1;
             return count;
         }

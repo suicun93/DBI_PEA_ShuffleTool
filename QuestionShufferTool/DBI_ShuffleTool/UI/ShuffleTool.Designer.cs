@@ -223,7 +223,7 @@
             this.txtNumberOfTest.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNumberOfTest.Location = new System.Drawing.Point(12, 37);
             this.txtNumberOfTest.Maximum = new decimal(new int[] {
-            20,
+            99999,
             0,
             0,
             0});

@@ -5,10 +5,10 @@ using System.Windows.Forms;
 
 namespace DBI_ShuffleTool.UI
 {
-    public partial class AlertForm : Form
+    public partial class ProgressBarForm : Form
     {
         public Action Worker { get; set; }
-        public AlertForm(Action worker)
+        public ProgressBarForm(Action worker)
         {
             InitializeComponent();
             Worker = worker;

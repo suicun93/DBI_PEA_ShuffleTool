@@ -16,9 +16,9 @@ namespace DBI_ShuffleTool.Utils.Doc
         /// <param name="path"></param>
         /// <param name="examItems"></param>
         /// <returns></returns>
-        public static bool ExportDoc(string path, List<ExamForDoc> examItems)
+        public static bool ExportDoc(string path, List<TestFullInfo> examItems)
         {
-            foreach (ExamForDoc ei in examItems)
+            foreach (TestFullInfo ei in examItems)
             {
                 Application wordApp = new Application();
                 try
@@ -29,7 +29,7 @@ namespace DBI_ShuffleTool.Utils.Doc
                     object missing = Missing.Value;
                     Document doc = new Document();
 
-                    //Insert Content of the Exam
+                    //Insert QuestionRequirement of the Exam
                     for (int i = 0; i < ei.ExamQuestionsList.Count; i++)
                     {
                         AppendTestQuestion(ei.ExamQuestionsList.ElementAt(i), doc, (i + 1), ref missing);
@@ -59,7 +59,7 @@ namespace DBI_ShuffleTool.Utils.Doc
         
 
         /// <summary>
-        /// Append Content of Question
+        /// Append QuestionRequirement of Question
         /// </summary>
         /// <param name="q"></param>
         /// <param name="section"></param>
@@ -82,12 +82,12 @@ namespace DBI_ShuffleTool.Utils.Doc
             Paragraph paraContent = doc.Content.Paragraphs.Add(ref missing);
             paraContent.Range.Font.Bold = 0;
             paraContent.Range.Font.Underline = WdUnderline.wdUnderlineNone;
-            //if (!q.Content.EndsWith(".")) q.Content = string.Concat(q.Content, ".");
-            paraContent.Range.Text = q.Content;
+            //if (!q.QuestionRequirement.EndsWith(".")) q.QuestionRequirement = string.Concat(q.QuestionRequirement, ".");
+            paraContent.Range.Text = q.QuestionRequirement;
             paraContent.Format.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
             paraContent.Range.InsertParagraphAfter();
 
-            List<string> images = q.Images;
+            List<string> images = q.IllustrationImages;
             int i = 0;
             foreach (var image in images)
             {

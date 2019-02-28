@@ -11,13 +11,13 @@ namespace DBI_ShuffleTool.Model
     {
         public List<Question> QbQuestionsBank;//QBank from Creator
 
-        public List<String> EiItemCodeList;//Include Code ExamItem
+        public List<string> EiItemCodeList;//Include Code ExamItem
 
-        public List<ExamForDoc> EiListDoc;//Include Exam after create
+        public List<TestFullInfo> EiListDoc;//Include Exam after create
 
-        public List<ExamForMarking> EiListMarking;
+        public List<TestItem> EiListMarking;//
 
-        public List<String> EiListForDuplicate;//Include ExamCode for checking Duplicated
+        public List<string> EiListForDuplicate;//Include ExamCode for checking Duplicated
         /// <summary>
         /// Create List of ExamItem
         /// </summary>
@@ -27,9 +27,9 @@ namespace DBI_ShuffleTool.Model
         {
             QbQuestionsBank = qbQuestionsBank;
             EiItemCodeList = new List<string>();
-            EiListDoc = new List<ExamForDoc>();
+            EiListDoc = new List<TestFullInfo>();
             EiListForDuplicate = new List<string>();
-            EiListMarking = new List<ExamForMarking>();
+            EiListMarking = new List<TestItem>();
             for (int i = 0; i < numOfPage; i++)//Create Code of the ExamItem
             {
                 EiItemCodeList.Add((i + 1).ToString());
@@ -52,19 +52,22 @@ namespace DBI_ShuffleTool.Model
             }
 
             //Create List Exam for Marking
-            foreach (ExamForDoc eDoc in EiListDoc)
+            foreach (TestFullInfo eDoc in EiListDoc)
             {
-                ExamForMarking eMark = new ExamForMarking();
-                List<CandidateExam> candidateExams = new List<CandidateExam>();
+                TestItem eMark = new TestItem();
+                List<CandidateSimple> candidateExams = new List<CandidateSimple>();
                 foreach (Candidate candi in eDoc.ExamQuestionsList)
                 {
-                    CandidateExam candiExam = new CandidateExam();
-                    candiExam.ActivateQuery = candi.ActivateQuery;
+                    CandidateSimple candiExam = new CandidateSimple();
                     candiExam.CandidateId = candi.CandidateId;
-                    candiExam.QuestionId = candi.QuestionId;
-                    candiExam.QuestionType = candi.QuestionType;
-                    candiExam.Solution = candi.Solution;
+                    candiExam.DBName = candi.DBName;
                     candiExam.Point = candi.Point;
+                    candiExam.QuestionId = candi.QuestionId;
+                    candiExam.QuestionRequirement = candi.QuestionRequirement;
+                    candiExam.QuestionType = candi.QuestionType;
+                    candiExam.RequireSort = candi.RequireSort;
+                    candiExam.Solution = candi.Solution;
+                    candiExam.TestQuery = candi.TestQuery;
                     candidateExams.Add(candiExam);
                 }
                 eMark.ExamQuestionsList = candidateExams;
@@ -81,7 +84,7 @@ namespace DBI_ShuffleTool.Model
         /// <param name="listQForShuffle"></param>
         /// <param name="codeExam"></param>
         /// <returns></returns>
-        private ExamForDoc CreateExamItem(List<Question> listQForShuffle, String codeExam)
+        private TestFullInfo CreateExamItem(List<Question> listQForShuffle, String codeExam)
         {
             List<Candidate> listCandidate = new List<Candidate>();
             for (int i = 0; i < QbQuestionsBank.Count; i++)
@@ -94,14 +97,14 @@ namespace DBI_ShuffleTool.Model
                     listQForShuffle.ElementAt(i).Candidates = ResetQuestion(i);
                 }
             }
-            ExamForDoc ei = new ExamForDoc(codeExam, listCandidate);
+            TestFullInfo ei = new TestFullInfo(codeExam, listCandidate);
             if (IsDuplicated(ei))
             {
                 return CreateExamItem(listQForShuffle, codeExam);
             }
             else
             {
-                return new ExamForDoc(codeExam, listCandidate);
+                return new TestFullInfo(codeExam, listCandidate);
             }
         }
 
@@ -170,7 +173,7 @@ namespace DBI_ShuffleTool.Model
         /// </summary>
         /// <param name="ei"></param>
         /// <returns></returns>
-        private bool IsDuplicated(ExamForDoc ei)
+        private bool IsDuplicated(TestFullInfo ei)
         {
             string res = "";
             foreach (Candidate q in ei.ExamQuestionsList)

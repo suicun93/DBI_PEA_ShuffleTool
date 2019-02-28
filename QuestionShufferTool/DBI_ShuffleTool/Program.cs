@@ -14,7 +14,7 @@ namespace DBI_ShuffleTool
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ShuffleTool());
+            Application.Run(new ShuffleToolForm());
         }
     }
 }

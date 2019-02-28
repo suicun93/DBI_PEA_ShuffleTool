@@ -35,6 +35,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.SqlServer.TransactSql.ScriptDom, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -64,22 +67,22 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entity\ExamForMarking.cs" />
-    <Compile Include="Entity\ExamForDoc.cs" />
+    <Compile Include="Entity\TestItem.cs" />
+    <Compile Include="Entity\TestFullInfo.cs" />
     <Compile Include="Entity\Question.cs" />
     <Compile Include="Entity\Candidate.cs" />
-    <Compile Include="Entity\CandidateExam.cs" />
+    <Compile Include="Entity\CandidateSimple.cs" />
     <Compile Include="Model\ShuffleExamModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UI\AlertForm.cs">
+    <Compile Include="UI\ProgressBarForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\AlertForm.Designer.cs">
-      <DependentUpon>AlertForm.cs</DependentUpon>
+    <Compile Include="UI\ProgressBarForm.Designer.cs">
+      <DependentUpon>ProgressBarForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Progress Bar\BlueProgressBar.cs">
       <SubType>Component</SubType>
@@ -93,11 +96,11 @@
     <Compile Include="Utils\JsonUtils.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\ShuffleTool.cs">
+    <Compile Include="UI\ShuffleToolForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\ShuffleTool.Designer.cs">
-      <DependentUpon>ShuffleTool.cs</DependentUpon>
+    <Compile Include="UI\ShuffleToolForm.Designer.cs">
+      <DependentUpon>ShuffleToolForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\SqlUtils.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -105,11 +108,11 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\AlertForm.resx">
-      <DependentUpon>AlertForm.cs</DependentUpon>
+    <EmbeddedResource Include="UI\ProgressBarForm.resx">
+      <DependentUpon>ProgressBarForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\ShuffleTool.resx">
-      <DependentUpon>ShuffleTool.cs</DependentUpon>
+    <EmbeddedResource Include="UI\ShuffleToolForm.resx">
+      <DependentUpon>ShuffleToolForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />

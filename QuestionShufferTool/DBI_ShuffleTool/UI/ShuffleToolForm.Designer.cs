@@ -1,6 +1,6 @@
 ﻿namespace DBI_ShuffleTool.UI
 {
-    partial class ShuffleTool
+    partial class ShuffleToolForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShuffleTool));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShuffleToolForm));
             this.panelChoose = new System.Windows.Forms.Panel();
             this.btnPreview = new System.Windows.Forms.PictureBox();
             this.txtLocationFolderInput = new System.Windows.Forms.TextBox();
@@ -46,7 +46,7 @@
             this.btnOpenFolder = new System.Windows.Forms.Button();
             this.btnSaveTestsAs = new System.Windows.Forms.Button();
             this.btnCreateTests = new System.Windows.Forms.Button();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTipPreview = new System.Windows.Forms.ToolTip(this.components);
             this.panelChoose.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimize)).BeginInit();
@@ -87,7 +87,7 @@
             this.btnPreview.Size = new System.Drawing.Size(24, 24);
             this.btnPreview.TabIndex = 12;
             this.btnPreview.TabStop = false;
-            this.toolTip1.SetToolTip(this.btnPreview, "You can check the details of result here!");
+            this.toolTipPreview.SetToolTip(this.btnPreview, "You can check the details of result here!");
             this.btnPreview.Visible = false;
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             this.btnPreview.MouseLeave += new System.EventHandler(this.btnPreview_MouseLeave);
@@ -296,7 +296,7 @@
             this.btnCreateTests.Visible = false;
             this.btnCreateTests.Click += new System.EventHandler(this.btnCreateTests_Click);
             // 
-            // ShuffleTool
+            // ShuffleToolForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -305,7 +305,7 @@
             this.Controls.Add(this.panelChoose);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "ShuffleTool";
+            this.Name = "ShuffleToolForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ShuffleTool";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ShuffleTool_FormClosed);
@@ -339,6 +339,6 @@
         private System.Windows.Forms.PictureBox btnMinimize;
         private System.Windows.Forms.Label controlBar;
         private System.Windows.Forms.PictureBox btnPreview;
-        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolTip toolTipPreview;
     }
 }

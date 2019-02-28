@@ -4,14 +4,14 @@ using System.Collections.Generic;
 namespace DBI_ShuffleTool.Entity
 {
     [Serializable]
-    class ExamForDoc
+    class TestFullInfo
     {
-        public ExamForDoc(string examItemCode, List<Candidate> examQuestionsList)
+        public TestFullInfo(string examItemCode, List<Candidate> examQuestionsList)
         {
             PaperNo = examItemCode;
             ExamQuestionsList = examQuestionsList;
         }
-        public ExamForDoc()
+        public TestFullInfo()
         {
         }
         public string PaperNo { get; set; }

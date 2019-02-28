@@ -1,7 +1,7 @@
 ﻿
 namespace DBI_ShuffleTool.UI
 {
-    partial class AlertForm
+    partial class ProgressBarForm
     {
         /// <summary>
         /// Required designer variable.

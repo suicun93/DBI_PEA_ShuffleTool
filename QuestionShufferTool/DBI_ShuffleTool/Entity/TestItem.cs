@@ -5,12 +5,12 @@ using System.Text;
 
 namespace DBI_ShuffleTool.Entity
 {
-    class ExamForMarking
+    class TestItem
     {
-        public ExamForMarking()
+        public TestItem()
         {
         }
         public string PaperNo { get; set; }
-        public List<CandidateExam> ExamQuestionsList { get; set; }
+        public List<CandidateSimple> ExamQuestionsList { get; set; }
     }
 }

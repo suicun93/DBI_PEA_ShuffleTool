@@ -40,7 +40,7 @@ namespace DBI_ShuffleTool.Utils.Doc
         /// <param name="doc">Document want to save</param>
         /// <param name="path"></param>
         /// <param name="ei">ExamForDoc</param>
-        static public void SavingDocFile(Document doc, string path, ExamForDoc exam)
+        static public void SavingDocFile(Document doc, string path, TestFullInfo exam)
         {
             doc.SaveAs(path + @"\" + exam.PaperNo, WdSaveFormat.wdFormatDocument97);
         }
@@ -51,7 +51,7 @@ namespace DBI_ShuffleTool.Utils.Doc
         /// <param name="examItem"></param>
         /// <param name="section"></param>
         /// <param name="isTest">For adding Paper No</param>
-        static public void SettingsHeaderAndFooter(ExamForDoc examItem, Document doc)
+        static public void SettingsHeaderAndFooter(TestFullInfo examItem, Document doc)
         {
             foreach (Section wordSection in doc.Sections)
             {

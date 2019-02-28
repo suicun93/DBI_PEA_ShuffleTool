@@ -10,7 +10,7 @@ using DBI_ShuffleTool.Utils.Doc;
 
 namespace DBI_ShuffleTool.UI
 {
-    public partial class ShuffleTool : Form
+    public partial class ShuffleToolForm : Form
     {
         ShuffleExamModel _sem;
         List<Question> _qb;
@@ -19,7 +19,7 @@ namespace DBI_ShuffleTool.UI
         int MouseDownX;
         int MouseDownY;
 
-        public ShuffleTool()
+        public ShuffleToolForm()
         {
             InitializeComponent();
             
@@ -30,6 +30,7 @@ namespace DBI_ShuffleTool.UI
             try
             {
                 string inputPath = FileUtils.GetFileLocation();
+                if (string.IsNullOrEmpty(inputPath)) return;
                 txtLocationFolderInput.Text = inputPath;
                 //Reading data
                 _qb = new List<Question>();
@@ -81,14 +82,14 @@ namespace DBI_ShuffleTool.UI
                 string location = FileUtils.SaveFileToLocation();
                 if (string.IsNullOrEmpty(location))
                 {
-                    MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 _outputPath = location;
                 //Create Test
                 int numOfPage = Convert.ToInt32(txtNumberOfTest.Value);
                 _sem = new ShuffleExamModel(_qb, numOfPage);
-                using (AlertForm progress = new AlertForm(CreateTests))
+                using (ProgressBarForm progress = new ProgressBarForm(CreateTests))
                 {
                     progress.ShowDialog(this);
                 }
@@ -121,12 +122,12 @@ namespace DBI_ShuffleTool.UI
                 string location = FileUtils.SaveFileToLocation();
                 if (string.IsNullOrEmpty(location))
                 {
-                    MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 _outputPath = location;
                 ExportDocUtils.ExportDoc(_outputPath, _sem.EiListDoc);
-                using (AlertForm progress = new AlertForm(CreateTests))
+                using (ProgressBarForm progress = new ProgressBarForm(CreateTests))
                 {
                     progress.ShowDialog(this);
                 }
@@ -141,7 +142,7 @@ namespace DBI_ShuffleTool.UI
         {
             try
             {
-                PreviewDocUtils.PreviewCandidatesSet(_qb);
+                PreviewDocUtils.PreviewCandidatePackage(_qb);
             }
             catch (Exception)
             {

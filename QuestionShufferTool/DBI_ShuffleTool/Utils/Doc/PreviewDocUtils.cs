@@ -10,7 +10,7 @@ namespace DBI_ShuffleTool.Utils.Doc
 {
     class PreviewDocUtils
     {
-        public static void PreviewCandidatesSet(List<Question> listQuestions)
+        public static void PreviewCandidatePackage(List<Question> listQuestions)
         {
 
             Application wordApp = new Application();
@@ -21,7 +21,7 @@ namespace DBI_ShuffleTool.Utils.Doc
                 object missing = Missing.Value;
                 Document doc = wordApp.Documents.Add(ref missing, ref missing, ref missing, ref missing);
 
-                //Insert Content of the Exam
+                //Insert QuestionRequirement of the Exam
                 for (int i = 0; i < listQuestions.Count; i++)
                 {
                     Section section = (i == 0) ? doc.Sections.First : doc.Sections.Add();
@@ -46,11 +46,10 @@ namespace DBI_ShuffleTool.Utils.Doc
                 wordApp = null;
                 throw e;
             }
-
         }
 
         /// <summary>
-        /// Append Content of Question
+        /// Append QuestionRequirement of Question
         /// </summary>
         /// <param name="q"></param>
         /// <param name="section"></param>
@@ -67,12 +66,12 @@ namespace DBI_ShuffleTool.Utils.Doc
             paraTitle.Range.InsertParagraphAfter();
 
             //Insert question requirement
-            if (!string.IsNullOrEmpty(q.Content))
+            if (!string.IsNullOrEmpty(q.QuestionRequirement))
             {
                 Paragraph paraRequirement = section.Range.Paragraphs.Add(ref missing);
-                q.Content = q.Content.Trim();
-                //if (!q.Content.EndsWith(".")) q.Content = string.Concat(q.Content, ".");
-                paraRequirement.Range.Text = q.Content;
+                q.QuestionRequirement = q.QuestionRequirement.Trim();
+                //if (!q.QuestionRequirement.EndsWith(".")) q.QuestionRequirement = string.Concat(q.QuestionRequirement, ".");
+                paraRequirement.Range.Text = q.QuestionRequirement;
                 paraRequirement.Range.Font.Name = "Arial";
                 paraRequirement.Range.Font.Bold = 0;
                 paraRequirement.Range.Font.Underline = WdUnderline.wdUnderlineNone;
@@ -83,7 +82,7 @@ namespace DBI_ShuffleTool.Utils.Doc
             }
 
             //Insert illustration images
-            List<string> images = q.Images;
+            List<string> images = q.IllustrationImages;
             int i = 0;
             foreach (var image in images)
             {
@@ -105,7 +104,6 @@ namespace DBI_ShuffleTool.Utils.Doc
                     paraImageDescription.Range.Font.Underline = WdUnderline.wdUnderlineNone;
                     paraImageDescription.Range.ParagraphFormat.LeftIndent = 0;
                     paraImageDescription.Range.InsertParagraphAfter();
-                    paraImageDescription.Range.InsertParagraphAfter();
                 }
             }
 
@@ -113,7 +111,7 @@ namespace DBI_ShuffleTool.Utils.Doc
             InsertBlock("Solution: ", q.Solution, true, section, ref missing);
 
             //Insert Active query
-            InsertBlock("Active query: ", q.ActivateQuery, true, section, ref missing);
+            InsertBlock("Active query: ", q.TestQuery, true, section, ref missing);
         }
 
         private static void InsertBlock(string title, string content, bool isQuery, Section section, ref object missing)

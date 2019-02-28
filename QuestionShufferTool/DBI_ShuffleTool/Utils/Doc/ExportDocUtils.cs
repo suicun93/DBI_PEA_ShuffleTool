@@ -87,7 +87,7 @@ namespace DBI_ShuffleTool.Utils.Doc
             paraContent.Format.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
             paraContent.Range.InsertParagraphAfter();
 
-            List<string> images = q.IllustrationImages;
+            List<string> images = q.Illustration;
             int i = 0;
             foreach (var image in images)
             {

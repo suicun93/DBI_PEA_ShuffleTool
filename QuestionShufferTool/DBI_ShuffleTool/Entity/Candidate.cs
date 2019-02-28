@@ -26,7 +26,7 @@ namespace DBI_ShuffleTool.Entity
         public bool RequireSort { get; set; }
 
         public string DBName { get; set; }
-        public List<string> IllustrationImages { get; set; }
+        public List<string> Illustration { get; set; }
 
         public double Point { get; set; }
 
@@ -36,7 +36,7 @@ namespace DBI_ShuffleTool.Entity
         public Candidate()
         {
             QuestionType = QuestionTypes.Select;
-            IllustrationImages = new List<string>();
+            Illustration = new List<string>();
         }
 
     }

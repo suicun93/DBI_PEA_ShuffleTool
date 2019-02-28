@@ -82,7 +82,7 @@ namespace DBI_ShuffleTool.Utils.Doc
             }
 
             //Insert illustration images
-            List<string> images = q.IllustrationImages;
+            List<string> images = q.Illustration;
             int i = 0;
             foreach (var image in images)
             {

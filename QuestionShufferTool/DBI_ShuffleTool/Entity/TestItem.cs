@@ -10,6 +10,7 @@ namespace DBI_ShuffleTool.Entity
         public TestItem()
         {
         }
+        public string ExamCode { get; set; }
         public string PaperNo { get; set; }
         public List<CandidateSimple> ExamQuestionsList { get; set; }
     }

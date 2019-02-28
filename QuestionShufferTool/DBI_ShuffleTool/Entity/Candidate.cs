@@ -23,13 +23,21 @@ namespace DBI_ShuffleTool.Entity
 
         public string Solution { get; set; }
         public string ActivateQuery { get; set; }
-        public List<Requirement> Requirements { get; set; }
+
+        public bool ResultSet { get; set; }
+        public bool RequireSort { get; set; }
+
+        public bool Effect { get; set; }
+        public string CheckEffectQuery { get; set; }
+
+        public string DBName { get; set; }
         public double Point { get; set; }
+
+        //public List<Requirement> Requirements { get; set; }
 
         public Candidate()
         {
             QuestionType = QuestionTypes.Select;
-            Requirements = new List<Requirement>();
             Images = new List<string>();
         }
 

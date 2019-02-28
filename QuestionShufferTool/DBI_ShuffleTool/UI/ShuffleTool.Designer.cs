@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShuffleTool));
             this.panelChoose = new System.Windows.Forms.Panel();
+            this.btnPreview = new System.Windows.Forms.PictureBox();
             this.txtLocationFolderInput = new System.Windows.Forms.TextBox();
             this.btnMinimize = new System.Windows.Forms.PictureBox();
             this.btnClose = new System.Windows.Forms.PictureBox();
@@ -44,7 +46,9 @@
             this.btnOpenFolder = new System.Windows.Forms.Button();
             this.btnSaveTestsAs = new System.Windows.Forms.Button();
             this.btnCreateTests = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panelChoose.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             this.panel1.SuspendLayout();
@@ -56,6 +60,7 @@
             this.panelChoose.AccessibleDescription = "";
             this.panelChoose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(240)))), ((int)(((byte)(241)))));
             this.panelChoose.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelChoose.Controls.Add(this.btnPreview);
             this.panelChoose.Controls.Add(this.txtLocationFolderInput);
             this.panelChoose.Controls.Add(this.btnMinimize);
             this.panelChoose.Controls.Add(this.btnClose);
@@ -69,6 +74,24 @@
             this.panelChoose.Name = "panelChoose";
             this.panelChoose.Size = new System.Drawing.Size(321, 224);
             this.panelChoose.TabIndex = 0;
+            // 
+            // btnPreview
+            // 
+            this.btnPreview.BackColor = System.Drawing.Color.White;
+            this.btnPreview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPreview.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPreview.Image = global::DBI_ShuffleTool.Properties.Resources.preview1;
+            this.btnPreview.Location = new System.Drawing.Point(262, 126);
+            this.btnPreview.Margin = new System.Windows.Forms.Padding(0);
+            this.btnPreview.Name = "btnPreview";
+            this.btnPreview.Size = new System.Drawing.Size(24, 24);
+            this.btnPreview.TabIndex = 12;
+            this.btnPreview.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnPreview, "You can check the details of result here!");
+            this.btnPreview.Visible = false;
+            this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
+            this.btnPreview.MouseLeave += new System.EventHandler(this.btnPreview_MouseLeave);
+            this.btnPreview.MouseHover += new System.EventHandler(this.btnPreview_MouseHover);
             // 
             // txtLocationFolderInput
             // 
@@ -281,12 +304,14 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelChoose);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ShuffleTool";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ShuffleTool";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ShuffleTool_FormClosed);
             this.panelChoose.ResumeLayout(false);
             this.panelChoose.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnPreview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -313,5 +338,7 @@
         private System.Windows.Forms.PictureBox btnClose;
         private System.Windows.Forms.PictureBox btnMinimize;
         private System.Windows.Forms.Label controlBar;
+        private System.Windows.Forms.PictureBox btnPreview;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

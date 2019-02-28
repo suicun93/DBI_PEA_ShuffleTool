@@ -35,6 +35,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.SqlServer.TransactSql.ScriptDom, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -68,7 +69,6 @@
     <Compile Include="Entity\Question.cs" />
     <Compile Include="Entity\Candidate.cs" />
     <Compile Include="Entity\CandidateExam.cs" />
-    <Compile Include="Entity\Requirement.cs" />
     <Compile Include="Model\ShuffleExamModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -81,8 +81,13 @@
     <Compile Include="UI\AlertForm.Designer.cs">
       <DependentUpon>AlertForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Progress Bar\BlueProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Utils\ConstantUtils.cs" />
-    <Compile Include="Utils\DocUtils.cs" />
+    <Compile Include="Utils\Doc\DocUtils.cs" />
+    <Compile Include="Utils\Doc\ExportDocUtils.cs" />
+    <Compile Include="Utils\Doc\PreviewDocUtils.cs" />
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\JsonUtils.cs" />
@@ -94,6 +99,7 @@
     <Compile Include="UI\ShuffleTool.Designer.cs">
       <DependentUpon>ShuffleTool.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\SqlUtils.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
@@ -157,6 +163,9 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\preview1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Collections.Generic;
+using DBI_ShuffleTool.Utils.Doc;
 
 namespace DBI_ShuffleTool.UI
 {
@@ -21,6 +22,7 @@ namespace DBI_ShuffleTool.UI
         public ShuffleTool()
         {
             InitializeComponent();
+            
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -33,7 +35,7 @@ namespace DBI_ShuffleTool.UI
                 _qb = new List<Question>();
                 _qb = JsonUtils.DeserializeJson(inputPath);
                 //Print result on txtLoadFileResult
-                String resImported = "Questions imported: " + _qb.Count;
+                string resImported = "Questions imported: " + _qb.Count;
                 int i = 0;
                 foreach (Question question in _qb)
                 {
@@ -47,6 +49,7 @@ namespace DBI_ShuffleTool.UI
                 txtNumberOfTest.Value = MaxNumberOfTests();
                 txtNumberOfTest.Maximum = MaxNumberOfTests();
                 btnCreateTests.Visible = true;
+                btnPreview.Visible = true;
             }
             catch (Exception)
             {
@@ -99,13 +102,12 @@ namespace DBI_ShuffleTool.UI
         void CreateTests()
         {
             string path = FileUtils.CreateNewDirectory(_outputPath, "DBI_Exam");
-            DocUtils.ExportDoc(path, _sem.EiListDoc);
+            ExportDocUtils.ExportDoc(path, _sem.EiListDoc);
             JsonUtils.WriteJson(_sem.EiListMarking, path);
         }
 
         private void btnOpenFolder_Click(object sender, EventArgs e)
         {
-
             Process.Start(_outputPath + @"/DBI_Exam/");
         }
 
@@ -120,7 +122,7 @@ namespace DBI_ShuffleTool.UI
                     return;
                 }
                 _outputPath = location;
-                DocUtils.ExportDoc(_outputPath, _sem.EiListDoc);
+                ExportDocUtils.ExportDoc(_outputPath, _sem.EiListDoc);
                 using (AlertForm progress = new AlertForm(CreateTests))
                 {
                     progress.ShowDialog(this);
@@ -129,7 +131,18 @@ namespace DBI_ShuffleTool.UI
             catch (Exception)
             {
                 MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
+            }
+        }
+
+        private void btnPreview_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PreviewDocUtils.PreviewCandidatesSet(_qb);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(ConstantUtils.ErrorCommon, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -196,5 +209,18 @@ namespace DBI_ShuffleTool.UI
                 BeingDragged = false;
             }
         }
+
+        private void btnPreview_MouseHover(object sender, EventArgs e)
+        {
+            btnPreview.SetBounds(btnPreview.Location.X - 2, btnPreview.Location.Y - 2, 28, 28);
+            btnPreview.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+
+        private void btnPreview_MouseLeave(object sender, EventArgs e)
+        {
+            btnPreview.SetBounds(btnPreview.Location.X + 2, btnPreview.Location.Y + 2, 24, 24);
+        }
+
+        
     }
 }

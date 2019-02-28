@@ -63,7 +63,6 @@ namespace DBI_ShuffleTool.Model
                     candiExam.CandidateId = candi.CandidateId;
                     candiExam.QuestionId = candi.QuestionId;
                     candiExam.QuestionType = candi.QuestionType;
-                    candiExam.Requirements = candi.Requirements;
                     candiExam.Solution = candi.Solution;
                     candiExam.Point = candi.Point;
                     candidateExams.Add(candiExam);
@@ -88,10 +87,6 @@ namespace DBI_ShuffleTool.Model
             for (int i = 0; i < QbQuestionsBank.Count; i++)
             {
                 Candidate candi = GetRdQCandidateFromQuestion(listQForShuffle.ElementAt(i).Candidates);
-                
-
-
-
                 listCandidate.Add(candi);
                 listQForShuffle.ElementAt(i).Candidates.Remove(candi);
                 if (listQForShuffle.ElementAt(i).Candidates.Count == 0)
@@ -102,9 +97,12 @@ namespace DBI_ShuffleTool.Model
             ExamForDoc ei = new ExamForDoc(codeExam, listCandidate);
             if (IsDuplicated(ei))
             {
-                CreateExamItem(listQForShuffle, codeExam);
+                return CreateExamItem(listQForShuffle, codeExam);
             }
-            return new ExamForDoc(codeExam, listCandidate);
+            else
+            {
+                return new ExamForDoc(codeExam, listCandidate);
+            }
         }
 
         /// <summary>
@@ -174,10 +172,10 @@ namespace DBI_ShuffleTool.Model
         /// <returns></returns>
         private bool IsDuplicated(ExamForDoc ei)
         {
-            String res = "";
+            string res = "";
             foreach(Candidate q in ei.ExamQuestionsList)
             {
-                res = res + q.QuestionId + q.CandidateId;
+                res = res + q.CandidateId;
             }
             if (EiListForDuplicate.Contains(res))
             {

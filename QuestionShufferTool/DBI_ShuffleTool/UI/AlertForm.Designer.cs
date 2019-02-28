@@ -1,4 +1,5 @@
-﻿namespace DBI_ShuffleTool.UI
+﻿
+namespace DBI_ShuffleTool.UI
 {
     partial class AlertForm
     {
@@ -44,6 +45,8 @@
             // 
             // progressBar1
             // 
+            this.progressBar1.BackColor = System.Drawing.Color.Maroon;
+            this.progressBar1.ForeColor = System.Drawing.Color.Red;
             this.progressBar1.Location = new System.Drawing.Point(12, 37);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(236, 23);
@@ -60,6 +63,8 @@
             this.Controls.Add(this.labelMessage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "AlertForm";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AlertForm";
             this.ResumeLayout(false);

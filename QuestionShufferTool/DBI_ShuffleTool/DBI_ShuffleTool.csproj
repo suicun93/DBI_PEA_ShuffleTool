@@ -44,15 +44,6 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Spire.Doc, Version=7.1.13.41040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
-      <HintPath>..\packages\FreeSpire.Doc.7.1.13\lib\net40\Spire.Doc.dll</HintPath>
-    </Reference>
-    <Reference Include="Spire.License, Version=1.3.7.40, Culture=neutral, PublicKeyToken=b1144360237c8b3f, processorArchitecture=MSIL">
-      <HintPath>..\packages\FreeSpire.Doc.7.1.13\lib\net40\Spire.License.dll</HintPath>
-    </Reference>
-    <Reference Include="Spire.Pdf, Version=5.1.23.18040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
-      <HintPath>..\packages\FreeSpire.Doc.7.1.13\lib\net40\Spire.Pdf.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />

@@ -40,8 +40,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Office.Interop.Word.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Word.dll</HintPath>
-      <Private>True</Private>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.SqlServer.TransactSql.ScriptDom, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -68,6 +67,7 @@
     <Compile Include="Entity\Question.cs" />
     <Compile Include="Entity\Candidate.cs" />
     <Compile Include="Entity\CandidateSimple.cs" />
+    <Compile Include="Model\CandidateNode.cs" />
     <Compile Include="Model\ShuffleExamModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -84,9 +84,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Utils\ConstantUtils.cs" />
-    <Compile Include="Utils\Doc\DocUtils.cs" />
-    <Compile Include="Utils\Doc\ExportDocUtils.cs" />
-    <Compile Include="Utils\Doc\PreviewDocUtils.cs" />
+    <Compile Include="Utils\Office\DocUtils.cs" />
+    <Compile Include="Utils\Office\ExportDocUtils.cs" />
+    <Compile Include="Utils\Office\PreviewDocUtils.cs" />
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\JsonUtils.cs" />

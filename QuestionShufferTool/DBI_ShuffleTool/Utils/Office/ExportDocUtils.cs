@@ -6,7 +6,7 @@ using Microsoft.Office.Interop.Word;
 using System.Reflection;
 using System.Linq;
 
-namespace DBI_ShuffleTool.Utils.Doc
+namespace DBI_ShuffleTool.Utils.Office
 {
     static class ExportDocUtils
     {
@@ -29,17 +29,17 @@ namespace DBI_ShuffleTool.Utils.Doc
                     object missing = Missing.Value;
                     Document doc = new Document();
 
-                    //Insert QuestionRequirement of the Exam
-                    for (int i = 0; i < ei.ExamQuestionsList.Count; i++)
-                    {
-                        AppendTestQuestion(ei.ExamQuestionsList.ElementAt(i), doc, (i + 1), ref missing);
-                    }
-
                     //Settings Page
                     DocUtils.SettingsPage(doc);
 
                     //Setings Header and Footer of the page
                     DocUtils.SettingsHeaderAndFooter(ei, doc);
+
+                    //Insert QuestionRequirement of the Exam
+                    for (int i = 0; i < ei.ExamQuestionsList.Count; i++)
+                    {
+                        AppendTestQuestion(ei.ExamQuestionsList.ElementAt(i), doc, (i + 1), ref missing);
+                    }
 
                     //Saving file
                     doc.SaveAs(path + @"\" + ei.PaperNo, WdSaveFormat.wdFormatDocument97);
@@ -82,7 +82,6 @@ namespace DBI_ShuffleTool.Utils.Doc
             Paragraph paraContent = doc.Content.Paragraphs.Add(ref missing);
             paraContent.Range.Font.Bold = 0;
             paraContent.Range.Font.Underline = WdUnderline.wdUnderlineNone;
-            //if (!q.QuestionRequirement.EndsWith(".")) q.QuestionRequirement = string.Concat(q.QuestionRequirement, ".");
             paraContent.Range.Text = q.QuestionRequirement;
             paraContent.Format.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
             paraContent.Range.InsertParagraphAfter();
@@ -100,7 +99,6 @@ namespace DBI_ShuffleTool.Utils.Doc
                     Paragraph paraImage = doc.Content.Paragraphs.Add(ref missing);
                     InlineShape pictureShape = paraImage.Range.InlineShapes.AddPicture(imageName);
                     paraImage.Format.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-
                     Paragraph paraImageDescription = doc.Content.Paragraphs.Add(ref missing);
                     paraImageDescription.Range.Text = "Picture " + questionNumber + "." + (++i) + "";
                     paraImageDescription.Format.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;

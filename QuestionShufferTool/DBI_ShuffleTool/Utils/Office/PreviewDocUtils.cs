@@ -6,20 +6,33 @@ using Microsoft.Office.Interop.Word;
 using System.Reflection;
 using System.Drawing;
 
-namespace DBI_ShuffleTool.Utils.Doc
+namespace DBI_ShuffleTool.Utils.Office
 {
     class PreviewDocUtils
     {
         public static void PreviewCandidatePackage(List<Question> listQuestions)
         {
 
-            Application wordApp = new Application();
+            Application wordApp = null;
             try
             {
-                //Create word file
+                try
+                {
+                    wordApp = new Application();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                //Init a Document in Word application
                 wordApp.Visible = true;
                 object missing = Missing.Value;
                 Document doc = wordApp.Documents.Add(ref missing, ref missing, ref missing, ref missing);
+                //Settings Page
+                DocUtils.SettingsPage(doc);
+
+                //Insert Header and Footer of the page
+                DocUtils.SettingsHeaderAndFooter(null, doc);
 
                 //Insert QuestionRequirement of the Exam
                 for (int i = 0; i < listQuestions.Count; i++)
@@ -31,12 +44,7 @@ namespace DBI_ShuffleTool.Utils.Doc
                     }
                 }
 
-                //Settings Page
-                DocUtils.SettingsPage(doc);
-
-                //Insert Header and Footer of the page
-                DocUtils.SettingsHeaderAndFooter(null, doc);
-
+                
                 ////wordApp.Visible = true;
                 //doc.SaveAs(@"D:\\" + "Test", WdSaveFormat.wdFormatDocument97);
 

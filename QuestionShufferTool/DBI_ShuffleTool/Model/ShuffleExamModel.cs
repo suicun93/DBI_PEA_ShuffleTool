@@ -11,13 +11,10 @@ namespace DBI_ShuffleTool.Model
     {
         public List<Question> QbQuestionsBank;//QBank from Creator
 
-        public List<string> EiItemCodeList;//Include Code ExamItem
-
         public List<TestFullInfo> EiListDoc;//Include Exam after create
 
         public List<TestItem> EiListMarking;//
 
-        public List<string> EiListForDuplicate;//Include ExamCode for checking Duplicated
         /// <summary>
         /// Create List of ExamItem
         /// </summary>
@@ -26,29 +23,28 @@ namespace DBI_ShuffleTool.Model
         public ShuffleExamModel(List<Question> qbQuestionsBank, int numOfPage)
         {
             QbQuestionsBank = qbQuestionsBank;
-            EiItemCodeList = new List<string>();
             EiListDoc = new List<TestFullInfo>();
-            EiListForDuplicate = new List<string>();
             EiListMarking = new List<TestItem>();
-            for (int i = 0; i < numOfPage; i++)//Create Code of the ExamItem
-            {
-                EiItemCodeList.Add((i + 1).ToString());
-            }
 
-            List<Question> listQForShuffle = new List<Question>();
-            //Create new ListQuestions from Questions Bank
-            foreach (Question q in qbQuestionsBank)
+            //Create all of cases for these candidates then get numOfPage cases from them.
+            List<List<CandidateNode>> Cases = GetRandomNElementsInList(numOfPage, GetAllCasesTest());
+
+            //codeTestCount: for TestCode
+            int codeTestCount = 0;
+            //Adding candidate into Tests
+            foreach (List<CandidateNode> c in Cases)
             {
-                Question aQuestion = new Question();
-                aQuestion.Point = q.Point;
-                aQuestion.QuestionId = q.QuestionId;
-                aQuestion.Candidates = CopyList(q.Candidates);
-                listQForShuffle.Add(aQuestion);////Xem lai o day
-            }
-            //Adding List of Questions into each ExamItem
-            for (int i = 0; i < numOfPage; i++)
-            {
-                EiListDoc.Add(CreateExamItem(listQForShuffle, EiItemCodeList.ElementAt(i)));
+                List<Candidate> candidateList = new List<Candidate>();
+                //Adding candidate into a Test
+
+                foreach (var candidateNode in c)
+                {
+                    candidateList.Add(candidateNode.Candi);
+                }
+                var aTest = new TestFullInfo();
+                aTest.PaperNo = (++codeTestCount).ToString();
+                aTest.ExamQuestionsList = candidateList;
+                EiListDoc.Add(aTest);
             }
 
             //Create List Exam for Marking
@@ -76,73 +72,61 @@ namespace DBI_ShuffleTool.Model
             }
         }
 
-
+        /// <summary>
+        /// Get random elements in List
+        /// </summary>
+        /// <param name="numOfCases"></param>
+        /// <param name="allCases"></param>
+        /// <returns></returns>
+        private List<List<CandidateNode>> GetRandomNElementsInList(int numOfCases, List<List<CandidateNode>> allCases)
+        {
+            return allCases.OrderBy(x => new Random().Next()).Take(numOfCases).ToList();
+        }
 
         /// <summary>
-        /// Create an ExamItem from: list questions and code exam
+        /// Add all cases of the tests
         /// </summary>
-        /// <param name="listQForShuffle"></param>
-        /// <param name="codeExam"></param>
         /// <returns></returns>
-        private TestFullInfo CreateExamItem(List<Question> listQForShuffle, String codeExam)
+        private List<List<CandidateNode>> GetAllCasesTest()
         {
-            List<Candidate> listCandidate = new List<Candidate>();
-            for (int i = 0; i < QbQuestionsBank.Count; i++)
+            CandidateNode root = SetCandidateNode(null, 0, BuildingTree());
+            root.AddPath(root, new List<CandidateNode>());
+            return root.paths;
+        }
+
+        /// <summary>
+        /// Building a tree of 
+        /// </summary>
+        /// <returns></returns>
+        private int[] BuildingTree()
+        {
+            var quizs = new int[QbQuestionsBank.Count];
+            int i = 0;
+            foreach (var question in QbQuestionsBank)
             {
-                Candidate candi = GetRdQCandidateFromQuestion(listQForShuffle.ElementAt(i).Candidates);
-                listCandidate.Add(candi);
-                listQForShuffle.ElementAt(i).Candidates.Remove(candi);
-                if (listQForShuffle.ElementAt(i).Candidates.Count == 0)
-                {
-                    listQForShuffle.ElementAt(i).Candidates = ResetQuestion(i);
-                }
+                quizs[i++] = question.Candidates.Count;
             }
-            TestFullInfo ei = new TestFullInfo(codeExam, listCandidate);
-            if (IsDuplicated(ei))
+            return quizs;
+        }
+
+        public CandidateNode SetCandidateNode(Candidate value, int pos, int[] quizs)
+        {
+            CandidateNode child = new CandidateNode
             {
-                return CreateExamItem(listQForShuffle, codeExam);
+                Candi = value
+            };
+            if (pos < quizs.Length)
+            {
+                foreach (var candi in QbQuestionsBank.ElementAt(pos).Candidates)
+                {
+                    child.Children.Add(SetCandidateNode(candi, pos + 1, quizs));
+                }
             }
             else
             {
-                return new TestFullInfo(codeExam, listCandidate);
+                child.Children = null;
             }
-        }
-
-        /// <summary>
-        /// Reset after removing all elements in List of Candidates
-        /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
-        private List<Candidate> ResetQuestion(int i)
-        {
-            List<Candidate> listQc = new List<Candidate>();
-            foreach (Candidate candi in QbQuestionsBank.ElementAt(i).Candidates)
-            {
-                listQc.Add(candi);
-            }
-            return listQc;
-        }
-
-        /// <summary>
-        /// Copy a List
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="lst"></param>
-        /// <returns>NewList</returns>
-        public List<T> CopyList<T>(List<T> lst)
-        {
-            List<T> lstCopy = new List<T>();
-            foreach (var item in lst)
-            {
-                using (MemoryStream stream = new MemoryStream())
-                {
-                    BinaryFormatter formatter = new BinaryFormatter();
-                    formatter.Serialize(stream, item);
-                    stream.Position = 0;
-                    lstCopy.Add((T)formatter.Deserialize(stream));
-                }
-            }
-            return lstCopy;
+            return child;
         }
 
         /// <summary>
@@ -154,38 +138,6 @@ namespace DBI_ShuffleTool.Model
         private int GetRandomNumber(int min, int max)
         {
             return new Random().Next(min, max);
-        }
-
-
-        /// <summary>
-        /// Get random an element in List
-        /// </summary>
-        /// <param name="qcList"></param>
-        /// <returns></returns>
-        public Candidate GetRdQCandidateFromQuestion(List<Candidate> qcList)
-        {
-            return qcList.ElementAt(GetRandomNumber(0, qcList.Count));
-        }
-
-
-        /// <summary>
-        /// checking duplicated
-        /// </summary>
-        /// <param name="ei"></param>
-        /// <returns></returns>
-        private bool IsDuplicated(TestFullInfo ei)
-        {
-            string res = "";
-            foreach (Candidate q in ei.ExamQuestionsList)
-            {
-                res = res + q.CandidateId;
-            }
-            //if (EiListForDuplicate.Contains(res))
-            //{
-            //    return true;
-            //}
-            EiListForDuplicate.Add(res);
-            return false;
         }
     }
 }

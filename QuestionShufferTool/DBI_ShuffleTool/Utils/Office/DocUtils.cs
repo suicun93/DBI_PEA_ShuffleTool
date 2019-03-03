@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DBI_ShuffleTool.Utils.Doc
+namespace DBI_ShuffleTool.Utils.Office
 {
     static class DocUtils
     {

@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Collections.Generic;
-using DBI_ShuffleTool.Utils.Doc;
+using DBI_ShuffleTool.Utils.Office;
 
 namespace DBI_ShuffleTool.UI
 {

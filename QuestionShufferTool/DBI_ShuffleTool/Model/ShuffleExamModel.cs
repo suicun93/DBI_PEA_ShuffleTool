@@ -11,9 +11,9 @@ namespace DBI_ShuffleTool.Model
     {
         public List<Question> QbQuestionsBank;//QBank from Creator
 
-        public List<TestFullInfo> EiListDoc;//Include Exam after create
+        public List<TestFullInfo> EiListDoc;//Include Exam after create with full infomation
 
-        public List<TestItem> EiListMarking;//
+        public List<TestItem> EiListMarking;//Include Exam after create with simple infomation
 
         /// <summary>
         /// Create List of ExamItem
@@ -80,7 +80,14 @@ namespace DBI_ShuffleTool.Model
         /// <returns></returns>
         private List<List<CandidateNode>> GetRandomNElementsInList(int numOfCases, List<List<CandidateNode>> allCases)
         {
-            return allCases.OrderBy(x => new Random().Next()).Take(numOfCases).ToList();
+            List<List<CandidateNode>> newList = new List<List<CandidateNode>>();
+            for(int i = 0; i < numOfCases; i++)
+            {
+                int randNumber = GetRandomNumber(0, allCases.Count);
+                newList.Add(allCases.ElementAt(randNumber));
+                allCases.RemoveAt(randNumber);
+            }
+            return newList;
         }
 
         /// <summary>
@@ -95,7 +102,7 @@ namespace DBI_ShuffleTool.Model
         }
 
         /// <summary>
-        /// Building a tree of 
+        /// Building a tree of Candidates for generate all the cases
         /// </summary>
         /// <returns></returns>
         private int[] BuildingTree()
@@ -109,6 +116,13 @@ namespace DBI_ShuffleTool.Model
             return quizs;
         }
 
+        /// <summary>
+        /// Set relation of all Nodes in the Tree
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="pos"></param>
+        /// <param name="quizs"></param>
+        /// <returns></returns>
         public CandidateNode SetCandidateNode(Candidate value, int pos, int[] quizs)
         {
             CandidateNode child = new CandidateNode

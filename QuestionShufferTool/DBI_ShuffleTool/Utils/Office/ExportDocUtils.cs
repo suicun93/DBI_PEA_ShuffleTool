@@ -13,50 +13,50 @@ namespace DBI_ShuffleTool.Utils.Office
         /// <summary>
         /// Export Doc in path
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">Save to location</param>
         /// <param name="examItems"></param>
+        /// <param name="wordApp">Application</param>
         /// <returns></returns>
-        public static bool ExportDoc(string path, List<TestFullInfo> examItems)
+        public static void ExportDoc(Object obj)
         {
-            foreach (TestFullInfo ei in examItems)
+            TestThreadEntity appInfo = (TestThreadEntity)obj;
+            Application wordApp = null;
+            Document doc = null;
+            try
             {
-                Application wordApp = new Application();
-                try
+                //Create word file
+                wordApp = new Application();
+                wordApp.Visible = false;
+                wordApp.ShowAnimation = false;
+                object missing = Missing.Value;
+                doc = new Document();
+
+                //Settings Page
+                DocUtils.SettingsPage(doc);
+
+                //Setings Header and Footer of the page
+                DocUtils.SettingsHeaderAndFooter(appInfo.TestItem, doc);
+
+                //Insert QuestionRequirement of the Exam
+                for (int i = 0; i < appInfo.TestItem.ExamQuestionsList.Count; i++)
                 {
-                    //Create word file
-                    wordApp.Visible = false;
-                    wordApp.ShowAnimation = false;
-                    object missing = Missing.Value;
-                    Document doc = new Document();
-
-                    //Settings Page
-                    DocUtils.SettingsPage(doc);
-
-                    //Setings Header and Footer of the page
-                    DocUtils.SettingsHeaderAndFooter(ei, doc);
-
-                    //Insert QuestionRequirement of the Exam
-                    for (int i = 0; i < ei.ExamQuestionsList.Count; i++)
-                    {
-                        AppendTestQuestion(ei.ExamQuestionsList.ElementAt(i), doc, (i + 1), ref missing);
-                    }
-
-                    //Saving file
-                    doc.SaveAs(path + @"\" + ei.PaperNo, WdSaveFormat.wdFormatDocument97);
-                    doc.Close();
+                    AppendTestQuestion(appInfo.TestItem.ExamQuestionsList.ElementAt(i), doc, (i + 1), ref missing);
                 }
-                catch (Exception e)
-                {
 
-                    wordApp = null;
-                    throw e;
-                }
+                //Saving file
+                doc.SaveAs(appInfo.Path + @"\" + appInfo.TestItem.PaperNo, WdSaveFormat.wdFormatDocument97);
             }
-            return true;
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                doc.Close();
+                wordApp.Quit();
+                wordApp = null;
+            }
         }
-
-
-        
 
         /// <summary>
         /// Append QuestionRequirement of Question

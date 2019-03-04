@@ -44,7 +44,6 @@
             this.txtNumberOfTest = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.btnOpenFolder = new System.Windows.Forms.Button();
-            this.btnSaveTestsAs = new System.Windows.Forms.Button();
             this.btnCreateTests = new System.Windows.Forms.Button();
             this.toolTipPreview = new System.Windows.Forms.ToolTip(this.components);
             this.panelChoose.SuspendLayout();
@@ -87,11 +86,11 @@
             this.btnPreview.Size = new System.Drawing.Size(24, 24);
             this.btnPreview.TabIndex = 12;
             this.btnPreview.TabStop = false;
-            this.toolTipPreview.SetToolTip(this.btnPreview, "You can check the details of result here!");
+            this.toolTipPreview.SetToolTip(this.btnPreview, "You can check the details of Candidate Package here!");
             this.btnPreview.Visible = false;
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
+            this.btnPreview.MouseEnter += new System.EventHandler(this.btnPreview_MouseEnter);
             this.btnPreview.MouseLeave += new System.EventHandler(this.btnPreview_MouseLeave);
-            this.btnPreview.MouseHover += new System.EventHandler(this.btnPreview_MouseHover);
             // 
             // txtLocationFolderInput
             // 
@@ -210,7 +209,6 @@
             this.panel1.Controls.Add(this.txtNumberOfTest);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.btnOpenFolder);
-            this.panel1.Controls.Add(this.btnSaveTestsAs);
             this.panel1.Controls.Add(this.btnCreateTests);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 220);
@@ -257,29 +255,14 @@
             this.btnOpenFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOpenFolder.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOpenFolder.ForeColor = System.Drawing.Color.White;
-            this.btnOpenFolder.Location = new System.Drawing.Point(233, 37);
+            this.btnOpenFolder.Location = new System.Drawing.Point(233, 38);
             this.btnOpenFolder.Name = "btnOpenFolder";
-            this.btnOpenFolder.Size = new System.Drawing.Size(75, 30);
+            this.btnOpenFolder.Size = new System.Drawing.Size(75, 73);
             this.btnOpenFolder.TabIndex = 4;
             this.btnOpenFolder.Text = "Open Folder";
             this.btnOpenFolder.UseVisualStyleBackColor = false;
             this.btnOpenFolder.Visible = false;
             this.btnOpenFolder.Click += new System.EventHandler(this.btnOpenFolder_Click);
-            // 
-            // btnSaveTestsAs
-            // 
-            this.btnSaveTestsAs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.btnSaveTestsAs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSaveTestsAs.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveTestsAs.ForeColor = System.Drawing.Color.White;
-            this.btnSaveTestsAs.Location = new System.Drawing.Point(138, 72);
-            this.btnSaveTestsAs.Name = "btnSaveTestsAs";
-            this.btnSaveTestsAs.Size = new System.Drawing.Size(75, 30);
-            this.btnSaveTestsAs.TabIndex = 3;
-            this.btnSaveTestsAs.Text = "Save as";
-            this.btnSaveTestsAs.UseVisualStyleBackColor = false;
-            this.btnSaveTestsAs.Visible = false;
-            this.btnSaveTestsAs.Click += new System.EventHandler(this.btnSaveTestsAs_Click);
             // 
             // btnCreateTests
             // 
@@ -287,14 +270,14 @@
             this.btnCreateTests.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCreateTests.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCreateTests.ForeColor = System.Drawing.Color.White;
-            this.btnCreateTests.Location = new System.Drawing.Point(12, 72);
+            this.btnCreateTests.Location = new System.Drawing.Point(11, 81);
             this.btnCreateTests.Name = "btnCreateTests";
-            this.btnCreateTests.Size = new System.Drawing.Size(75, 30);
+            this.btnCreateTests.Size = new System.Drawing.Size(202, 30);
             this.btnCreateTests.TabIndex = 2;
             this.btnCreateTests.Text = "Create Tests";
             this.btnCreateTests.UseVisualStyleBackColor = false;
             this.btnCreateTests.Visible = false;
-            this.btnCreateTests.Click += new System.EventHandler(this.btnCreateTests_Click);
+            this.btnCreateTests.Click += new System.EventHandler(this.BtnCreateTests_Click);
             // 
             // ShuffleToolForm
             // 
@@ -334,7 +317,6 @@
         private System.Windows.Forms.Button btnCreateTests;
         private System.Windows.Forms.NumericUpDown txtNumberOfTest;
         private System.Windows.Forms.Button btnOpenFolder;
-        private System.Windows.Forms.Button btnSaveTestsAs;
         private System.Windows.Forms.PictureBox btnClose;
         private System.Windows.Forms.PictureBox btnMinimize;
         private System.Windows.Forms.Label controlBar;

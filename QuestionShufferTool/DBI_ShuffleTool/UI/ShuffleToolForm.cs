@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Collections.Generic;
 using DBI_ShuffleTool.Utils.Office;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace DBI_ShuffleTool.UI
 {
@@ -22,7 +24,7 @@ namespace DBI_ShuffleTool.UI
         public ShuffleToolForm()
         {
             InitializeComponent();
-            
+
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -65,7 +67,7 @@ namespace DBI_ShuffleTool.UI
             int count = 1;
             foreach (Question question in _qb)
             {
-                if(question == null || question.Candidates.Count == 0)
+                if (question == null || question.Candidates.Count == 0)
                 {
                     continue;
                 }
@@ -75,39 +77,56 @@ namespace DBI_ShuffleTool.UI
             return count;
         }
 
-        private void btnCreateTests_Click(object sender, EventArgs e)
+        private void BtnCreateTests_Click(object sender, EventArgs e)
         {
             try
             {
                 string location = FileUtils.SaveFileToLocation();
                 if (string.IsNullOrEmpty(location))
                 {
-                    //MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 _outputPath = location;
                 //Create Test
                 int numOfPage = Convert.ToInt32(txtNumberOfTest.Value);
                 _sem = new ShuffleExamModel(_qb, numOfPage);
+
                 using (ProgressBarForm progress = new ProgressBarForm(CreateTests))
                 {
                     progress.ShowDialog(this);
                 }
                 btnOpenFolder.Visible = true;
-                btnSaveTestsAs.Visible = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
         }
 
-        void CreateTests()
+        private void CreateTests()
         {
             string path = FileUtils.CreateNewDirectory(_outputPath, "DBI_Exam");
-            ExportDocUtils.ExportDoc(path, _sem.EiListDoc);
+            try
+            {
+                foreach (TestFullInfo ei in _sem.EiListDoc)
+                {
+                    //Create word file
+                    TestThreadEntity appInfo = new TestThreadEntity();
+                    appInfo.Path = path;
+                    appInfo.TestItem = ei;
+                    Thread newThread = new Thread(ExportDocUtils.ExportDoc);
+                    newThread.Start(appInfo);
+                    
+                }
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+            
             JsonUtils.WriteJson(_sem.EiListMarking, path);
+
         }
 
         private void btnOpenFolder_Click(object sender, EventArgs e)
@@ -122,15 +141,14 @@ namespace DBI_ShuffleTool.UI
                 string location = FileUtils.SaveFileToLocation();
                 if (string.IsNullOrEmpty(location))
                 {
-                    //MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 _outputPath = location;
-                ExportDocUtils.ExportDoc(_outputPath, _sem.EiListDoc);
-                using (ProgressBarForm progress = new ProgressBarForm(CreateTests))
-                {
-                    progress.ShowDialog(this);
-                }
+                //ExportDocUtils.ExportDoc(_outputPath, _sem.EiListDoc);
+                //using (ProgressBarForm progress = new ProgressBarForm(CreateTestsAsync))
+                //{
+                //    progress.ShowDialog(this);
+                //}
             }
             catch (Exception)
             {
@@ -216,8 +234,7 @@ namespace DBI_ShuffleTool.UI
 
         private void btnPreview_MouseHover(object sender, EventArgs e)
         {
-            btnPreview.SetBounds(btnPreview.Location.X - 2, btnPreview.Location.Y - 2, 28, 28);
-            btnPreview.SizeMode = PictureBoxSizeMode.StretchImage;
+
         }
 
         private void btnPreview_MouseLeave(object sender, EventArgs e)
@@ -225,6 +242,10 @@ namespace DBI_ShuffleTool.UI
             btnPreview.SetBounds(btnPreview.Location.X + 2, btnPreview.Location.Y + 2, 24, 24);
         }
 
-        
+        private void btnPreview_MouseEnter(object sender, EventArgs e)
+        {
+            btnPreview.SetBounds(btnPreview.Location.X - 2, btnPreview.Location.Y - 2, 28, 28);
+            btnPreview.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
     }
 }

@@ -10,8 +10,9 @@ namespace DBI_ShuffleTool.Utils.Office
 {
     class PreviewDocUtils
     {
-        public static void PreviewCandidatePackage(List<Question> listQuestions)
+        public static void PreviewCandidatePackage(Object objListQuestions)
         {
+            List<Question> listQuestions = (List<Question>)objListQuestions;
 
             Application wordApp = null;
             try
@@ -43,11 +44,6 @@ namespace DBI_ShuffleTool.Utils.Office
                         AppendSection(listQuestions.ElementAt(i).Candidates.ElementAt(j), section, (i + 1), (j + 1), ref missing);
                     }
                 }
-
-                
-                ////wordApp.Visible = true;
-                //doc.SaveAs(@"D:\\" + "Test", WdSaveFormat.wdFormatDocument97);
-
             }
             catch (Exception e)
             {

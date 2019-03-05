@@ -105,6 +105,7 @@ namespace DBI_ShuffleTool.Utils.Office
                     paraImageDescription.Range.InsertParagraphAfter();
                 }
             }
+
         }
     }
 }

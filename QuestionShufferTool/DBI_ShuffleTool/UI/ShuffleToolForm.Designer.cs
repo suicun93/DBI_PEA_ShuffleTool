@@ -1,4 +1,6 @@
-﻿namespace DBI_ShuffleTool.UI
+﻿using DBI_ShuffleTool.Utils;
+
+namespace DBI_ShuffleTool.UI
 {
     partial class ShuffleToolForm
     {
@@ -86,8 +88,9 @@
             this.btnPreview.Size = new System.Drawing.Size(24, 24);
             this.btnPreview.TabIndex = 12;
             this.btnPreview.TabStop = false;
-            this.toolTipPreview.SetToolTip(this.btnPreview, "You can check the details of Candidate Package here!");
+            this.toolTipPreview.SetToolTip(this.btnPreview, ConstantUtils.TooltipPreviewAllCandidates);
             this.btnPreview.Visible = false;
+            this.btnPreview.VisibleChanged += new System.EventHandler(this.btnPreview_VisibleChanged);
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             this.btnPreview.MouseEnter += new System.EventHandler(this.btnPreview_MouseEnter);
             this.btnPreview.MouseLeave += new System.EventHandler(this.btnPreview_MouseLeave);
@@ -96,15 +99,16 @@
             // 
             this.txtLocationFolderInput.BackColor = System.Drawing.Color.White;
             this.txtLocationFolderInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtLocationFolderInput.Enabled = false;
-            this.txtLocationFolderInput.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLocationFolderInput.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLocationFolderInput.ForeColor = System.Drawing.Color.DimGray;
             this.txtLocationFolderInput.Location = new System.Drawing.Point(12, 65);
-            this.txtLocationFolderInput.Multiline = true;
+            this.txtLocationFolderInput.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.txtLocationFolderInput.Name = "txtLocationFolderInput";
             this.txtLocationFolderInput.ReadOnly = true;
-            this.txtLocationFolderInput.Size = new System.Drawing.Size(201, 30);
+            this.txtLocationFolderInput.Size = new System.Drawing.Size(201, 22);
             this.txtLocationFolderInput.TabIndex = 1;
             this.txtLocationFolderInput.TabStop = false;
+            this.txtLocationFolderInput.Text = "Please import candidate package";
             // 
             // btnMinimize
             // 
@@ -156,11 +160,11 @@
             this.btnBrowse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBrowse.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBrowse.ForeColor = System.Drawing.Color.White;
-            this.btnBrowse.Location = new System.Drawing.Point(233, 65);
+            this.btnBrowse.Location = new System.Drawing.Point(233, 59);
             this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(75, 30);
+            this.btnBrowse.Size = new System.Drawing.Size(75, 32);
             this.btnBrowse.TabIndex = 0;
-            this.btnBrowse.Text = "Browse";
+            this.btnBrowse.Text = "Import";
             this.btnBrowse.UseVisualStyleBackColor = false;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
@@ -182,9 +186,9 @@
             this.lblLocation.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLocation.Location = new System.Drawing.Point(12, 40);
             this.lblLocation.Name = "lblLocation";
-            this.lblLocation.Size = new System.Drawing.Size(136, 22);
+            this.lblLocation.Size = new System.Drawing.Size(181, 22);
             this.lblLocation.TabIndex = 1;
-            this.lblLocation.Text = "Questions File Location";
+            this.lblLocation.Text = "Candidate Package File Location";
             // 
             // controlBar
             // 
@@ -245,9 +249,9 @@
             this.label3.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(12, 12);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(34, 22);
+            this.label3.Size = new System.Drawing.Size(92, 22);
             this.label3.TabIndex = 1;
-            this.label3.Text = "Test";
+            this.label3.Text = "Number of test";
             // 
             // btnOpenFolder
             // 
@@ -262,7 +266,7 @@
             this.btnOpenFolder.Text = "Open Folder";
             this.btnOpenFolder.UseVisualStyleBackColor = false;
             this.btnOpenFolder.Visible = false;
-            this.btnOpenFolder.Click += new System.EventHandler(this.btnOpenFolder_Click);
+            this.btnOpenFolder.Click += new System.EventHandler(this.BtnOpenFolder_Click);
             // 
             // btnCreateTests
             // 
@@ -274,7 +278,7 @@
             this.btnCreateTests.Name = "btnCreateTests";
             this.btnCreateTests.Size = new System.Drawing.Size(202, 30);
             this.btnCreateTests.TabIndex = 2;
-            this.btnCreateTests.Text = "Create Tests";
+            this.btnCreateTests.Text = "Create Test(s)";
             this.btnCreateTests.UseVisualStyleBackColor = false;
             this.btnCreateTests.Visible = false;
             this.btnCreateTests.Click += new System.EventHandler(this.BtnCreateTests_Click);

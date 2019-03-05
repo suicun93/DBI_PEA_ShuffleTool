@@ -14,9 +14,9 @@ namespace DBI_ShuffleTool.UI
 {
     public partial class ShuffleToolForm : Form
     {
-        ShuffleExamModel _sem;
-        List<Question> _qb;
-        string _outputPath;
+        ShuffleExamModel Sem;
+        List<Question> QuestionPackage;
+        string OutPutPath;
         bool BeingDragged = false;
         int MouseDownX;
         int MouseDownY;
@@ -35,12 +35,12 @@ namespace DBI_ShuffleTool.UI
                 if (string.IsNullOrEmpty(inputPath)) return;
                 txtLocationFolderInput.Text = inputPath;
                 //Reading data
-                _qb = new List<Question>();
-                _qb = JsonUtils.DeserializeJson(inputPath);
+                QuestionPackage = new List<Question>();
+                QuestionPackage = JsonUtils.DeserializeJson(inputPath);
                 //Print result on txtLoadFileResult
-                string resImported = "Questions imported: " + _qb.Count;
+                string resImported = "Questions imported: " + QuestionPackage.Count;
                 int i = 0;
-                foreach (Question question in _qb)
+                foreach (Question question in QuestionPackage)
                 {
                     resImported = resImported + "\nQ" + (++i) + ": " + question.Candidates.Count + " candidate(s)";
                     foreach (Candidate candidate in question.Candidates)
@@ -49,8 +49,8 @@ namespace DBI_ShuffleTool.UI
                     }
                 }
                 txtLoadFileResult.Text = resImported;
-                txtNumberOfTest.Maximum = MaxNumberOfTests();
-                txtNumberOfTest.Value = MaxNumberOfTests();
+                txtNumberOfTest.Maximum = TestModel.MaxNumberOfTests(QuestionPackage);
+                txtNumberOfTest.Value = txtNumberOfTest.Maximum;
                 btnCreateTests.Visible = true;
                 btnPreview.Visible = true;
             }
@@ -59,22 +59,6 @@ namespace DBI_ShuffleTool.UI
                 MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-        }
-
-        public int MaxNumberOfTests()
-        {
-            int count = 1;
-            foreach (Question question in _qb)
-            {
-                if (question == null || question.Candidates.Count == 0)
-                {
-                    continue;
-                }
-                count *= question.Candidates.Count;
-            }
-            if ((count) < 1) count = 1;
-            return count;
         }
 
         private void BtnCreateTests_Click(object sender, EventArgs e)
@@ -86,73 +70,41 @@ namespace DBI_ShuffleTool.UI
                 {
                     return;
                 }
-                _outputPath = location;
-                //Create Test
-                int numOfPage = Convert.ToInt32(txtNumberOfTest.Value);
-                _sem = new ShuffleExamModel(_qb, numOfPage);
+                OutPutPath = location;
 
-                using (ProgressBarForm progress = new ProgressBarForm(CreateTests))
+                //Prepare for Test file
+                Sem = new ShuffleExamModel(QuestionPackage, Convert.ToInt32(txtNumberOfTest.Value));
+
+                //Create Test
+                TestModel testModel = new TestModel();
+                testModel.Path = OutPutPath;
+                testModel.Sem = Sem;
+
+                using (ProgressBarForm progress = new ProgressBarForm(testModel.CreateTests))
                 {
                     progress.ShowDialog(this);
                 }
                 btnOpenFolder.Visible = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ConstantUtils.ErrorWordApp, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
         }
 
-        private void CreateTests()
-        {
-            string path = FileUtils.CreateNewDirectory(_outputPath, "DBI_Exam");
-            try
-            {
-                foreach (TestFullInfo ei in _sem.EiListDoc)
-                {
-                    //Create word file
-                    TestThreadEntity appInfo = new TestThreadEntity();
-                    appInfo.Path = path;
-                    appInfo.TestItem = ei;
-                    Thread newThread = new Thread(ExportDocUtils.ExportDoc);
-                    newThread.Start(appInfo);
-                    
-                }
-            }catch(Exception ex)
-            {
-                throw ex;
-            }
-            
-            JsonUtils.WriteJson(_sem.EiListMarking, path);
 
-        }
 
-        private void btnOpenFolder_Click(object sender, EventArgs e)
-        {
-            Process.Start(_outputPath + @"/DBI_Exam/");
-        }
-
-        private void btnSaveTestsAs_Click(object sender, EventArgs e)
+        private void BtnOpenFolder_Click(object sender, EventArgs e)
         {
             try
             {
-                string location = FileUtils.SaveFileToLocation();
-                if (string.IsNullOrEmpty(location))
-                {
-                    return;
-                }
-                _outputPath = location;
-                //ExportDocUtils.ExportDoc(_outputPath, _sem.EiListDoc);
-                //using (ProgressBarForm progress = new ProgressBarForm(CreateTestsAsync))
-                //{
-                //    progress.ShowDialog(this);
-                //}
+                Process.Start(OutPutPath + @"/DBI_Exam/");
             }
             catch (Exception)
             {
                 MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
             }
         }
 
@@ -160,11 +112,12 @@ namespace DBI_ShuffleTool.UI
         {
             try
             {
-                PreviewDocUtils.PreviewCandidatePackage(_qb);
+                Thread previewCandidatePackageThread = new Thread(PreviewDocUtils.PreviewCandidatePackage);
+                previewCandidatePackageThread.Start(QuestionPackage);
             }
             catch (Exception)
             {
-                MessageBox.Show(ConstantUtils.ErrorCommon, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ConstantUtils.ErrorWordApp, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -232,11 +185,6 @@ namespace DBI_ShuffleTool.UI
             }
         }
 
-        private void btnPreview_MouseHover(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnPreview_MouseLeave(object sender, EventArgs e)
         {
             btnPreview.SetBounds(btnPreview.Location.X + 2, btnPreview.Location.Y + 2, 24, 24);
@@ -246,6 +194,11 @@ namespace DBI_ShuffleTool.UI
         {
             btnPreview.SetBounds(btnPreview.Location.X - 2, btnPreview.Location.Y - 2, 28, 28);
             btnPreview.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+
+        private void btnPreview_VisibleChanged(object sender, EventArgs e)
+        {
+            toolTipPreview.Show(ConstantUtils.TooltipPreviewAllCandidates, btnPreview, 3000);
         }
     }
 }

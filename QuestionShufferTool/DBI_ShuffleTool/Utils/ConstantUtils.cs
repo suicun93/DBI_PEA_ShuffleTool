@@ -5,22 +5,18 @@ namespace DBI_ShuffleTool.Utils
     class ConstantUtils
     {
         //Message
-        public static readonly String MessageLoadFolderOk = "Your questions bank location is accepted\nPlease check results!";
-        public static readonly String MessageCreatedFolderOk = "Exams are created";
+        public static readonly string MessageLoadFolderOk = "Your questions bank location is accepted\nPlease check results!";
+        public static readonly string MessageCreatedFolderOk = "Exams are created";
 
-        
         //Alert
-        public static readonly String AleartLoadFolderEmpty = "Empty folder\nPlease try again!";
-
+        public static readonly string AleartLoadFolderEmpty = "Empty folder\nPlease try again!";
 
         //Error
-        public static readonly String ErrorLoadFolderFailed = "Loading location failed\nPlease try again!";
-        public static readonly String ErrorCommon = "Something wrong\nPlease try again!";
+        public static readonly string ErrorLoadFolderFailed = "Loading location failed\nPlease try again!";
+        public static readonly string ErrorCommon = "Something wrong\nPlease try again!";
+        public static readonly string ErrorWordApp = "Microsoft Office Word Application is required!";
 
-
-        //Constants
-        public static readonly int WidthOfImage = 700;
-
-
+        //Tooltip
+        public static readonly string TooltipPreviewAllCandidates = "You can check the details of Candidate Package here!";
     }
 }

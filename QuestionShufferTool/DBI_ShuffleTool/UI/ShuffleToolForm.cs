@@ -9,13 +9,14 @@ using System.Collections.Generic;
 using DBI_ShuffleTool.Utils.Office;
 using System.Threading.Tasks;
 using System.Threading;
+using System.IO;
 
 namespace DBI_ShuffleTool.UI
 {
     public partial class ShuffleToolForm : Form
     {
         ShuffleExamModel Sem;
-        List<Question> QuestionPackage;
+        List<Question> QuestionPackage = null;
         string OutPutPath;
         bool BeingDragged = false;
         int MouseDownX;
@@ -27,23 +28,27 @@ namespace DBI_ShuffleTool.UI
 
         }
 
-        private void btnBrowse_Click(object sender, EventArgs e)
+        private void btnImport_Click(object sender, EventArgs e)
         {
             try
             {
                 string inputPath = FileUtils.GetFileLocation();
                 if (string.IsNullOrEmpty(inputPath)) return;
                 txtLocationFolderInput.Text = inputPath;
+
+
                 //Reading data
-                QuestionPackage = new List<Question>();
-                QuestionPackage = SerializableUtils.Deserialize(inputPath);
+                using (var fs = File.OpenRead(inputPath))
+                {
+                    QuestionPackage = fs.DeSerialize<List<Question>>();
+                }
                 //Print result on txtLoadFileResult
                 string resImported = "Questions imported: " + QuestionPackage.Count;
                 int i = 0;
-                foreach (Question question in QuestionPackage)
+                foreach (var question in QuestionPackage)
                 {
                     resImported = resImported + "\nQ" + (++i) + ": " + question.Candidates.Count + " candidate(s)";
-                    foreach (Candidate candidate in question.Candidates)
+                    foreach (var candidate in question.Candidates)
                     {
                         candidate.Point = question.Point;
                     }
@@ -200,5 +205,7 @@ namespace DBI_ShuffleTool.UI
         {
             toolTipPreview.Show(ConstantUtils.TooltipPreviewAllCandidates, btnPreview, 3000);
         }
+
+        
     }
 }

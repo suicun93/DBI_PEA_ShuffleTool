@@ -7,7 +7,7 @@
     <ProjectGuid>{F8F8619C-BE6B-4CF1-8A32-71141B158604}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>DBI_ShuffleTool</RootNamespace>
-    <AssemblyName>DBI_ShuffleTool</AssemblyName>
+    <AssemblyName>DBI_Exam_Creator_Tool</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -33,6 +33,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>shuffle_HwA_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
@@ -165,6 +171,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\preview1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="shuffle_HwA_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

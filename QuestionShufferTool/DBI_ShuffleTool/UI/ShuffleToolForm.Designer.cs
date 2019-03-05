@@ -38,7 +38,7 @@ namespace DBI_ShuffleTool.UI
             this.btnMinimize = new System.Windows.Forms.PictureBox();
             this.btnClose = new System.Windows.Forms.PictureBox();
             this.txtLoadFileResult = new System.Windows.Forms.RichTextBox();
-            this.btnBrowse = new System.Windows.Forms.Button();
+            this.btnImport = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.lblLocation = new System.Windows.Forms.Label();
             this.controlBar = new System.Windows.Forms.Label();
@@ -66,7 +66,7 @@ namespace DBI_ShuffleTool.UI
             this.panelChoose.Controls.Add(this.btnMinimize);
             this.panelChoose.Controls.Add(this.btnClose);
             this.panelChoose.Controls.Add(this.txtLoadFileResult);
-            this.panelChoose.Controls.Add(this.btnBrowse);
+            this.panelChoose.Controls.Add(this.btnImport);
             this.panelChoose.Controls.Add(this.label2);
             this.panelChoose.Controls.Add(this.lblLocation);
             this.panelChoose.Controls.Add(this.controlBar);
@@ -88,7 +88,7 @@ namespace DBI_ShuffleTool.UI
             this.btnPreview.Size = new System.Drawing.Size(24, 24);
             this.btnPreview.TabIndex = 12;
             this.btnPreview.TabStop = false;
-            this.toolTipPreview.SetToolTip(this.btnPreview, ConstantUtils.TooltipPreviewAllCandidates);
+            this.toolTipPreview.SetToolTip(this.btnPreview, "You can check the details of Candidate Package here!");
             this.btnPreview.Visible = false;
             this.btnPreview.VisibleChanged += new System.EventHandler(this.btnPreview_VisibleChanged);
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
@@ -153,20 +153,20 @@ namespace DBI_ShuffleTool.UI
             this.txtLoadFileResult.TabStop = false;
             this.txtLoadFileResult.Text = "";
             // 
-            // btnBrowse
+            // btnImport
             // 
-            this.btnBrowse.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.btnBrowse.FlatAppearance.BorderSize = 0;
-            this.btnBrowse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBrowse.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBrowse.ForeColor = System.Drawing.Color.White;
-            this.btnBrowse.Location = new System.Drawing.Point(233, 59);
-            this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(75, 32);
-            this.btnBrowse.TabIndex = 0;
-            this.btnBrowse.Text = "Import";
-            this.btnBrowse.UseVisualStyleBackColor = false;
-            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
+            this.btnImport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.btnImport.FlatAppearance.BorderSize = 0;
+            this.btnImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnImport.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnImport.ForeColor = System.Drawing.Color.White;
+            this.btnImport.Location = new System.Drawing.Point(233, 59);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(75, 32);
+            this.btnImport.TabIndex = 0;
+            this.btnImport.Text = "Import";
+            this.btnImport.UseVisualStyleBackColor = false;
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
             // 
             // label2
             // 
@@ -312,7 +312,7 @@ namespace DBI_ShuffleTool.UI
 
         private System.Windows.Forms.Panel panelChoose;
         private System.Windows.Forms.RichTextBox txtLoadFileResult;
-        private System.Windows.Forms.Button btnBrowse;
+        private System.Windows.Forms.Button btnImport;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblLocation;
         private System.Windows.Forms.TextBox txtLocationFolderInput;

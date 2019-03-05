@@ -3,6 +3,7 @@ using DBI_ShuffleTool.Utils;
 using DBI_ShuffleTool.Utils.Office;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -34,7 +35,10 @@ namespace DBI_ShuffleTool.Model
             {
                 throw ex;
             }
-            SerializableUtils.Serialize(Sem.EiListMarking, Path);
+            using (var fs = File.OpenWrite(Path + "\\TestPackage.dat"))
+            {
+                Sem.EiListMarking.Serialize(fs);
+            }
         }
 
         public static int MaxNumberOfTests(List<Question> questionsBank)

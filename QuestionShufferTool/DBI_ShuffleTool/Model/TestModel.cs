@@ -34,7 +34,7 @@ namespace DBI_ShuffleTool.Model
             {
                 throw ex;
             }
-            JsonUtils.WriteJson(Sem.EiListMarking, Path);
+            SerializableUtils.Serialize(Sem.EiListMarking, Path);
         }
 
         public static int MaxNumberOfTests(List<Question> questionsBank)

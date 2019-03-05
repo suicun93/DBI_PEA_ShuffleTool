@@ -38,10 +38,7 @@ namespace DBI_ShuffleTool.UI
 
 
                 //Reading data
-                using (var fs = File.OpenRead(inputPath))
-                {
-                    QuestionPackage = fs.DeSerialize<List<Question>>();
-                }
+                QuestionPackage = SerializableUtils.DeserializeJson(inputPath);
                 //Print result on txtLoadFileResult
                 string resImported = "Questions imported: " + QuestionPackage.Count;
                 int i = 0;

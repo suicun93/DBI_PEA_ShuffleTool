@@ -35,10 +35,7 @@ namespace DBI_ShuffleTool.Model
             {
                 throw ex;
             }
-            using (var fs = File.OpenWrite(Path + "\\TestPackage.dat"))
-            {
-                Sem.EiListMarking.Serialize(fs);
-            }
+            SerializableUtils.WriteJson(Sem.EiListMarking, Path + @"\TestPackage.dat");
         }
 
         public static int MaxNumberOfTests(List<Question> questionsBank)

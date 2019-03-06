@@ -27,7 +27,12 @@ namespace DBI_ShuffleTool.Model
             EiListMarking = new List<TestItem>();
 
             //Create all of cases for these candidates then get numOfPage cases from them.
-            List<List<CandidateNode>> Cases = GetRandomNElementsInList(numOfPage, GetAllCasesTest());
+            //List<List<CandidateNode>> Cases = GetRandomNElementsInList(numOfPage, GetAllCasesTest());
+            List<List<CandidateNode>> tmp = GetAllCasesTest();
+            List<List<CandidateNode>> Cases = new List<List<CandidateNode>>();
+            Cases.Add(tmp.First());
+            Cases.Add(tmp.Last());
+
 
             //codeTestCount: for TestCode
             int codeTestCount = 0;

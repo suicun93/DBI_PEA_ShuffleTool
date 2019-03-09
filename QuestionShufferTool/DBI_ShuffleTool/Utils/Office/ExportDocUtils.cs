@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using DBI_ShuffleTool.Entity;
+using DBI_ShuffleTool.Entity.Paper;
 using Microsoft.Office.Interop.Word;
 using System.Reflection;
 using System.Linq;
+using DBI_ShuffleTool.Entity;
 
 namespace DBI_ShuffleTool.Utils.Office
 {
@@ -17,9 +18,8 @@ namespace DBI_ShuffleTool.Utils.Office
         /// <param name="examItems"></param>
         /// <param name="wordApp">Application</param>
         /// <returns></returns>
-        public static void ExportDoc(Object obj)
+        public static void ExportDoc(Paper paper, string path)
         {
-            TestThreadEntity appInfo = (TestThreadEntity)obj;
             Application wordApp = null;
             Document doc = null;
             try
@@ -35,16 +35,16 @@ namespace DBI_ShuffleTool.Utils.Office
                 DocUtils.SettingsPage(doc);
 
                 //Setings Header and Footer of the page
-                DocUtils.SettingsHeaderAndFooter(appInfo.TestItem, doc);
+                DocUtils.SettingsHeaderAndFooter(paper, doc);
 
                 //Insert QuestionRequirement of the Exam
-                for (int i = 0; i < appInfo.TestItem.ExamQuestionsList.Count; i++)
+                for (int i = 0; i < paper.CandidateSet.Count; i++)
                 {
-                    AppendTestQuestion(appInfo.TestItem.ExamQuestionsList.ElementAt(i), doc, (i + 1), ref missing);
+                    AppendTestQuestion(paper.CandidateSet.ElementAt(i), doc, (i + 1), ref missing);
                 }
 
                 //Saving file
-                doc.SaveAs(appInfo.Path + @"\" + appInfo.TestItem.PaperNo, WdSaveFormat.wdFormatDocument97);
+                doc.SaveAs(path + @"\" + paper.PaperNo, WdSaveFormat.wdFormatDocument97);
             }
             catch (Exception e)
             {
@@ -52,8 +52,8 @@ namespace DBI_ShuffleTool.Utils.Office
             }
             finally
             {
-                doc.Close();
-                wordApp.Quit();
+                doc.Close(WdSaveOptions.wdDoNotSaveChanges);
+                wordApp.Quit(WdSaveOptions.wdDoNotSaveChanges);
                 wordApp = null;
             }
         }

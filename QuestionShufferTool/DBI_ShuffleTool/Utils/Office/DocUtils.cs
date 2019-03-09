@@ -1,9 +1,5 @@
-﻿using DBI_ShuffleTool.Entity;
+﻿using DBI_ShuffleTool.Entity.Paper;
 using Microsoft.Office.Interop.Word;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DBI_ShuffleTool.Utils.Office
 {
@@ -40,7 +36,7 @@ namespace DBI_ShuffleTool.Utils.Office
         /// <param name="doc">Document want to save</param>
         /// <param name="path"></param>
         /// <param name="ei">ExamForDoc</param>
-        static public void SavingDocFile(Document doc, string path, TestFullInfo exam)
+        static public void SavingDocFile(Document doc, string path, Paper exam)
         {
             doc.SaveAs(path + @"\" + exam.PaperNo, WdSaveFormat.wdFormatDocument97);
         }
@@ -51,7 +47,7 @@ namespace DBI_ShuffleTool.Utils.Office
         /// <param name="examItem"></param>
         /// <param name="section"></param>
         /// <param name="isTest">For adding Paper No</param>
-        static public void SettingsHeaderAndFooter(TestFullInfo examItem, Document doc)
+        static public void SettingsHeaderAndFooter(Paper examItem, Document doc)
         {
             foreach (Section wordSection in doc.Sections)
             {

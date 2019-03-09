@@ -1,8 +1,10 @@
-﻿using DBI_ShuffleTool.Entity;
+﻿using DBI_ShuffleTool.Entity.Paper;
+using DBI_ShuffleTool.Entity.Question;
 using DBI_ShuffleTool.Utils;
 using DBI_ShuffleTool.Utils.Office;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,23 +21,20 @@ namespace DBI_ShuffleTool.Model
         public void CreateTests()
         {
             Path = FileUtils.CreateNewDirectory(Path, "DBI_Exam");
+            SerializableUtils.WriteJson(Sem.PaperSet, Path + @"\PaperSet.dat");
+            Process.Start(Path);
             try
             {
-                foreach (TestFullInfo ei in Sem.EiListDoc)
+                foreach (Paper ei in Sem.PaperSet.Papers)
                 {
                     //Create word file
-                    TestThreadEntity appInfo = new TestThreadEntity();
-                    appInfo.Path = Path;
-                    appInfo.TestItem = ei;
-                    Thread newThread = new Thread(ExportDocUtils.ExportDoc);
-                    newThread.Start(appInfo);
+                    ExportDocUtils.ExportDoc(ei, Path);
                 }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            SerializableUtils.WriteJson(Sem.EiListMarking, Path + @"\TestPackage.dat");
         }
 
         public static int MaxNumberOfTests(List<Question> questionsBank)

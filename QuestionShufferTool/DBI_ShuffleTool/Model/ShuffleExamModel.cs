@@ -1,37 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using DBI_ShuffleTool.Entity;
+using DBI_ShuffleTool.Entity.Paper;
+using DBI_ShuffleTool.Entity.Question;
 
 namespace DBI_ShuffleTool.Model
 {
     class ShuffleExamModel
     {
-        public List<Question> QbQuestionsBank;//QBank from Creator
+        public QuestionSet QuestionSet;//QBank from Creator
 
-        public List<TestFullInfo> EiListDoc;//Include Exam after create with full infomation
-
-        public List<TestItem> EiListMarking;//Include Exam after create with simple infomation
+        public PaperSet PaperSet;//Include PaperSet after create 
 
         /// <summary>
-        /// Create List of ExamItem
+        /// Create List of PaperSet
         /// </summary>
-        /// <param name="qbQuestionsBank"></param>
+        /// <param name="questionSet"></param>
         /// <param name="numOfPage"></param>
-        public ShuffleExamModel(List<Question> qbQuestionsBank, int numOfPage)
+        public ShuffleExamModel(QuestionSet questionSet, int numOfPage)
         {
-            QbQuestionsBank = qbQuestionsBank;
-            EiListDoc = new List<TestFullInfo>();
-            EiListMarking = new List<TestItem>();
+            QuestionSet = questionSet;
+            PaperSet = new PaperSet(new List<Paper>(), QuestionSet.DBScriptList);
 
             //Create all of cases for these candidates then get numOfPage cases from them.
-            //List<List<CandidateNode>> Cases = GetRandomNElementsInList(numOfPage, GetAllCasesTest());
-            List<List<CandidateNode>> tmp = GetAllCasesTest();
-            List<List<CandidateNode>> Cases = new List<List<CandidateNode>>();
-            Cases.Add(tmp.First());
-            Cases.Add(tmp.Last());
+            List<List<CandidateNode>> Cases = GetRandomNElementsInList(numOfPage, GetAllCasesTest());
+            //List<List<CandidateNode>> tmp = GetAllCasesTest();
+            //List<List<CandidateNode>> Cases = new List<List<CandidateNode>>();
+            //Cases.Add(tmp.First());
+            //Cases.Add(tmp.Last());
 
 
             //codeTestCount: for TestCode
@@ -46,34 +43,10 @@ namespace DBI_ShuffleTool.Model
                 {
                     candidateList.Add(candidateNode.Candi);
                 }
-                var aTest = new TestFullInfo();
+                var aTest = new Paper();
                 aTest.PaperNo = (++codeTestCount).ToString();
-                aTest.ExamQuestionsList = candidateList;
-                EiListDoc.Add(aTest);
-            }
-
-            //Create List Exam for Marking
-            foreach (TestFullInfo eDoc in EiListDoc)
-            {
-                TestItem eMark = new TestItem();
-                List<CandidateSimple> candidateExams = new List<CandidateSimple>();
-                foreach (Candidate candi in eDoc.ExamQuestionsList)
-                {
-                    CandidateSimple candiExam = new CandidateSimple();
-                    candiExam.CandidateId = candi.CandidateId;
-                    candiExam.DBName = candi.DBName;
-                    candiExam.Point = candi.Point;
-                    candiExam.QuestionId = candi.QuestionId;
-                    candiExam.QuestionRequirement = candi.QuestionRequirement;
-                    candiExam.QuestionType = candi.QuestionType;
-                    candiExam.RequireSort = candi.RequireSort;
-                    candiExam.Solution = candi.Solution;
-                    candiExam.TestQuery = candi.TestQuery;
-                    candidateExams.Add(candiExam);
-                }
-                eMark.ExamQuestionsList = candidateExams;
-                eMark.PaperNo = eDoc.PaperNo;
-                EiListMarking.Add(eMark);
+                aTest.CandidateSet = candidateList;
+                PaperSet.Papers.Add(aTest);
             }
         }
 
@@ -112,9 +85,9 @@ namespace DBI_ShuffleTool.Model
         /// <returns></returns>
         private int[] BuildingTree()
         {
-            var quizs = new int[QbQuestionsBank.Count];
+            var quizs = new int[QuestionSet.QuestionList.Count];
             int i = 0;
-            foreach (var question in QbQuestionsBank)
+            foreach (var question in QuestionSet.QuestionList)
             {
                 quizs[i++] = question.Candidates.Count;
             }
@@ -136,7 +109,7 @@ namespace DBI_ShuffleTool.Model
             };
             if (pos < quizs.Length)
             {
-                foreach (var candi in QbQuestionsBank.ElementAt(pos).Candidates)
+                foreach (var candi in QuestionSet.QuestionList.ElementAt(pos).Candidates)
                 {
                     child.Children.Add(SetCandidateNode(candi, pos + 1, quizs));
                 }

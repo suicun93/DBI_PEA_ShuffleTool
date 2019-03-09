@@ -5,15 +5,14 @@ using System.Linq;
 using Microsoft.Office.Interop.Word;
 using System.Reflection;
 using System.Drawing;
+using DBI_ShuffleTool.Entity.Question;
 
 namespace DBI_ShuffleTool.Utils.Office
 {
     class PreviewDocUtils
     {
-        public static void PreviewCandidatePackage(Object objListQuestions)
+        public static void PreviewCandidatePackage(QuestionSet questionSet)
         {
-            List<Question> listQuestions = (List<Question>)objListQuestions;
-
             Application wordApp = null;
             try
             {
@@ -36,12 +35,12 @@ namespace DBI_ShuffleTool.Utils.Office
                 DocUtils.SettingsHeaderAndFooter(null, doc);
 
                 //Insert QuestionRequirement of the Exam
-                for (int i = 0; i < listQuestions.Count; i++)
+                for (int i = 0; i < questionSet.QuestionList.Count; i++)
                 {
                     Section section = (i == 0) ? doc.Sections.First : doc.Sections.Add();
-                    for (int j = 0; j < listQuestions.ElementAt(i).Candidates.Count; j++)
+                    for (int j = 0; j < questionSet.QuestionList.ElementAt(i).Candidates.Count; j++)
                     {
-                        AppendSection(listQuestions.ElementAt(i).Candidates.ElementAt(j), section, (i + 1), (j + 1), ref missing);
+                        AppendSection(questionSet.QuestionList.ElementAt(i).Candidates.ElementAt(j), section, (i + 1), (j + 1), ref missing);
                     }
                 }
             }
@@ -114,36 +113,36 @@ namespace DBI_ShuffleTool.Utils.Office
             //Insert Solution query
             InsertBlock("Solution: ", q.Solution, true, section, ref missing);
 
-            //Insert Active query
-            InsertBlock("Active query: ", q.TestQuery, true, section, ref missing);
+            //Insert Test query
+            InsertBlock("Test query: ", q.TestQuery, true, section, ref missing);
         }
 
         private static void InsertBlock(string title, string content, bool isQuery, Section section, ref object missing)
         {
             if (!string.IsNullOrEmpty(content))
             {
-                Paragraph paraActiveQueryTitle = section.Range.Paragraphs.Add(ref missing);
-                paraActiveQueryTitle.Range.Text = title;
-                paraActiveQueryTitle.Range.Font.Name = "Arial";
-                paraActiveQueryTitle.Range.Font.Bold = 0;
-                paraActiveQueryTitle.Range.Font.Underline = WdUnderline.wdUnderlineSingle;
-                paraActiveQueryTitle.Range.Font.Italic = 1;
-                paraActiveQueryTitle.Format.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                paraActiveQueryTitle.Range.ParagraphFormat.LeftIndent = 0;
-                paraActiveQueryTitle.Range.InsertParagraphAfter();
+                Paragraph paraTestQueryTitle = section.Range.Paragraphs.Add(ref missing);
+                paraTestQueryTitle.Range.Text = title;
+                paraTestQueryTitle.Range.Font.Name = "Arial";
+                paraTestQueryTitle.Range.Font.Bold = 0;
+                paraTestQueryTitle.Range.Font.Underline = WdUnderline.wdUnderlineSingle;
+                paraTestQueryTitle.Range.Font.Italic = 1;
+                paraTestQueryTitle.Format.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+                paraTestQueryTitle.Range.ParagraphFormat.LeftIndent = 0;
+                paraTestQueryTitle.Range.InsertParagraphAfter();
 
                 content = content.Trim();
-                Paragraph paraActiveQueryContent = section.Range.Paragraphs.Add(ref missing);
+                Paragraph paraTestQueryContent = section.Range.Paragraphs.Add(ref missing);
                 if (isQuery)
                 {
                     content = SqlUtils.FormatSqlCode(content);
                 }
-                paraActiveQueryContent.Range.Font.Name = "Arial";
-                paraActiveQueryContent.Range.Font.Bold = 0;
-                paraActiveQueryContent.Range.Font.Underline = WdUnderline.wdUnderlineNone;
-                paraActiveQueryContent.Range.Font.Italic = 0;
-                paraActiveQueryContent.Range.ParagraphFormat.LeftIndent = 36;
-                paraActiveQueryContent.Range.Text = content;
+                paraTestQueryContent.Range.Font.Name = "Arial";
+                paraTestQueryContent.Range.Font.Bold = 0;
+                paraTestQueryContent.Range.Font.Underline = WdUnderline.wdUnderlineNone;
+                paraTestQueryContent.Range.Font.Italic = 0;
+                paraTestQueryContent.Range.ParagraphFormat.LeftIndent = 36;
+                paraTestQueryContent.Range.Text = content;
             }
         }
     }

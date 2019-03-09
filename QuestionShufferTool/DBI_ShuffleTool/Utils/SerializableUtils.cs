@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using DBI_ShuffleTool.Entity;
+using DBI_ShuffleTool.Entity.Question;
 using Newtonsoft.Json;
 
 namespace DBI_ShuffleTool.Utils
@@ -31,10 +32,10 @@ namespace DBI_ShuffleTool.Utils
         /// </summary>
         /// <param name="localPath"></param>
         /// <returns></returns>
-        public static List<Question> DeserializeJson(string localPath)
+        public static QuestionSet DeserializeJson(string localPath)
         {
             // read file into a string and deserialize JSON to a type
-            return JsonConvert.DeserializeObject<List<Question>>(File.ReadAllText(localPath));
+            return JsonConvert.DeserializeObject<QuestionSet>(File.ReadAllText(localPath));
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using DBI_ShuffleTool.Entity;
-using DBI_ShuffleTool.Model;
+﻿using DBI_ShuffleTool.Model;
 using DBI_ShuffleTool.Utils;
 using System;
 using System.Diagnostics;
@@ -7,16 +6,15 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Collections.Generic;
 using DBI_ShuffleTool.Utils.Office;
-using System.Threading.Tasks;
 using System.Threading;
-using System.IO;
+using DBI_ShuffleTool.Entity.Question;
 
 namespace DBI_ShuffleTool.UI
 {
     public partial class ShuffleToolForm : Form
     {
         ShuffleExamModel Sem;
-        List<Question> QuestionPackage = null;
+        QuestionSet QuestionSet = null;
         string OutPutPath;
         bool BeingDragged = false;
         int MouseDownX;
@@ -38,11 +36,11 @@ namespace DBI_ShuffleTool.UI
 
 
                 //Reading data
-                QuestionPackage = SerializableUtils.DeserializeJson(inputPath);
+                QuestionSet = SerializableUtils.DeserializeJson(inputPath);
                 //Print result on txtLoadFileResult
-                string resImported = "Questions imported: " + QuestionPackage.Count;
+                string resImported = "Questions imported: " + QuestionSet.QuestionList.Count;
                 int i = 0;
-                foreach (var question in QuestionPackage)
+                foreach (var question in QuestionSet.QuestionList)
                 {
                     resImported = resImported + "\nQ" + (++i) + ": " + question.Candidates.Count + " candidate(s)";
                     foreach (var candidate in question.Candidates)
@@ -51,7 +49,7 @@ namespace DBI_ShuffleTool.UI
                     }
                 }
                 txtLoadFileResult.Text = resImported;
-                txtNumberOfTest.Maximum = TestModel.MaxNumberOfTests(QuestionPackage);
+                txtNumberOfTest.Maximum = TestModel.MaxNumberOfTests(QuestionSet.QuestionList);
                 txtNumberOfTest.Value = txtNumberOfTest.Maximum;
                 btnCreateTests.Visible = true;
                 btnPreview.Visible = true;
@@ -75,7 +73,7 @@ namespace DBI_ShuffleTool.UI
                 OutPutPath = location;
 
                 //Prepare for Test file
-                Sem = new ShuffleExamModel(QuestionPackage, Convert.ToInt32(txtNumberOfTest.Value));
+                Sem = new ShuffleExamModel(QuestionSet, Convert.ToInt32(txtNumberOfTest.Value));
 
                 //Create Test
                 TestModel testModel = new TestModel();
@@ -114,8 +112,7 @@ namespace DBI_ShuffleTool.UI
         {
             try
             {
-                Thread previewCandidatePackageThread = new Thread(PreviewDocUtils.PreviewCandidatePackage);
-                previewCandidatePackageThread.Start(QuestionPackage);
+                PreviewDocUtils.PreviewCandidatePackage(QuestionSet);
             }
             catch (Exception)
             {

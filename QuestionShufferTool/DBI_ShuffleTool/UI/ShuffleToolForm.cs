@@ -57,7 +57,6 @@ namespace DBI_ShuffleTool.UI
             catch (Exception)
             {
                 MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
             }
         }
 

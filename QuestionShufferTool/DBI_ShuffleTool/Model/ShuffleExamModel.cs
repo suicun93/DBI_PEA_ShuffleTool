@@ -43,7 +43,6 @@ namespace DBI_ShuffleTool.Model
                 var paper = new Paper();
                 paper.PaperNo = (++codeTestCount).ToString();
                 paper.CandidateSet = candidateList;
-                paper.DBScript = questionSet.DBScriptList.ElementAt(0);//Default db for student
                 PaperSet.Papers.Add(paper);
             }
         }

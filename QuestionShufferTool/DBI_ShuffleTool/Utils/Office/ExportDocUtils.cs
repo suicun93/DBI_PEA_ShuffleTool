@@ -104,8 +104,6 @@ namespace DBI_ShuffleTool.Utils.Office
         {
             try
             {
-                //Write DbScript
-                File.WriteAllText(path + @"\00_database-paper-no-" + paper.PaperNo + ".sql", paper.DBScript);
                 //Export Requirement
                 doc.ShowGrammaticalErrors = false;
                 doc.ShowRevisions = false;

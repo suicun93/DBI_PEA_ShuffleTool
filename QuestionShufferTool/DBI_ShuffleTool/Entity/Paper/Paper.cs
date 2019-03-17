@@ -16,6 +16,5 @@ namespace DBI_ShuffleTool.Entity.Paper
         }
         public string PaperNo { get; set; }
         public List<Candidate> CandidateSet { get; set; }
-        public string DBScript { get; set; }
     }
 }

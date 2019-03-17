@@ -23,18 +23,15 @@ namespace DBI_ShuffleTool.Model
             QuestionSet = questionSet;
             PaperSet = new PaperSet(new List<Paper>(), QuestionSet.DBScriptList);
 
-            //Create all of cases for these candidates then get numOfPage cases from them.
-            List<List<CandidateNode>> Cases = GetRandomNElementsInList(numOfPage, GetAllCasesTest());
-            //List<List<CandidateNode>> tmp = GetAllCasesTest();
-            //List<List<CandidateNode>> Cases = new List<List<CandidateNode>>();
-            //Cases.Add(tmp.First());
-            //Cases.Add(tmp.Last());
-
-
+            List<List<CandidateNode>> cases = GetRandomNElementsInList(numOfPage, GetAllCasesTest());
+            /*List<List<CandidateNode>> tmp = GetAllCasesTest();
+            List < List < CandidateNode >> cases = new List<List<CandidateNode>>();
+            cases.Add(tmp.First());
+            cases.Add(tmp.Last());*/
             //codeTestCount: for TestCode
             int codeTestCount = 0;
             //Adding candidate into Tests
-            foreach (List<CandidateNode> c in Cases)
+            foreach (List<CandidateNode> c in cases)
             {
                 List<Candidate> candidateList = new List<Candidate>();
                 //Adding candidate into a Test
@@ -43,10 +40,11 @@ namespace DBI_ShuffleTool.Model
                 {
                     candidateList.Add(candidateNode.Candi);
                 }
-                var aTest = new Paper();
-                aTest.PaperNo = (++codeTestCount).ToString();
-                aTest.CandidateSet = candidateList;
-                PaperSet.Papers.Add(aTest);
+                var paper = new Paper();
+                paper.PaperNo = (++codeTestCount).ToString();
+                paper.CandidateSet = candidateList;
+                paper.DBScript = questionSet.DBScriptList.ElementAt(0);//Default db for student
+                PaperSet.Papers.Add(paper);
             }
         }
 

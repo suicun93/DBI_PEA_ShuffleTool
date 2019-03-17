@@ -1,9 +1,10 @@
-﻿using System;
-
-namespace DBI_ShuffleTool.Utils
+﻿namespace DBI_ShuffleTool.Utils
 {
     class ConstantUtils
     {
+        //Name
+        public static readonly string NameFolder = "DBI202_EXAM";
+
         //Message
         public static readonly string MessageLoadFolderOk = "Your questions bank location is accepted\nPlease check results!";
         public static readonly string MessageCreatedFolderOk = "Exams are created";

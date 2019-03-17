@@ -53,7 +53,7 @@ namespace DBI_ShuffleTool.UI
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar1.TabIndex = 1;
             // 
-            // AlertForm
+            // ProgressBarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -62,7 +62,7 @@ namespace DBI_ShuffleTool.UI
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.labelMessage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "AlertForm";
+            this.Name = "ProgressBarForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

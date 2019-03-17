@@ -1,22 +1,22 @@
 ﻿using DBI_ShuffleTool.Model;
 using DBI_ShuffleTool.Utils;
 using System;
-using System.Diagnostics;
 using System.Windows.Forms;
-using System.Drawing;
-using System.Collections.Generic;
 using DBI_ShuffleTool.Utils.Office;
-using System.Threading;
 using DBI_ShuffleTool.Entity.Question;
+using Application = System.Windows.Forms.Application;
+using Point = System.Drawing.Point;
 
 namespace DBI_ShuffleTool.UI
 {
     public partial class ShuffleToolForm : Form
     {
         ShuffleExamModel Sem;
-        QuestionSet QuestionSet = null;
+        QuestionSet QuestionSet;
+        public int Count;
         string OutPutPath;
-        bool BeingDragged = false;
+        private string FirstPagePath;
+        bool BeingDragged;
         int MouseDownX;
         int MouseDownY;
 
@@ -30,7 +30,7 @@ namespace DBI_ShuffleTool.UI
         {
             try
             {
-                string inputPath = FileUtils.GetFileLocation();
+                string inputPath = FileUtils.GetFileLocation(@"Data File|*.dat", @"Select a Data File");
                 if (string.IsNullOrEmpty(inputPath)) return;
                 txtLocationFolderInput.Text = inputPath;
 
@@ -49,61 +49,52 @@ namespace DBI_ShuffleTool.UI
                     }
                 }
                 txtLoadFileResult.Text = resImported;
-                txtNumberOfTest.Maximum = TestModel.MaxNumberOfTests(QuestionSet.QuestionList);
+                txtNumberOfTest.Maximum = PaperModel.MaxNumberOfTests(QuestionSet.QuestionList);
                 txtNumberOfTest.Value = txtNumberOfTest.Maximum;
                 btnCreateTests.Visible = true;
                 btnPreview.Visible = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnImportFirstPage_Click(object sender, EventArgs e)
+        {
+            FirstPagePath = FileUtils.GetFileLocation(@"Doc Files(*.DOC;*.DOCX)|*.DOC;*.DOCX", @"Select a Doc File");
+            if (string.IsNullOrEmpty(FirstPagePath)) return;
+            txtFirstPage.Text = FirstPagePath;
         }
 
         private void BtnCreateTests_Click(object sender, EventArgs e)
         {
             try
             {
-                string location = FileUtils.SaveFileToLocation();
-                if (string.IsNullOrEmpty(location))
-                {
-                    return;
-                }
-                OutPutPath = location;
-
-                //Prepare for Test file
+                Count = 0;
+                OutPutPath = FileUtils.SaveFileLocation();
+                if (string.IsNullOrEmpty(OutPutPath)) return;
                 Sem = new ShuffleExamModel(QuestionSet, Convert.ToInt32(txtNumberOfTest.Value));
 
                 //Create Test
-                TestModel testModel = new TestModel();
-                testModel.Path = OutPutPath;
-                testModel.Sem = Sem;
+                PaperModel paperModel = new PaperModel
+                {
+                    Path = OutPutPath,
+                    Sem = Sem,
+                    FirstPagePath = FirstPagePath,
+                };
 
-                using (ProgressBarForm progress = new ProgressBarForm(testModel.CreateTests))
+                //Saving first page
+                
+
+                using (ProgressBarForm progress = new ProgressBarForm(paperModel.CreateTests))
                 {
                     progress.ShowDialog(this);
                 }
-                btnOpenFolder.Visible = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show(ConstantUtils.ErrorWordApp, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
-            }
-        }
-
-
-
-        private void BtnOpenFolder_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Process.Start(OutPutPath + @"/DBI_Exam/");
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(ConstantUtils.ErrorLoadFolderFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -199,6 +190,6 @@ namespace DBI_ShuffleTool.UI
             toolTipPreview.Show(ConstantUtils.TooltipPreviewAllCandidates, btnPreview, 3000);
         }
 
-        
+
     }
 }

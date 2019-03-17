@@ -38,16 +38,18 @@ namespace DBI_ShuffleTool.UI
             this.btnMinimize = new System.Windows.Forms.PictureBox();
             this.btnClose = new System.Windows.Forms.PictureBox();
             this.txtLoadFileResult = new System.Windows.Forms.RichTextBox();
-            this.btnImport = new System.Windows.Forms.Button();
+            this.btnImportQuestionSet = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.lblLocation = new System.Windows.Forms.Label();
             this.controlBar = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtNumberOfTest = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnOpenFolder = new System.Windows.Forms.Button();
             this.btnCreateTests = new System.Windows.Forms.Button();
             this.toolTipPreview = new System.Windows.Forms.ToolTip(this.components);
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.txtFirstPage = new System.Windows.Forms.TextBox();
+            this.btnImportFirstPage = new System.Windows.Forms.Button();
             this.panelChoose.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimize)).BeginInit();
@@ -62,18 +64,20 @@ namespace DBI_ShuffleTool.UI
             this.panelChoose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(240)))), ((int)(((byte)(241)))));
             this.panelChoose.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelChoose.Controls.Add(this.btnPreview);
+            this.panelChoose.Controls.Add(this.txtFirstPage);
             this.panelChoose.Controls.Add(this.txtLocationFolderInput);
             this.panelChoose.Controls.Add(this.btnMinimize);
             this.panelChoose.Controls.Add(this.btnClose);
             this.panelChoose.Controls.Add(this.txtLoadFileResult);
-            this.panelChoose.Controls.Add(this.btnImport);
+            this.panelChoose.Controls.Add(this.btnImportFirstPage);
+            this.panelChoose.Controls.Add(this.btnImportQuestionSet);
             this.panelChoose.Controls.Add(this.label2);
             this.panelChoose.Controls.Add(this.lblLocation);
             this.panelChoose.Controls.Add(this.controlBar);
             this.panelChoose.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelChoose.Location = new System.Drawing.Point(0, 0);
             this.panelChoose.Name = "panelChoose";
-            this.panelChoose.Size = new System.Drawing.Size(321, 224);
+            this.panelChoose.Size = new System.Drawing.Size(321, 290);
             this.panelChoose.TabIndex = 0;
             // 
             // btnPreview
@@ -82,7 +86,7 @@ namespace DBI_ShuffleTool.UI
             this.btnPreview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnPreview.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnPreview.Image = global::DBI_ShuffleTool.Properties.Resources.preview1;
-            this.btnPreview.Location = new System.Drawing.Point(262, 126);
+            this.btnPreview.Location = new System.Drawing.Point(262, 162);
             this.btnPreview.Margin = new System.Windows.Forms.Padding(0);
             this.btnPreview.Name = "btnPreview";
             this.btnPreview.Size = new System.Drawing.Size(24, 24);
@@ -108,7 +112,7 @@ namespace DBI_ShuffleTool.UI
             this.txtLocationFolderInput.Size = new System.Drawing.Size(201, 22);
             this.txtLocationFolderInput.TabIndex = 1;
             this.txtLocationFolderInput.TabStop = false;
-            this.txtLocationFolderInput.Text = "Please import candidate package";
+            this.txtLocationFolderInput.Text = "Please import Question Set";
             // 
             // btnMinimize
             // 
@@ -145,35 +149,35 @@ namespace DBI_ShuffleTool.UI
             this.txtLoadFileResult.BackColor = System.Drawing.Color.White;
             this.txtLoadFileResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtLoadFileResult.Font = new System.Drawing.Font("Dubai", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLoadFileResult.Location = new System.Drawing.Point(12, 121);
+            this.txtLoadFileResult.Location = new System.Drawing.Point(12, 153);
             this.txtLoadFileResult.Name = "txtLoadFileResult";
             this.txtLoadFileResult.ReadOnly = true;
-            this.txtLoadFileResult.Size = new System.Drawing.Size(293, 83);
+            this.txtLoadFileResult.Size = new System.Drawing.Size(293, 125);
             this.txtLoadFileResult.TabIndex = 10;
             this.txtLoadFileResult.TabStop = false;
             this.txtLoadFileResult.Text = "";
             // 
-            // btnImport
+            // btnImportQuestionSet
             // 
-            this.btnImport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.btnImport.FlatAppearance.BorderSize = 0;
-            this.btnImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnImport.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnImport.ForeColor = System.Drawing.Color.White;
-            this.btnImport.Location = new System.Drawing.Point(233, 59);
-            this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(75, 32);
-            this.btnImport.TabIndex = 0;
-            this.btnImport.Text = "Import";
-            this.btnImport.UseVisualStyleBackColor = false;
-            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
+            this.btnImportQuestionSet.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.btnImportQuestionSet.FlatAppearance.BorderSize = 0;
+            this.btnImportQuestionSet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnImportQuestionSet.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnImportQuestionSet.ForeColor = System.Drawing.Color.White;
+            this.btnImportQuestionSet.Location = new System.Drawing.Point(233, 59);
+            this.btnImportQuestionSet.Name = "btnImportQuestionSet";
+            this.btnImportQuestionSet.Size = new System.Drawing.Size(75, 32);
+            this.btnImportQuestionSet.TabIndex = 0;
+            this.btnImportQuestionSet.Text = "Import";
+            this.btnImportQuestionSet.UseVisualStyleBackColor = false;
+            this.btnImportQuestionSet.Click += new System.EventHandler(this.btnImport_Click);
             // 
             // label2
             // 
             this.label2.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 99);
+            this.label2.Location = new System.Drawing.Point(12, 128);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(84, 22);
             this.label2.TabIndex = 1;
@@ -186,9 +190,9 @@ namespace DBI_ShuffleTool.UI
             this.lblLocation.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLocation.Location = new System.Drawing.Point(12, 40);
             this.lblLocation.Name = "lblLocation";
-            this.lblLocation.Size = new System.Drawing.Size(181, 22);
+            this.lblLocation.Size = new System.Drawing.Size(152, 22);
             this.lblLocation.TabIndex = 1;
-            this.lblLocation.Text = "Candidate Package File Location";
+            this.lblLocation.Text = "Question Set File Location";
             // 
             // controlBar
             // 
@@ -212,12 +216,11 @@ namespace DBI_ShuffleTool.UI
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.txtNumberOfTest);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.btnOpenFolder);
             this.panel1.Controls.Add(this.btnCreateTests);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 220);
+            this.panel1.Location = new System.Drawing.Point(0, 285);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(321, 124);
+            this.panel1.Size = new System.Drawing.Size(321, 86);
             this.panel1.TabIndex = 1;
             // 
             // txtNumberOfTest
@@ -253,41 +256,56 @@ namespace DBI_ShuffleTool.UI
             this.label3.TabIndex = 1;
             this.label3.Text = "Number of test";
             // 
-            // btnOpenFolder
-            // 
-            this.btnOpenFolder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.btnOpenFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOpenFolder.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOpenFolder.ForeColor = System.Drawing.Color.White;
-            this.btnOpenFolder.Location = new System.Drawing.Point(233, 38);
-            this.btnOpenFolder.Name = "btnOpenFolder";
-            this.btnOpenFolder.Size = new System.Drawing.Size(75, 73);
-            this.btnOpenFolder.TabIndex = 4;
-            this.btnOpenFolder.Text = "Open Folder";
-            this.btnOpenFolder.UseVisualStyleBackColor = false;
-            this.btnOpenFolder.Visible = false;
-            this.btnOpenFolder.Click += new System.EventHandler(this.BtnOpenFolder_Click);
-            // 
             // btnCreateTests
             // 
             this.btnCreateTests.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
             this.btnCreateTests.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCreateTests.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCreateTests.ForeColor = System.Drawing.Color.White;
-            this.btnCreateTests.Location = new System.Drawing.Point(11, 81);
+            this.btnCreateTests.Location = new System.Drawing.Point(233, 37);
             this.btnCreateTests.Name = "btnCreateTests";
-            this.btnCreateTests.Size = new System.Drawing.Size(202, 30);
+            this.btnCreateTests.Size = new System.Drawing.Size(75, 30);
             this.btnCreateTests.TabIndex = 2;
             this.btnCreateTests.Text = "Create Test(s)";
             this.btnCreateTests.UseVisualStyleBackColor = false;
             this.btnCreateTests.Visible = false;
             this.btnCreateTests.Click += new System.EventHandler(this.BtnCreateTests_Click);
             // 
+            // txtFirstPage
+            // 
+            this.txtFirstPage.BackColor = System.Drawing.Color.White;
+            this.txtFirstPage.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtFirstPage.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFirstPage.ForeColor = System.Drawing.Color.DimGray;
+            this.txtFirstPage.Location = new System.Drawing.Point(11, 105);
+            this.txtFirstPage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.txtFirstPage.Name = "txtFirstPage";
+            this.txtFirstPage.ReadOnly = true;
+            this.txtFirstPage.Size = new System.Drawing.Size(201, 22);
+            this.txtFirstPage.TabIndex = 1;
+            this.txtFirstPage.TabStop = false;
+            this.txtFirstPage.Text = "Please import First Page (If have)";
+            // 
+            // btnImportFirstPage
+            // 
+            this.btnImportFirstPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.btnImportFirstPage.FlatAppearance.BorderSize = 0;
+            this.btnImportFirstPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnImportFirstPage.Font = new System.Drawing.Font("Dubai", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnImportFirstPage.ForeColor = System.Drawing.Color.White;
+            this.btnImportFirstPage.Location = new System.Drawing.Point(233, 100);
+            this.btnImportFirstPage.Name = "btnImportFirstPage";
+            this.btnImportFirstPage.Size = new System.Drawing.Size(75, 32);
+            this.btnImportFirstPage.TabIndex = 0;
+            this.btnImportFirstPage.Text = "Import";
+            this.btnImportFirstPage.UseVisualStyleBackColor = false;
+            this.btnImportFirstPage.Click += new System.EventHandler(this.btnImportFirstPage_Click);
+            // 
             // ShuffleToolForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(321, 344);
+            this.ClientSize = new System.Drawing.Size(321, 371);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelChoose);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -312,7 +330,7 @@ namespace DBI_ShuffleTool.UI
 
         private System.Windows.Forms.Panel panelChoose;
         private System.Windows.Forms.RichTextBox txtLoadFileResult;
-        private System.Windows.Forms.Button btnImport;
+        private System.Windows.Forms.Button btnImportQuestionSet;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblLocation;
         private System.Windows.Forms.TextBox txtLocationFolderInput;
@@ -320,11 +338,13 @@ namespace DBI_ShuffleTool.UI
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnCreateTests;
         private System.Windows.Forms.NumericUpDown txtNumberOfTest;
-        private System.Windows.Forms.Button btnOpenFolder;
         private System.Windows.Forms.PictureBox btnClose;
         private System.Windows.Forms.PictureBox btnMinimize;
         private System.Windows.Forms.Label controlBar;
         private System.Windows.Forms.PictureBox btnPreview;
         private System.Windows.Forms.ToolTip toolTipPreview;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.TextBox txtFirstPage;
+        private System.Windows.Forms.Button btnImportFirstPage;
     }
 }

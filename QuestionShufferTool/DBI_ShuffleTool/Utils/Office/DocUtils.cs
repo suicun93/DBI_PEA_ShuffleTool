@@ -1,4 +1,5 @@
-﻿using DBI_ShuffleTool.Entity.Paper;
+﻿using System;
+using DBI_ShuffleTool.Entity.Paper;
 using Microsoft.Office.Interop.Word;
 
 namespace DBI_ShuffleTool.Utils.Office
@@ -11,22 +12,29 @@ namespace DBI_ShuffleTool.Utils.Office
         /// <param name="document"></param>
         static public void SettingsPage(Document document)
         {
-            foreach (Section section in document.Sections)
+            try
             {
-                section.PageSetup.PaperSize = WdPaperSize.wdPaperA4;
+                foreach (Section section in document.Sections)
+                {
+                    section.PageSetup.PaperSize = WdPaperSize.wdPaperA4;
+                }
+
+                //1 inch = 72 points
+
+                document.PageSetup.BottomMargin = 72;
+                document.PageSetup.TopMargin = 72;
+                document.PageSetup.LeftMargin = 72;
+                document.PageSetup.RightMargin = 72;
+
+                document.PageSetup.FooterDistance = 36;
+                document.PageSetup.HeaderDistance = 36;
+
+                document.PageSetup.Orientation = WdOrientation.wdOrientPortrait;
             }
-
-            //1 inch = 72 points
-
-            document.PageSetup.BottomMargin = 72;
-            document.PageSetup.TopMargin = 72;
-            document.PageSetup.LeftMargin = 72;
-            document.PageSetup.RightMargin = 72;
-
-            document.PageSetup.FooterDistance = 36;
-            document.PageSetup.HeaderDistance = 36;
-
-            document.PageSetup.Orientation = WdOrientation.wdOrientPortrait;
+            catch (Exception e)
+            {
+                throw e;
+            }
 
         }
 
@@ -38,7 +46,15 @@ namespace DBI_ShuffleTool.Utils.Office
         /// <param name="ei">ExamForDoc</param>
         static public void SavingDocFile(Document doc, string path, Paper exam)
         {
-            doc.SaveAs(path + @"\" + exam.PaperNo, WdSaveFormat.wdFormatDocument97);
+            try
+            {
+                doc.SaveAs(path + @"\" + exam.PaperNo, WdSaveFormat.wdFormatDocument97);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
 
         /// <summary>
@@ -49,24 +65,32 @@ namespace DBI_ShuffleTool.Utils.Office
         /// <param name="isTest">For adding Paper No</param>
         static public void SettingsHeaderAndFooter(Paper examItem, Document doc)
         {
-            foreach (Section wordSection in doc.Sections)
+            try
             {
-                Range headerRange = wordSection.Headers[WdHeaderFooterIndex.wdHeaderFooterPrimary].Range;
-                headerRange.Collapse(WdCollapseDirection.wdCollapseEnd);
-                if (examItem != null)
+                foreach (Section wordSection in doc.Sections)
                 {
-                    Paragraph p1 = headerRange.Paragraphs.Add();
-                    p1.Range.Text = "             Paper No: " + examItem.PaperNo;
+                    Range headerRange = wordSection.Headers[WdHeaderFooterIndex.wdHeaderFooterPrimary].Range;
+                    headerRange.Collapse(WdCollapseDirection.wdCollapseEnd);
+                    if (examItem != null)
+                    {
+                        Paragraph p1 = headerRange.Paragraphs.Add();
+                        p1.Range.Text = "             Paper No: " + examItem.PaperNo;
+                    }
+
+                    headerRange.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+                    //headerRange.Fields.Add(headerRange, WdFieldType.wdFieldNumPages);
+
+                    //Paragraph p4 = headerRange.Paragraphs.Add();
+                    //p4.Range.Text = " of ";
+                    headerRange.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+                    headerRange.Fields.Add(headerRange, WdFieldType.wdFieldPage);
                 }
-
-                headerRange.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                headerRange.Fields.Add(headerRange, WdFieldType.wdFieldNumPages);
-
-                Paragraph p4 = headerRange.Paragraphs.Add();
-                p4.Range.Text = " of ";
-                headerRange.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                headerRange.Fields.Add(headerRange, WdFieldType.wdFieldPage);
             }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
     }
 }

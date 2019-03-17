@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using DBI_ShuffleTool.Entity;
+﻿using System.IO;
 using DBI_ShuffleTool.Entity.Question;
 using Newtonsoft.Json;
 

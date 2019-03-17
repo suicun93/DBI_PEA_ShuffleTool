@@ -26,8 +26,6 @@ namespace DBI_ShuffleTool.Entity
         public bool RequireSort { get; set; }
         public bool CheckColumnName { get; set; }
 
-        public string DBName { get; set; }
-
         public List<string> Illustration { get; set; }
 
         public double Point { get; set; }

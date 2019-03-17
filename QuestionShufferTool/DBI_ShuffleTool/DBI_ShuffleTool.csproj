@@ -72,6 +72,9 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.FileSystem">
+      <HintPath>..\packages\System.IO.Compression.FileSystem.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -92,7 +95,7 @@
     <Compile Include="Entity\Candidate\CandidateNode.cs" />
     <Compile Include="Entity\Question\QuestionSet.cs" />
     <Compile Include="Model\ShuffleExamModel.cs" />
-    <Compile Include="Model\TestModel.cs" />
+    <Compile Include="Model\PaperModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

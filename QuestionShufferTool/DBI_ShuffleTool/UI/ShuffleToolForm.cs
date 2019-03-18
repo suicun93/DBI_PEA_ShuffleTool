@@ -1,6 +1,7 @@
 ﻿using DBI_ShuffleTool.Model;
 using DBI_ShuffleTool.Utils;
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using DBI_ShuffleTool.Utils.Office;
 using DBI_ShuffleTool.Entity.Question;
@@ -13,9 +14,7 @@ namespace DBI_ShuffleTool.UI
     {
         ShuffleExamModel Sem;
         QuestionSet QuestionSet;
-        public int Count;
         string OutPutPath;
-        private string FirstPagePath;
         bool BeingDragged;
         int MouseDownX;
         int MouseDownY;
@@ -60,18 +59,10 @@ namespace DBI_ShuffleTool.UI
             }
         }
 
-        private void btnImportFirstPage_Click(object sender, EventArgs e)
-        {
-            FirstPagePath = FileUtils.GetFileLocation(@"Doc Files(*.DOC;*.DOCX)|*.DOC;*.DOCX", @"Select a Doc File");
-            if (string.IsNullOrEmpty(FirstPagePath)) return;
-            txtFirstPage.Text = FirstPagePath;
-        }
-
         private void BtnCreateTests_Click(object sender, EventArgs e)
         {
             try
             {
-                Count = 0;
                 OutPutPath = FileUtils.SaveFileLocation();
                 if (string.IsNullOrEmpty(OutPutPath)) return;
                 Sem = new ShuffleExamModel(QuestionSet, Convert.ToInt32(txtNumberOfTest.Value));
@@ -81,11 +72,8 @@ namespace DBI_ShuffleTool.UI
                 {
                     Path = OutPutPath,
                     Sem = Sem,
-                    FirstPagePath = FirstPagePath,
                 };
-
-                //Saving first page
-                
+                Process.Start(OutPutPath);
 
                 using (ProgressBarForm progress = new ProgressBarForm(paperModel.CreateTests))
                 {

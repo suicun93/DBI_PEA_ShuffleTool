@@ -10,7 +10,6 @@ namespace DBI_ShuffleTool.Model
     class ShuffleExamModel
     {
         public QuestionSet QuestionSet;//QBank from Creator
-
         public PaperSet PaperSet;//Include PaperSet after create 
 
         /// <summary>
@@ -21,13 +20,10 @@ namespace DBI_ShuffleTool.Model
         public ShuffleExamModel(QuestionSet questionSet, int numOfPage)
         {
             QuestionSet = questionSet;
-            PaperSet = new PaperSet(new List<Paper>(), QuestionSet.DBScriptList);
+            PaperSet = new PaperSet(new List<Paper>(), QuestionSet.DBScriptList, new List<int>());
 
-            List<List<CandidateNode>> cases = GetRandomNElementsInList(numOfPage, GetAllCasesTest());
-            /*List<List<CandidateNode>> tmp = GetAllCasesTest();
-            List < List < CandidateNode >> cases = new List<List<CandidateNode>>();
-            cases.Add(tmp.First());
-            cases.Add(tmp.Last());*/
+            List<List<CandidateNode>> cases = GetRandomNElementsInList(numOfPage, GetAllCasesTest(), PaperSet.ListPaperMatrixId);
+
             //codeTestCount: for TestCode
             int codeTestCount = 0;
             //Adding candidate into Tests
@@ -52,8 +48,9 @@ namespace DBI_ShuffleTool.Model
         /// </summary>
         /// <param name="numOfCases"></param>
         /// <param name="allCases"></param>
+        /// <param name="listPaperMatrixId"></param>
         /// <returns></returns>
-        private List<List<CandidateNode>> GetRandomNElementsInList(int numOfCases, List<List<CandidateNode>> allCases)
+        private List<List<CandidateNode>> GetRandomNElementsInList(int numOfCases, List<List<CandidateNode>> allCases, List<int> listPaperMatrixId)
         {
             List<List<CandidateNode>> newList = new List<List<CandidateNode>>();
             for(int i = 0; i < numOfCases; i++)
@@ -61,6 +58,7 @@ namespace DBI_ShuffleTool.Model
                 int randNumber = GetRandomNumber(0, allCases.Count);
                 newList.Add(allCases.ElementAt(randNumber));
                 allCases.RemoveAt(randNumber);
+                listPaperMatrixId.Add(randNumber);
             }
             return newList;
         }

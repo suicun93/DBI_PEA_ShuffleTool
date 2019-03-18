@@ -10,14 +10,16 @@ namespace DBI_ShuffleTool.Entity.Paper
     {
         public List<Paper> Papers { get; set; }
         public List<string> DBScriptList { get; set; }
-
-        public PaperSet(List<Paper> papers, List<string> dbScriptList)
-        {
-            Papers = papers;
-            DBScriptList = dbScriptList;
-        }
+        public List<int> ListPaperMatrixId { get; set; }  
 
         public PaperSet() { }
+
+        public PaperSet(List<Paper> papers, List<string> dBScriptList, List<int> listPaperMatrixId)
+        {
+            Papers = papers;
+            DBScriptList = dBScriptList;
+            ListPaperMatrixId = listPaperMatrixId;
+        }
 
         public T CloneObjectSerializable<T>() where T : class
         {

@@ -19,25 +19,13 @@ namespace DBI_ShuffleTool.Utils.Office
         /// </summary>
         /// <param name="paper"></param>
         /// <param name="path">Save to location</param>
-        /// <param name="examItems"></param>
-        /// <param name="wordApp">Application</param>
-        /// <param name="tmpPath"></param>
         /// <returns></returns>
-        public static void ExportDoc(Paper paper, string path, string tmpPath, string firstPagePath)
+        public static void ExportDoc(Paper paper, string path)
         {
             Application wordApp = null;
             try
             {
-                FileUtils.CopyDirectory(@".\00_Database_Diagram_First_Page", tmpPath, true);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-
-            try
-            {
-                //Create word file
+                //Start new Word Application
                 wordApp = new Application
                 {
                     Visible = false,
@@ -57,17 +45,15 @@ namespace DBI_ShuffleTool.Utils.Office
                     AppendTestQuestion(paper.CandidateSet.ElementAt(i), doc, (i + 1), ref missing);
                 }
                 //Saving file
-                ExportMaterial(paper, doc, tmpPath);
-
-
+                //ExportMaterial(paper, doc, tmpPath);
+                DocUtils.SavingDocFile(doc, path, paper);
             }
             finally
             {
                 wordApp?.Application.Quit(false);
             }
             //Compress
-            CompressZip(paper.PaperNo, tmpPath + @"\", path);
-            FileUtils.DeleteDirectory(tmpPath);
+            //CompressZip(paper.PaperNo, tmpPath + @"\", path);
         }
 
         /// <summary>
@@ -91,84 +77,8 @@ namespace DBI_ShuffleTool.Utils.Office
             {
                 throw e;
             }
-
         }
 
-        /// <summary>
-        /// Print all material
-        /// </summary>
-        /// <param name="paper"></param>
-        /// <param name="doc"></param>
-        /// <param name="path"></param>
-        private static void ExportMaterial(Paper paper, Document doc, string path)
-        {
-            try
-            {
-                //Export Requirement
-                doc.ShowGrammaticalErrors = false;
-                doc.ShowRevisions = false;
-                doc.ShowSpellingErrors = false;
-                //Opens the word document and fetch each page and converts to image
-                ExportImage(path, doc, "paper_No_" + paper.PaperNo);
-                //Export First Page
-                doc.Close(WdSaveOptions.wdDoNotSaveChanges);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-
-        }
-
-        public static void ExportImage(string path, Document doc, string name)
-        {
-            try
-            {
-                foreach (Window window in doc.Windows)
-                {
-                    foreach (Pane pane in window.Panes)
-                    {
-                        for (var i = 1; i <= pane.Pages.Count; i++)
-                        {
-                            var page = pane.Pages[i];
-                            var bits = page.EnhMetaFileBits;
-
-
-                            using (var ms = new MemoryStream((byte[])(bits)))
-                            {
-                                var image = Image.FromStream(ms);
-                                var jpgPath = Path.ChangeExtension(path + @"/" + name + "-" + i, "jpg");
-                                var bitmap = Transparent2Color(image, Color.White);
-                                bitmap.Save(jpgPath, ImageFormat.Jpeg);
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-
-        }
-
-        /// <summary>
-        /// Replace Transparency by target color
-        /// </summary>
-        /// <param name="img"></param>
-        /// <param name="target"></param>
-        /// <returns></returns>
-        private static Bitmap Transparent2Color(Image img, Color target)
-        {
-            Bitmap bmp2 = new Bitmap(img);
-            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(System.Drawing.Point.Empty, img.Size);
-            using (Graphics G = Graphics.FromImage(bmp2))
-            {
-                G.Clear(target);
-                G.DrawImageUnscaledAndClipped(img, rect);
-            }
-            return bmp2;
-        }
 
 
 
@@ -183,9 +93,7 @@ namespace DBI_ShuffleTool.Utils.Office
             {
                 Paragraph paraQuestionNumber = doc.Content.Paragraphs.Add(ref missing);
                 string question = "Question " + questionNumber + ":";
-                string questionId = " [" + q.QuestionId + "]";
-                paraQuestionNumber.Range.Text = string.Concat(question, questionId);
-
+                paraQuestionNumber.Range.Text = question;
                 Range questionNumberRange = doc.Range(paraQuestionNumber.Range.Start, paraQuestionNumber.Range.Start + question.Length);
                 questionNumberRange.Font.Bold = 1;
                 questionNumberRange.Font.Underline = WdUnderline.wdUnderlineSingle;
@@ -227,7 +135,6 @@ namespace DBI_ShuffleTool.Utils.Office
             {
                 throw e;
             }
-
         }
     }
 }

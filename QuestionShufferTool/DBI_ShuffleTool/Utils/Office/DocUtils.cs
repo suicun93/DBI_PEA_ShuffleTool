@@ -48,7 +48,7 @@ namespace DBI_ShuffleTool.Utils.Office
         {
             try
             {
-                doc.SaveAs(path + @"\" + exam.PaperNo, WdSaveFormat.wdFormatDocument97);
+                doc.SaveAs(path + @"\" + exam.PaperNo, WdSaveFormat.wdFormatDocumentDefault);
             }
             catch (Exception e)
             {
@@ -71,12 +71,6 @@ namespace DBI_ShuffleTool.Utils.Office
                 {
                     Range headerRange = wordSection.Headers[WdHeaderFooterIndex.wdHeaderFooterPrimary].Range;
                     headerRange.Collapse(WdCollapseDirection.wdCollapseEnd);
-                    if (examItem != null)
-                    {
-                        Paragraph p1 = headerRange.Paragraphs.Add();
-                        p1.Range.Text = "             Paper No: " + examItem.PaperNo;
-                    }
-
                     headerRange.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
                     //headerRange.Fields.Add(headerRange, WdFieldType.wdFieldNumPages);
 

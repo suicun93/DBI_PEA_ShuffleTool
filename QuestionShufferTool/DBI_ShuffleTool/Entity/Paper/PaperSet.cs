@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using DBI_ShuffleTool.Entity.Question;
 
 namespace DBI_ShuffleTool.Entity.Paper
 {
@@ -10,15 +11,18 @@ namespace DBI_ShuffleTool.Entity.Paper
     {
         public List<Paper> Papers { get; set; }
         public List<string> DBScriptList { get; set; }
-        public List<int> ListPaperMatrixId { get; set; }  
+        public List<int> ListPaperMatrixId { get; set; }
+        public Question.Question QuestionNumber1 { get; set; }
+
 
         public PaperSet() { }
 
-        public PaperSet(List<Paper> papers, List<string> dBScriptList, List<int> listPaperMatrixId)
+        public PaperSet(List<Paper> papers, List<string> dBScriptList, List<int> listPaperMatrixId, Question.Question questionNumber1)
         {
             Papers = papers;
             DBScriptList = dBScriptList;
             ListPaperMatrixId = listPaperMatrixId;
+            QuestionNumber1 = questionNumber1;
         }
 
         public T CloneObjectSerializable<T>() where T : class

@@ -20,7 +20,7 @@ namespace DBI_ShuffleTool.Model
         public ShuffleExamModel(QuestionSet questionSet, int numOfPage)
         {
             QuestionSet = questionSet;
-            PaperSet = new PaperSet(new List<Paper>(), QuestionSet.DBScriptList, new List<int>());
+            PaperSet = new PaperSet(new List<Paper>(), QuestionSet.DBScriptList, new List<int>(), QuestionSet.QuestionList.ElementAt(0));
 
             List<List<CandidateNode>> cases = GetRandomNElementsInList(numOfPage, GetAllCasesTest(), PaperSet.ListPaperMatrixId);
 

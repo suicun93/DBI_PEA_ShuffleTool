@@ -45,42 +45,13 @@ namespace DBI_ShuffleTool.Utils.Office
                     AppendTestQuestion(paper.CandidateSet.ElementAt(i), doc, (i + 1), ref missing);
                 }
                 //Saving file
-                //ExportMaterial(paper, doc, tmpPath);
                 DocUtils.SavingDocFile(doc, path, paper);
             }
             finally
             {
                 wordApp?.Application.Quit(false);
             }
-            //Compress
-            //CompressZip(paper.PaperNo, tmpPath + @"\", path);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="oldPath"></param>
-        /// <param name="savePath"></param>
-        private static void CompressZip(string name, string oldPath, string savePath)
-        {
-            try
-            {
-                string zipPath = savePath + @"\" + name + ".zip";
-                if (File.Exists(zipPath))
-                {
-                    File.Delete(zipPath);
-                }
-                ZipFile.CreateFromDirectory(oldPath, zipPath);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-
-
 
         /// <summary>
         /// Append QuestionRequirement of Question

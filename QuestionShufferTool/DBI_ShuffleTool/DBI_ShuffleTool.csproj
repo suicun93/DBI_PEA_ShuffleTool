@@ -7,7 +7,7 @@
     <ProjectGuid>{F8F8619C-BE6B-4CF1-8A32-71141B158604}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>DBI_ShuffleTool</RootNamespace>
-    <AssemblyName>DBI_Exam_Creator_Tool</AssemblyName>
+    <AssemblyName>ShuffleTool</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

@@ -16,14 +16,7 @@ namespace DBI_ShuffleTool.Utils.Office
             Application wordApp = null;
             try
             {
-                try
-                {
-                    wordApp = new Application();
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                wordApp = new Application();
                 //Init a Document in Word application
                 wordApp.Visible = true;
                 object missing = Missing.Value;
@@ -46,7 +39,7 @@ namespace DBI_ShuffleTool.Utils.Office
             }
             catch (Exception e)
             {
-                wordApp = null;
+                wordApp?.Application.Quit(false);
                 throw e;
             }
         }

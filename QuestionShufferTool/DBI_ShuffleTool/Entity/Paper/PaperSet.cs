@@ -12,17 +12,17 @@ namespace DBI_ShuffleTool.Entity.Paper
         public List<Paper> Papers { get; set; }
         public List<string> DBScriptList { get; set; }
         public List<int> ListPaperMatrixId { get; set; }
-        public Question.Question QuestionNumber1 { get; set; }
+        public QuestionSet QuestionSet { get; set; }
 
 
         public PaperSet() { }
 
-        public PaperSet(List<Paper> papers, List<string> dBScriptList, List<int> listPaperMatrixId, Question.Question questionNumber1)
+        public PaperSet(List<Paper> papers, List<string> dBScriptList, List<int> listPaperMatrixId, QuestionSet questionSet)
         {
             Papers = papers;
             DBScriptList = dBScriptList;
             ListPaperMatrixId = listPaperMatrixId;
-            QuestionNumber1 = questionNumber1;
+            QuestionSet = questionSet;
         }
 
         public T CloneObjectSerializable<T>() where T : class
